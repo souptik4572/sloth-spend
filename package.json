@@ -23,22 +23,18 @@
     "engine:test": "engine/.venv/bin/python -m pytest engine/tests -q",
     "engine:build": "cd engine && .venv/bin/pyinstaller slothspend_engine.spec --noconfirm --clean",
     "dist:mac": "npm run build && electron-builder --mac --publish never",
-    "dist:win": "npm run build && electron-builder --win --publish never"
+    "dist:win": "npm run build && electron-builder --win --publish never",
+    "engine:smoke": "engine/.venv/bin/python engine/scripts/smoke_test.py"
   },
-  "dependencies": {
-    "@fontsource/archivo": "^5.3.0",
-    "@fontsource/inter": "^5.3.0",
-    "@microsoft/fetch-event-source": "^2.0.1",
-    "lucide-react": "^1.61.0",
-    "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1",
-    "zustand": "^5.0.15"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.1",
     "@electron-toolkit/eslint-config-ts": "^4.0.0",
     "@electron-toolkit/tsconfig": "^2.0.0",
     "@electron-toolkit/utils": "^4.0.0",
+    "@fontsource/archivo": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
@@ -51,12 +47,16 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
+    "lucide-react": "^1.61.0",
     "prettier": "^3.9.10",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.3.4",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "zustand": "^5.0.15"
   }
 }

@@ -1,0 +1,78 @@
+# Packaged builds (spec §12.3). PyInstaller only builds for the host OS/arch, so each target has its own runner.
+# Run manually from the Actions tab, or push a tag like v0.1.0 to also publish a GitHub Release.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14 # Apple Silicon (arm64)
+            platform: mac
+          - os: windows-latest # x64
+            platform: win
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: engine/requirements*.txt
+
+      - name: CPU-only PyTorch (Windows)
+        if: matrix.platform == 'win'
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Build engine
+        working-directory: engine
+        run: |
+          pip install -r requirements.txt pyinstaller
+          pyinstaller slothspend_engine.spec --noconfirm --clean
+
+      - name: Smoke-test engine binary
+        run: python engine/scripts/smoke_test.py
+
+      - name: Build and package app
+        run: |
+          npm ci
+          npm run build
+          npx electron-builder --${{ matrix.platform }} --publish never
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SlothSpend-${{ matrix.platform }}
+          path: |
+            release/*.dmg
+            release/*.exe
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*

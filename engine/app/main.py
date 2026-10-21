@@ -62,7 +62,30 @@ app.include_router(health.router)
 app.include_router(admin.router)
 
 
+# Heavy or lazily imported packages the frozen build must contain (IMPL M2.1). The app only imports
+# some of them inside functions, so `--self-check` proves the bundle really has them.
+SELF_CHECK_MODULES = ("torch", "tabpfn", "numpy", "pandas", "ollama", "sse_starlette",
+                      "sentry_sdk", "huggingface_hub", "python_multipart")
+
+
+def self_check() -> int:
+    import importlib
+
+    failed = 0
+    for name in SELF_CHECK_MODULES:
+        try:
+            mod = importlib.import_module(name)
+            print(f"ok   {name} {getattr(mod, '__version__', '')}".rstrip())
+        except Exception as exc:  # noqa: BLE001 — report every failure, not just the first
+            failed += 1
+            print(f"FAIL {name}: {type(exc).__name__}: {exc}")
+    print("self-check passed" if failed == 0 else f"self-check failed ({failed})")
+    return 1 if failed else 0
+
+
 def run() -> None:
+    if "--self-check" in sys.argv:
+        sys.exit(self_check())
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     logging.getLogger("uvicorn.access").addFilter(_QuietPolls())
     logging.getLogger("httpx").setLevel(logging.WARNING)  # Ollama status checks run on every poll

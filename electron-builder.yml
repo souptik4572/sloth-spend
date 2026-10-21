@@ -1,46 +1,47 @@
-appId: com.electron.app
-productName: slothspend
+# electron-builder config (spec §12.2). Targets: macOS arm64 DMG and Windows x64 NSIS. Unsigned hackathon build.
+appId: tech.slothspend.desktop
+productName: SlothSpend
+copyright: Copyright © 2026 Souptik Sarkar
 directories:
-  buildResources: build
+  output: release
+  buildResources: build # icon.icns, icon.ico, icon.png, entitlements.mac.plist (see design/icons/README.md)
 files:
-  - '!**/.vscode/*'
-  - '!src/*'
-  - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
-  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-  # Source artwork, the website and the Python engine are not part of the app bundle
-  # (the engine ships as a PyInstaller binary via extraResources in M2).
-  - '!{design,site,engine}/**'
+  - out/**
+  - package.json
+  # Runtime icons read by the main process (icon.png, icon-macos.png); unpacked from the asar below.
+  - resources/**
 asarUnpack:
   - resources/**
-win:
-  executableName: slothspend
-nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
+extraResources:
+  # The PyInstaller onedir engine → <app>/Contents/Resources/engine (macOS) or resources\engine (Windows).
+  # Build it first: npm run engine:build
+  - from: engine/dist/slothspend-engine
+    to: engine
+artifactName: SlothSpend-${version}-${os}-${arch}.${ext}
 mac:
+  category: public.app-category.finance
+  target:
+    - target: dmg
+      arch: [arm64]
+  # Ad-hoc signature ("-"): Apple Silicon refuses to run unsigned code, and this is a hackathon build with no
+  # Developer ID (spec §12.5). The hardened runtime is off because ad-hoc builds can't use library validation
+  # with the PyInstaller engine's bundled libraries.
+  identity: '-'
+  hardenedRuntime: false
+  entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
 dmg:
-  artifactName: ${name}-${version}.${ext}
-linux:
+  title: SlothSpend ${version}
+win:
   target:
-    - AppImage
-    - snap
-    - deb
-  maintainer: electronjs.org
-  category: Utility
-appImage:
-  artifactName: ${name}-${version}.${ext}
-npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
+    - target: nsis
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: SlothSpend
+  uninstallDisplayName: SlothSpend
+npmRebuild: false # no native Node modules
+publish: null

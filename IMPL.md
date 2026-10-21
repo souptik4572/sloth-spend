@@ -535,10 +535,10 @@ export function stream(path: string, body: unknown, on: Record<string, (d: any) 
 
 | # | Task | Details |
 |---|---|---|
-| M2.1 | `engine/run_engine.py` and `slothspend_engine.spec` | Verbatim from §12.1. For the skeleton build, add `import tabpfn, torch  # noqa` inside `run()` behind `if os.environ.get("SLOTH_IMPORT_CHECK")`, so the bundle provably contains them without slowing startup |
-| M2.2 | `scripts/smoke_test.py` | As described in §12.3. Use `sys.executable`-independent paths and a temp `SLOTH_DATA_DIR`. Poll `/health` up to 90 s, then `POST /shutdown`, then assert the process exited |
-| M2.3 | `electron-builder.yml` | Verbatim from §12.2, plus `asarUnpack: []` and `artifactName: SlothSpend-${version}-${os}-${arch}.${ext}` |
-| M2.4 | `.github/workflows/release.yml` | Verbatim from §12.3 |
+| M2.1 | `engine/run_engine.py` and `slothspend_engine.spec` | §12.1, with three changes. (1) `app/data/*.csv` are globbed, so the build works before M3 adds them. (2) `torch`, `huggingface_hub` and `python_multipart` are explicit hidden imports, because they are only imported inside functions. (3) `slothspend-engine --self-check` imports every heavy dependency and exits non-zero if one is missing, proving the bundle contains them without slowing normal startup |
+| M2.2 | `scripts/smoke_test.py` | Four checks against the built binary: `--self-check`; `/health` reports `engine: ok` within 90 s and rejects a missing token (401); `POST /shutdown` exits the process; closing stdin (Electron dying) exits it. Temp `SLOTH_DATA_DIR`, no `TABPFN_TOKEN`. `npm run engine:smoke` locally |
+| M2.3 | `electron-builder.yml` | §12.2 plus: `appId tech.slothspend.desktop`; `files` limited to `out/**`, `package.json` and `resources/**` (asar-unpacked); `artifactName: SlothSpend-${version}-${os}-${arch}.${ext}`. macOS uses **ad-hoc signing (`identity: '-'`) with the hardened runtime off**, because Apple Silicon won't run fully unsigned code; `entitlements.mac.plist` adds `disable-library-validation` for the engine's libraries. Renderer libraries live in `devDependencies` (Vite bundles them), so the app ships no `node_modules` |
+| M2.4 | `.github/workflows/release.yml` | §12.3 with Node 24, pip caching keyed on `engine/requirements*.txt`, `timeout-minutes: 60`, and `if-no-files-found: error` on the upload |
 | M2.5 | `.github/workflows/ci.yml` ✚ | Runs on PR and push to `main`, on `ubuntu-latest`: `npm ci && npm run typecheck && npm run lint && npm test`, then `pip install -r engine/requirements.txt -r engine/requirements-dev.txt` (CPU torch index) and `pytest engine/tests -q`. About 3 minutes |
 | M2.6 | Icons | Done ahead of M2: the icon kit's `build/icon.{icns,ico,png}` are in place (§5.7). Verify the packaged `.app`, DMG, `.exe` and installer show the sloth, and that `electron-builder.yml` keeps `design/`, `site/` and `engine/` out of the app bundle |
 
