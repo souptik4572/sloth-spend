@@ -1,444 +1,444 @@
 prev_amount_log,prev2_amount_log,charges_since_change,n_changes_so_far,tenure_charges,cadence,category,month_of_year,ratio
-1.85003,,1,0,1,monthly,Cloud Storage,9,1
-1.85003,1.85003,2,0,2,monthly,Cloud Storage,10,1
-1.85003,1.85003,3,0,3,monthly,Cloud Storage,11,1
-1.85003,1.85003,4,0,4,monthly,Cloud Storage,12,1
-1.85003,1.85003,5,0,5,monthly,Cloud Storage,1,1
-1.85003,1.85003,6,0,6,monthly,Cloud Storage,2,1
-1.85003,1.85003,7,0,7,monthly,Cloud Storage,3,1
-3.41148,,1,0,1,monthly,Streaming,1,1
-3.41148,3.41148,2,0,2,monthly,Streaming,2,1
-3.41148,3.41148,3,0,3,monthly,Streaming,3,1
-3.41148,3.41148,4,0,4,monthly,Streaming,4,1
-3.41148,3.41148,5,0,5,monthly,Streaming,5,1
-3.41148,3.41148,6,0,6,monthly,Streaming,6,1
-3.41148,3.41148,7,0,7,monthly,Streaming,7,1
-3.41148,3.41148,8,0,8,monthly,Streaming,8,1
-3.41148,3.41148,9,0,9,monthly,Streaming,9,1
-3.41148,3.41148,10,0,10,monthly,Streaming,10,1
-3.41148,3.41148,11,0,11,monthly,Streaming,11,1
-3.41148,3.41148,12,0,12,monthly,Streaming,12,1
-3.32468,,1,0,1,monthly,Streaming,8,1
-3.32468,3.32468,2,0,2,monthly,Streaming,9,1
-3.32468,3.32468,3,0,3,monthly,Streaming,10,1
-3.32468,3.32468,4,0,4,monthly,Streaming,11,1
-3.32468,3.32468,5,0,5,monthly,Streaming,12,1
-3.32468,3.32468,6,0,6,monthly,Streaming,1,1
-3.03255,,1,0,1,monthly,News & Media,1,1
-3.03255,3.03255,2,0,2,monthly,News & Media,2,1
-3.03255,3.03255,3,0,3,monthly,News & Media,3,1
-3.03255,3.03255,4,0,4,monthly,News & Media,4,1
-3.03255,3.03255,5,0,5,monthly,News & Media,5,1
-3.03255,3.03255,6,0,6,monthly,News & Media,6,1
-3.03255,3.03255,7,0,7,monthly,News & Media,7,1
-3.03255,3.03255,8,0,8,monthly,News & Media,8,1
-3.03255,3.03255,9,0,9,monthly,News & Media,9,1
-3.03255,3.03255,10,0,10,monthly,News & Media,10,1
-3.03255,3.03255,11,0,11,monthly,News & Media,11,1
-3.03255,3.03255,12,0,12,monthly,News & Media,12,1
-3.25579,,1,0,1,monthly,Cloud Storage,1,1
-3.25579,3.25579,2,0,2,monthly,Cloud Storage,3,1
-3.25579,3.25579,3,0,3,monthly,Cloud Storage,3,1
-3.25579,3.25579,4,0,4,monthly,Cloud Storage,4,1
-3.25579,3.25579,5,0,5,monthly,Cloud Storage,5,1
-3.25579,3.25579,6,0,6,monthly,Cloud Storage,7,1
-3.25579,3.25579,7,0,7,monthly,Cloud Storage,7,1
-3.25579,3.25579,8,0,8,monthly,Cloud Storage,8,1
-3.25579,3.25579,9,0,9,monthly,Cloud Storage,9,1
-3.25579,3.25579,10,0,10,monthly,Cloud Storage,10,1
-3.25579,3.25579,11,0,11,monthly,Cloud Storage,12,1
-3.25579,3.25579,12,0,12,monthly,Cloud Storage,12,1
-1.90211,,1,0,1,monthly,Software,11,1.07018
-1.96009,1.90211,1,1,2,monthly,Software,12,1
-1.96009,1.96009,2,1,3,monthly,Software,1,1
-1.96009,1.96009,3,1,4,monthly,Software,2,1
-1.96009,1.96009,4,1,5,monthly,Software,3,1
-1.96009,1.96009,5,1,6,monthly,Software,4,1
-1.96009,1.96009,6,1,7,monthly,Software,5,1
-3.11795,,1,0,1,monthly,Software,7,1
-3.11795,3.11795,2,0,2,monthly,Software,8,1
-3.11795,3.11795,3,0,3,monthly,Software,9,1
-3.11795,3.11795,4,0,4,monthly,Software,10,1
-3.11795,3.11795,5,0,5,monthly,Software,11,1
-3.11795,3.11795,6,0,6,monthly,Software,12,1
-3.11795,3.11795,7,0,7,monthly,Software,1,1
-3.11795,3.11795,8,0,8,monthly,Software,2,1
-3.11795,3.11795,9,0,9,monthly,Software,3,1
-3.11795,3.11795,10,0,10,monthly,Software,4,1
-3.11795,3.11795,11,0,11,monthly,Software,5,1
-2.61374,,1,0,1,monthly,News & Media,12,1
-2.61374,2.61374,2,0,2,monthly,News & Media,1,1
-2.61374,2.61374,3,0,3,monthly,News & Media,2,1
-2.61374,2.61374,4,0,4,monthly,News & Media,3,1.06087
-2.66862,2.61374,1,1,5,monthly,News & Media,4,1
-2.66862,2.66862,2,1,6,monthly,News & Media,5,1
-2.66862,2.66862,3,1,7,monthly,News & Media,6,1
-2.66862,2.66862,4,1,8,monthly,News & Media,7,1
-2.66862,2.66862,5,1,9,monthly,News & Media,8,1
-2.66862,2.66862,6,1,10,monthly,News & Media,9,1
-3.28691,,1,0,1,monthly,News & Media,4,1
-3.28691,3.28691,2,0,2,monthly,News & Media,5,1
-2.95021,,1,0,1,monthly,News & Media,12,1.17173
-3.10099,2.95021,1,1,2,monthly,News & Media,1,1
-3.10099,3.10099,2,1,3,monthly,News & Media,2,1
-3.10099,3.10099,3,1,4,monthly,News & Media,3,1
-3.10099,3.10099,4,1,5,monthly,News & Media,4,1
-3.10099,3.10099,5,1,6,monthly,News & Media,5,1
-3.10099,3.10099,6,1,7,monthly,News & Media,6,1
-3.10099,3.10099,7,1,8,monthly,News & Media,7,1
-3.27299,,1,0,1,monthly,Cloud Storage,5,1
-3.27299,3.27299,2,0,2,monthly,Cloud Storage,6,1
-3.27299,3.27299,3,0,3,monthly,Cloud Storage,7,1
-3.27299,3.27299,4,0,4,monthly,Cloud Storage,8,1
-3.27299,3.27299,5,0,5,monthly,Cloud Storage,9,1
-2.27006,,1,0,1,monthly,Cloud Storage,5,1
-2.27006,2.27006,2,0,2,monthly,Cloud Storage,5,1
-2.27006,2.27006,3,0,3,monthly,Cloud Storage,7,1
-2.3988,,1,0,1,monthly,Streaming,5,1.17782
-2.54866,2.3988,1,1,2,monthly,Streaming,6,1
-2.54866,2.54866,2,1,3,monthly,Streaming,7,1
-2.54866,2.54866,3,1,4,monthly,Streaming,8,1
-2.54866,2.54866,4,1,5,monthly,Streaming,9,1
-2.54866,2.54866,5,1,6,monthly,Streaming,10,1
-2.54866,2.54866,6,1,7,monthly,Streaming,11,1
-2.54866,2.54866,7,1,8,monthly,Streaming,12,1
-2.54866,2.54866,8,1,9,monthly,Streaming,1,1
-2.54866,2.54866,9,1,10,monthly,Streaming,2,1
-2.54866,2.54866,10,1,11,monthly,Streaming,3,1
-2.54866,2.54866,11,1,12,monthly,Streaming,4,1
-2.89425,,1,0,1,monthly,Streaming,3,1
-2.89425,2.89425,2,0,2,monthly,Streaming,4,1
-2.89425,2.89425,3,0,3,monthly,Streaming,5,1
-2.89425,2.89425,4,0,4,monthly,Streaming,6,1
-2.89425,2.89425,5,0,5,monthly,Streaming,7,1
-2.89425,2.89425,6,0,6,monthly,Streaming,8,1
-2.89425,2.89425,7,0,7,monthly,Streaming,9,1
-2.89425,2.89425,8,0,8,monthly,Streaming,10,1
-3.26347,,1,0,1,monthly,News & Media,7,1
-3.26347,3.26347,2,0,2,monthly,News & Media,8,1
-3.26347,3.26347,3,0,3,monthly,News & Media,9,1
-3.26347,3.26347,4,0,4,monthly,News & Media,10,1
-3.26347,3.26347,5,0,5,monthly,News & Media,11,1
-3.26347,3.26347,6,0,6,monthly,News & Media,12,1
-3.26347,3.26347,7,0,7,monthly,News & Media,1,1
-3.26347,3.26347,8,0,8,monthly,News & Media,2,1
-3.26347,3.26347,9,0,9,monthly,News & Media,3,1
-3.24103,,1,0,1,monthly,Fitness,5,1
-3.24103,3.24103,2,0,2,monthly,Fitness,6,1
-3.24103,3.24103,3,0,3,monthly,Fitness,7,1
-1.82616,,1,0,1,monthly,Cloud Storage,12,1
-1.82616,1.82616,2,0,2,monthly,Cloud Storage,1,1
-1.82616,1.82616,3,0,3,monthly,Cloud Storage,2,1
-1.82616,1.82616,4,0,4,monthly,Cloud Storage,3,1
-1.82616,1.82616,5,0,5,monthly,Cloud Storage,4,1
-1.82616,1.82616,6,0,6,monthly,Cloud Storage,5,1
-1.82616,1.82616,7,0,7,monthly,Cloud Storage,6,1
-1.82616,1.82616,8,0,8,monthly,Cloud Storage,7,1
-1.82616,1.82616,9,0,9,monthly,Cloud Storage,8,1
-1.82616,1.82616,10,0,10,monthly,Cloud Storage,9,1
-1.82616,1.82616,11,0,11,monthly,Cloud Storage,10,1
-2.4757,,1,0,1,monthly,Music,7,1
-2.4757,2.4757,2,0,2,monthly,Music,8,1
-2.4757,2.4757,3,0,3,monthly,Music,9,1
-2.4757,2.4757,4,0,4,monthly,Music,10,1
-2.4757,2.4757,5,0,5,monthly,Music,11,1
-2.4757,2.4757,6,0,6,monthly,Music,12,1
-2.4757,2.4757,7,0,7,monthly,Music,1,1
-2.4757,2.4757,8,0,8,monthly,Music,2,1
-2.4757,2.4757,9,0,9,monthly,Music,3,1
-2.4757,2.4757,10,0,10,monthly,Music,4,1
-2.08567,,1,0,1,monthly,Music,11,1
-2.08567,2.08567,2,0,2,monthly,Music,12,1
-2.08567,2.08567,3,0,3,monthly,Music,1,1
-2.08567,2.08567,4,0,4,monthly,Music,2,1
-2.08567,2.08567,5,0,5,monthly,Music,3,1
-2.08567,2.08567,6,0,6,monthly,Music,4,1
-2.08567,2.08567,7,0,7,monthly,Music,5,1
-3.10009,,1,0,1,monthly,News & Media,10,1
-3.10009,3.10009,2,0,2,monthly,News & Media,11,1
-3.10009,3.10009,3,0,3,monthly,News & Media,12,1
-3.10009,3.10009,4,0,4,monthly,News & Media,1,1
-3.10009,3.10009,5,0,5,monthly,News & Media,2,1
-3.10009,3.10009,6,0,6,monthly,News & Media,3,1
-3.34322,,1,0,1,monthly,Streaming,1,1
-3.34322,3.34322,2,0,2,monthly,Streaming,2,1
-3.34322,3.34322,3,0,3,monthly,Streaming,3,1
-3.34322,3.34322,4,0,4,monthly,Streaming,4,1
-3.34322,3.34322,5,0,5,monthly,Streaming,5,1
-3.34322,3.34322,6,0,6,monthly,Streaming,6,1
-3.34322,3.34322,7,0,7,monthly,Streaming,7,1
-3.34322,3.34322,8,0,8,monthly,Streaming,8,1
-3.34322,3.34322,9,0,9,monthly,Streaming,9,1
-3.34322,3.34322,10,0,10,monthly,Streaming,10,1.21787
-3.53398,3.34322,1,1,11,monthly,Streaming,11,1
-3.53398,3.53398,2,1,12,monthly,Streaming,12,1
-2.93492,,1,0,1,monthly,News & Media,6,1
-2.93492,2.93492,2,0,2,monthly,News & Media,7,1
-2.93492,2.93492,3,0,3,monthly,News & Media,8,1
-2.90142,,1,0,1,monthly,Fitness,4,1
-2.90142,2.90142,2,0,2,monthly,Fitness,5,1
-2.90142,2.90142,3,0,3,monthly,Fitness,6,1
-2.90142,2.90142,4,0,4,monthly,Fitness,7,1
-2.90142,2.90142,5,0,5,monthly,Fitness,8,1
-2.90142,2.90142,6,0,6,monthly,Fitness,9,1
-2.90142,2.90142,7,0,7,monthly,Fitness,10,1
-2.70471,,1,0,1,monthly,News & Media,10,1
-2.70471,2.70471,2,0,2,monthly,News & Media,11,1
-2.70471,2.70471,3,0,3,monthly,News & Media,12,1
-2.70471,2.70471,4,0,4,monthly,News & Media,1,1
-2.70471,2.70471,5,0,5,monthly,News & Media,2,1
-2.70471,2.70471,6,0,6,monthly,News & Media,3,1
-2.30158,,1,0,1,monthly,News & Media,2,1
-2.30158,2.30158,2,0,2,monthly,News & Media,3,1
-2.30158,2.30158,3,0,3,monthly,News & Media,4,1
-2.30158,2.30158,4,0,4,monthly,News & Media,5,1
-2.30158,2.30158,5,0,5,monthly,News & Media,6,1
-2.30158,2.30158,6,0,6,monthly,News & Media,7,1
-2.30158,2.30158,7,0,7,monthly,News & Media,8,1
-2.50797,,1,0,1,monthly,Music,3,1
-2.50797,2.50797,2,0,2,monthly,Music,4,1
-2.84781,,1,0,1,monthly,Music,1,1
-2.84781,2.84781,2,0,2,monthly,Music,2,1
-3.39417,,1,0,1,monthly,Software,7,1
-3.39417,3.39417,2,0,2,monthly,Software,8,1
-3.39417,3.39417,3,0,3,monthly,Software,9,1
-3.39417,3.39417,4,0,4,monthly,Software,10,1
-3.39417,3.39417,5,0,5,monthly,Software,11,1
-3.39417,3.39417,6,0,6,monthly,Software,12,1
-3.39417,3.39417,7,0,7,monthly,Software,1,1
-3.39417,3.39417,8,0,8,monthly,Software,2,1
-3.39417,3.39417,9,0,9,monthly,Software,3,1
-3.39417,3.39417,10,0,10,monthly,Software,4,1
-3.39417,3.39417,11,0,11,monthly,Software,5,1
-2.37862,,1,0,1,monthly,Cloud Storage,5,1
-2.37862,2.37862,2,0,2,monthly,Cloud Storage,6,1
-2.37862,2.37862,3,0,3,monthly,Cloud Storage,7,1
-2.37862,2.37862,4,0,4,monthly,Cloud Storage,8,1
-2.37862,2.37862,5,0,5,monthly,Cloud Storage,9,1
-2.37862,2.37862,6,0,6,monthly,Cloud Storage,10,1
-2.37862,2.37862,7,0,7,monthly,Cloud Storage,11,1
-2.43449,,1,0,1,monthly,Fitness,9,1
-2.43449,2.43449,2,0,2,monthly,Fitness,10,1
-2.43449,2.43449,3,0,3,monthly,Fitness,12,1
-2.43449,2.43449,4,0,4,monthly,Fitness,1,1
-2.43449,2.43449,5,0,5,monthly,Fitness,1,1
-2.43449,2.43449,6,0,6,monthly,Fitness,3,1
-2.43449,2.43449,7,0,7,monthly,Fitness,4,1
-2.92745,,1,0,1,monthly,News & Media,8,1
-2.92745,2.92745,2,0,2,monthly,News & Media,9,1
-2.92745,2.92745,3,0,3,monthly,News & Media,10,1.19231
-3.09467,2.92745,1,1,4,monthly,News & Media,11,1
-3.09467,3.09467,2,1,5,monthly,News & Media,12,1
-2.06433,,1,0,1,monthly,Cloud Storage,2,1
-2.06433,2.06433,2,0,2,monthly,Cloud Storage,3,1
-2.06433,2.06433,3,0,3,monthly,Cloud Storage,4,1.16715
-2.20055,2.06433,1,1,4,monthly,Cloud Storage,5,1
-2.20055,2.20055,2,1,5,monthly,Cloud Storage,6,1
-2.20055,2.20055,3,1,6,monthly,Cloud Storage,7,1
-2.20055,2.20055,4,1,7,monthly,Cloud Storage,8,1
-2.20055,2.20055,5,1,8,monthly,Cloud Storage,9,1
-2.20055,2.20055,6,1,9,monthly,Cloud Storage,10,1
-2.20055,2.20055,7,1,10,monthly,Cloud Storage,11,1
-2.60417,,1,0,1,irregular,Cloud Storage,7,1
-2.60417,2.60417,2,0,2,irregular,Cloud Storage,8,1
-2.60417,2.60417,3,0,3,irregular,Cloud Storage,9,1.22843
-3.19704,,1,0,1,monthly,Software,1,1
-3.19704,3.19704,2,0,2,monthly,Software,3,1
-3.19704,3.19704,3,0,3,monthly,Software,4,1
-3.19704,3.19704,4,0,4,monthly,Software,5,1
-3.19704,3.19704,5,0,5,monthly,Software,6,1.10102
-3.28952,3.19704,1,1,6,monthly,Software,7,1
-3.28952,3.28952,2,1,7,monthly,Software,8,1
-3.28952,3.28952,3,1,8,monthly,Software,9,1
-3.28952,3.28952,4,1,9,monthly,Software,10,1
-3.1104,,1,0,1,monthly,News & Media,4,1
-3.1104,3.1104,2,0,2,monthly,News & Media,5,1
-3.1104,3.1104,3,0,3,monthly,News & Media,6,1
-3.1104,3.1104,4,0,4,monthly,News & Media,7,1
-3.1104,3.1104,5,0,5,monthly,News & Media,8,1.13299
-3.23001,3.1104,1,1,6,monthly,News & Media,9,1
-3.42133,,1,0,1,monthly,Cloud Storage,8,1
-3.42133,3.42133,2,0,2,monthly,Cloud Storage,9,1
-3.42133,3.42133,3,0,3,monthly,Cloud Storage,10,1
-3.42133,3.42133,4,0,4,monthly,Cloud Storage,11,1.10402
-3.5172,3.42133,1,1,5,monthly,Cloud Storage,12,1
-3.24298,,1,0,1,monthly,Streaming,2,1
-3.24298,3.24298,2,0,2,monthly,Streaming,3,1.1089
-3.34251,3.24298,1,1,3,monthly,Streaming,4,1
-3.34251,3.34251,2,1,4,monthly,Streaming,5,1
-3.34251,3.34251,3,1,5,monthly,Streaming,6,1
-3.34251,3.34251,4,1,6,monthly,Streaming,7,1
-3.34251,3.34251,5,1,7,monthly,Streaming,8,1
-3.34251,3.34251,6,1,8,monthly,Streaming,9,1
-2.02946,,1,0,1,monthly,Software,12,1
-2.02946,2.02946,2,0,2,monthly,Software,1,1
-2.02946,2.02946,3,0,3,monthly,Software,2,1
-2.02946,2.02946,4,0,4,monthly,Software,3,1
-2.02946,2.02946,5,0,5,monthly,Software,4,1
-2.02946,2.02946,6,0,6,monthly,Software,5,1
-2.02946,2.02946,7,0,7,monthly,Software,6,1
-2.02946,2.02946,8,0,8,monthly,Software,7,1.22542
-2.20827,2.02946,1,1,9,monthly,Software,8,1
-2.20827,2.20827,2,1,10,monthly,Software,9,1
-2.20827,2.20827,3,1,11,monthly,Software,10,1
-2.20827,2.20827,4,1,12,monthly,Software,11,1
-2.85013,,1,0,1,monthly,Software,8,1
-2.85013,2.85013,2,0,2,monthly,Software,9,1.14487
-2.97808,2.85013,1,1,3,monthly,Software,10,1
-3.40652,,1,0,1,monthly,Cloud Storage,11,1
-3.40652,3.40652,2,0,2,monthly,Cloud Storage,12,1.09225
-3.49195,3.40652,1,1,3,monthly,Cloud Storage,1,1
-3.49195,3.49195,2,1,4,monthly,Cloud Storage,2,1
-3.49195,3.49195,3,1,5,monthly,Cloud Storage,3,1
-3.49195,3.49195,4,1,6,monthly,Cloud Storage,4,1
-3.49195,3.49195,5,1,7,monthly,Cloud Storage,5,1
-3.49195,3.49195,6,1,8,monthly,Cloud Storage,6,1
-3.49195,3.49195,7,1,9,monthly,Cloud Storage,7,1
-3.49195,3.49195,8,1,10,monthly,Cloud Storage,8,1
-3.49195,3.49195,9,1,11,monthly,Cloud Storage,9,1
-3.49195,3.49195,10,1,12,monthly,Cloud Storage,10,1
-3.05447,,1,0,1,monthly,Cloud Storage,1,1
-3.05447,3.05447,2,0,2,monthly,Cloud Storage,3,1.18209
-3.21447,3.05447,1,1,3,monthly,Cloud Storage,4,1
-2.84491,,1,0,1,monthly,Cloud Storage,1,1
-2.84491,2.84491,2,0,2,monthly,Cloud Storage,2,1
-2.84491,2.84491,3,0,3,monthly,Cloud Storage,3,1
-2.84491,2.84491,4,0,4,monthly,Cloud Storage,4,1
-2.84491,2.84491,5,0,5,monthly,Cloud Storage,5,1.16914
-2.99273,2.84491,1,1,6,monthly,Cloud Storage,6,1
-2.99273,2.99273,2,1,7,monthly,Cloud Storage,7,1
-2.99273,2.99273,3,1,8,monthly,Cloud Storage,8,1
-2.99273,2.99273,4,1,9,monthly,Cloud Storage,9,1
-3.23514,,1,0,1,monthly,Streaming,9,1
-3.23514,3.23514,2,0,2,monthly,Streaming,10,1
-3.23514,3.23514,3,0,3,monthly,Streaming,11,1
-3.23514,3.23514,4,0,4,monthly,Streaming,12,1
-3.23514,3.23514,5,0,5,monthly,Streaming,1,1
-3.23514,3.23514,6,0,6,monthly,Streaming,2,1
-3.23514,3.23514,7,0,7,monthly,Streaming,3,1
-3.23514,3.23514,8,0,8,monthly,Streaming,4,1.1397
-3.36107,3.23514,1,1,9,monthly,Streaming,5,1
-3.36107,3.36107,2,1,10,monthly,Streaming,6,1
-3.36107,3.36107,3,1,11,monthly,Streaming,7,1
-3.36107,3.36107,4,1,12,monthly,Streaming,8,1
-3.0713,,1,0,1,monthly,Streaming,11,1
-3.0713,3.0713,2,0,2,monthly,Streaming,12,1
-3.0713,3.0713,3,0,3,monthly,Streaming,1,1
-3.0713,3.0713,4,0,4,monthly,Streaming,2,1.17939
-2.6412,,1,0,1,monthly,Cloud Storage,3,1
-2.6412,2.6412,2,0,2,monthly,Cloud Storage,4,1.13124
-2.75621,2.6412,1,1,3,monthly,Cloud Storage,5,1
-2.75621,2.75621,2,1,4,monthly,Cloud Storage,6,1
-2.75621,2.75621,3,1,5,monthly,Cloud Storage,7,1
-2.75621,2.75621,4,1,6,monthly,Cloud Storage,8,1
-3.34955,,1,0,1,monthly,Cloud Storage,4,1
-3.34955,3.34955,2,0,2,monthly,Cloud Storage,5,1
-3.34955,3.34955,3,0,3,monthly,Cloud Storage,6,1
-3.34955,3.34955,4,0,4,monthly,Cloud Storage,7,1.08148
-3.42524,3.34955,1,1,5,monthly,Cloud Storage,8,1
-3.42524,3.42524,2,1,6,monthly,Cloud Storage,9,1
-2.54003,,1,0,1,monthly,Streaming,9,1
-2.54003,2.54003,2,0,2,monthly,Streaming,10,1
-2.54003,2.54003,3,0,3,monthly,Streaming,10,1
-2.54003,2.54003,4,0,4,monthly,Streaming,12,1
-2.54003,2.54003,5,0,5,monthly,Streaming,12,1.17979
-2.69327,2.54003,1,1,6,monthly,Streaming,1,1
-3.40286,,1,0,1,monthly,Music,6,1
-3.40286,3.40286,2,0,2,monthly,Music,7,1
-3.40286,3.40286,3,0,3,monthly,Music,8,1.20448
-3.58324,3.40286,1,1,4,monthly,Music,10,1
-3.58324,3.58324,2,1,5,monthly,Music,10,1
-3.58324,3.58324,3,1,6,monthly,Music,11,1
-3.58324,3.58324,4,1,7,monthly,Music,12,1
-3.58324,3.58324,5,1,8,monthly,Music,2,1
-3.58324,3.58324,6,1,9,monthly,Music,2,1
-2.28034,,1,0,1,monthly,Fitness,12,1
-2.28034,2.28034,2,0,2,monthly,Fitness,1,1
-2.28034,2.28034,3,0,3,monthly,Fitness,2,1
-2.28034,2.28034,4,0,4,monthly,Fitness,3,1
-2.28034,2.28034,5,0,5,monthly,Fitness,4,1
-2.28034,2.28034,6,0,6,monthly,Fitness,5,1
-2.28034,2.28034,7,0,7,monthly,Fitness,6,1.19362
-2.44061,2.28034,1,1,8,monthly,Fitness,7,1
-2.66445,,1,0,1,monthly,Cloud Storage,6,1
-2.66445,2.66445,2,0,2,monthly,Cloud Storage,7,1.11377
-2.76506,2.66445,1,1,3,monthly,Cloud Storage,8,1
-2.76506,2.76506,2,1,4,monthly,Cloud Storage,9,1
-2.86676,,1,0,1,monthly,Streaming,10,1
-2.86676,2.86676,2,0,2,monthly,Streaming,11,1
-2.86676,2.86676,3,0,3,monthly,Streaming,12,1
-2.86676,2.86676,4,0,4,monthly,Streaming,1,1
-2.86676,2.86676,5,0,5,monthly,Streaming,2,1.11882
-2.97298,2.86676,1,1,6,monthly,Streaming,3,1
-2.97298,2.97298,2,1,7,monthly,Streaming,4,1
-2.97298,2.97298,3,1,8,monthly,Streaming,5,1
-2.97298,2.97298,4,1,9,monthly,Streaming,6,1
-2.97298,2.97298,5,1,10,monthly,Streaming,7,1
-2.97298,2.97298,6,1,11,monthly,Streaming,8,1
-2.97298,2.97298,7,1,12,monthly,Streaming,9,1
-3.15231,,1,0,1,monthly,Fitness,12,1
-3.15231,3.15231,2,0,2,monthly,Fitness,1,1
-3.15231,3.15231,3,0,3,monthly,Fitness,2,1
-3.15231,3.15231,4,0,4,monthly,Fitness,3,1
-3.15231,3.15231,5,0,5,monthly,Fitness,4,1
-3.15231,3.15231,6,0,6,monthly,Fitness,5,1
-3.15231,3.15231,7,0,7,monthly,Fitness,6,1
-3.15231,3.15231,8,0,8,monthly,Fitness,7,1
-3.15231,3.15231,9,0,9,monthly,Fitness,8,1.22331
-2.92047,,1,0,1,monthly,Software,3,1
-2.92047,2.92047,2,0,2,monthly,Software,4,1.09972
-3.01062,2.92047,1,1,3,monthly,Software,5,1
-3.29138,,1,0,1,monthly,Fitness,8,1
-3.29138,3.29138,2,0,2,monthly,Fitness,9,1
-3.29138,3.29138,3,0,3,monthly,Fitness,10,1.0738
-3.36003,3.29138,1,1,4,monthly,Fitness,11,1
-3.36003,3.36003,2,1,5,monthly,Fitness,12,1
-3.36003,3.36003,3,1,6,monthly,Fitness,1,1
-3.36003,3.36003,4,1,7,monthly,Fitness,2,1
-3.36003,3.36003,5,1,8,monthly,Fitness,3,1
-3.36003,3.36003,6,1,9,monthly,Fitness,4,1
-3.36003,3.36003,7,1,10,monthly,Fitness,5,1
-3.36003,3.36003,8,1,11,monthly,Fitness,6,1
-3.36003,3.36003,9,1,12,monthly,Fitness,7,1
-3.10099,,1,0,1,monthly,Cloud Storage,5,1
-3.10099,3.10099,2,0,2,monthly,Cloud Storage,6,1.11876
-3.20842,3.10099,1,1,3,monthly,Cloud Storage,7,1
-3.20842,3.20842,2,1,4,monthly,Cloud Storage,8,1
-3.20842,3.20842,3,1,5,monthly,Cloud Storage,9,1
-3.38065,,1,0,1,monthly,Fitness,6,1
-3.38065,3.38065,2,0,2,monthly,Fitness,7,1
-3.38065,3.38065,3,0,3,monthly,Fitness,9,1
-3.38065,3.38065,4,0,4,monthly,Fitness,9,1.06516
-3.4417,3.38065,1,1,5,monthly,Fitness,10,1
-3.4417,3.4417,2,1,6,monthly,Fitness,12,1
-3.4417,3.4417,3,1,7,monthly,Fitness,12,1
-3.4417,3.4417,4,1,8,monthly,Fitness,2,1
-3.4417,3.4417,5,1,9,monthly,Fitness,2,1
-3.4417,3.4417,6,1,10,monthly,Fitness,4,1
-3.4417,3.4417,7,1,11,monthly,Fitness,4,1
-2.91344,,1,0,1,monthly,Cloud Storage,12,1
-2.91344,2.91344,2,0,2,monthly,Cloud Storage,1,1
-2.91344,2.91344,3,0,3,monthly,Cloud Storage,2,1.05396
-2.96321,2.91344,1,1,4,monthly,Cloud Storage,3,1
-3.24805,,1,0,1,monthly,Cloud Storage,3,1
-3.24805,3.24805,2,0,2,monthly,Cloud Storage,5,1.06427
-3.30798,3.24805,1,1,3,monthly,Cloud Storage,5,1
-3.30798,3.30798,2,1,4,monthly,Cloud Storage,6,1
-3.15572,,1,0,1,monthly,Software,7,1
-3.15572,3.15572,2,0,2,monthly,Software,9,1
-3.15572,3.15572,3,0,3,monthly,Software,9,1
-3.15572,3.15572,4,0,4,monthly,Software,11,1
-3.15572,3.15572,5,0,5,monthly,Software,12,1
-3.15572,3.15572,6,0,6,monthly,Software,1,1.23899
-3.36176,3.15572,1,1,7,monthly,Software,2,1
-3.36176,3.36176,2,1,8,monthly,Software,3,1
-3.36176,3.36176,3,1,9,monthly,Software,4,1
-3.36176,3.36176,4,1,10,monthly,Software,4,1
-3.36176,3.36176,5,1,11,monthly,Software,6,1
-3.36176,3.36176,6,1,12,monthly,Software,7,1
-3.16125,,1,0,1,monthly,Music,1,1
-3.16125,3.16125,2,0,2,monthly,Music,2,1
-3.16125,3.16125,3,0,3,monthly,Music,3,1.1385
+1.64287,,1,0,1,monthly,Cloud Storage,9,1
+1.64287,1.64287,2,0,2,monthly,Cloud Storage,10,1
+1.64287,1.64287,3,0,3,monthly,Cloud Storage,11,1
+1.64287,1.64287,4,0,4,monthly,Cloud Storage,12,1
+1.64287,1.64287,5,0,5,monthly,Cloud Storage,1,1
+1.64287,1.64287,6,0,6,monthly,Cloud Storage,2,1
+1.64287,1.64287,7,0,7,monthly,Cloud Storage,3,1
+4.31321,,1,0,1,monthly,Streaming,1,1
+4.31321,4.31321,2,0,2,monthly,Streaming,2,1
+4.31321,4.31321,3,0,3,monthly,Streaming,3,1
+4.31321,4.31321,4,0,4,monthly,Streaming,4,1
+4.31321,4.31321,5,0,5,monthly,Streaming,5,1
+4.31321,4.31321,6,0,6,monthly,Streaming,6,1
+4.31321,4.31321,7,0,7,monthly,Streaming,7,1
+4.31321,4.31321,8,0,8,monthly,Streaming,8,1
+4.31321,4.31321,9,0,9,monthly,Streaming,9,1
+4.31321,4.31321,10,0,10,monthly,Streaming,10,1
+4.31321,4.31321,11,0,11,monthly,Streaming,11,1
+4.31321,4.31321,12,0,12,monthly,Streaming,12,1
+4.01656,,1,0,1,monthly,Streaming,8,1
+4.01656,4.01656,2,0,2,monthly,Streaming,9,1
+4.01656,4.01656,3,0,3,monthly,Streaming,10,1
+4.01656,4.01656,4,0,4,monthly,Streaming,11,1
+4.01656,4.01656,5,0,5,monthly,Streaming,12,1
+4.01656,4.01656,6,0,6,monthly,Streaming,1,1
+3.1954,,1,0,1,monthly,News & Media,1,1
+3.1954,3.1954,2,0,2,monthly,News & Media,2,1
+3.1954,3.1954,3,0,3,monthly,News & Media,3,1
+3.1954,3.1954,4,0,4,monthly,News & Media,4,1
+3.1954,3.1954,5,0,5,monthly,News & Media,5,1
+3.1954,3.1954,6,0,6,monthly,News & Media,6,1
+3.1954,3.1954,7,0,7,monthly,News & Media,7,1
+3.1954,3.1954,8,0,8,monthly,News & Media,8,1
+3.1954,3.1954,9,0,9,monthly,News & Media,9,1
+3.1954,3.1954,10,0,10,monthly,News & Media,10,1
+3.1954,3.1954,11,0,11,monthly,News & Media,11,1
+3.1954,3.1954,12,0,12,monthly,News & Media,12,1
+3.7993,,1,0,1,monthly,Cloud Storage,1,1
+3.7993,3.7993,2,0,2,monthly,Cloud Storage,3,1
+3.7993,3.7993,3,0,3,monthly,Cloud Storage,3,1
+3.7993,3.7993,4,0,4,monthly,Cloud Storage,4,1
+3.7993,3.7993,5,0,5,monthly,Cloud Storage,5,1
+3.7993,3.7993,6,0,6,monthly,Cloud Storage,7,1
+3.7993,3.7993,7,0,7,monthly,Cloud Storage,7,1
+3.7993,3.7993,8,0,8,monthly,Cloud Storage,8,1
+3.7993,3.7993,9,0,9,monthly,Cloud Storage,9,1
+3.7993,3.7993,10,0,10,monthly,Cloud Storage,10,1
+3.7993,3.7993,11,0,11,monthly,Cloud Storage,12,1
+3.7993,3.7993,12,0,12,monthly,Cloud Storage,12,1
+1.67523,,1,0,1,monthly,Software,11,1.07143
+1.73166,1.67523,1,1,2,monthly,Software,12,1
+1.73166,1.73166,2,1,3,monthly,Software,1,1
+1.73166,1.73166,3,1,4,monthly,Software,2,1
+1.73166,1.73166,4,1,5,monthly,Software,3,1
+1.73166,1.73166,5,1,6,monthly,Software,4,1
+1.73166,1.73166,6,1,7,monthly,Software,5,1
+3.40983,,1,0,1,monthly,Software,7,1
+3.40983,3.40983,2,0,2,monthly,Software,8,1
+3.40983,3.40983,3,0,3,monthly,Software,9,1
+3.40983,3.40983,4,0,4,monthly,Software,10,1
+3.40983,3.40983,5,0,5,monthly,Software,11,1
+3.40983,3.40983,6,0,6,monthly,Software,12,1
+3.40983,3.40983,7,0,7,monthly,Software,1,1
+3.40983,3.40983,8,0,8,monthly,Software,2,1
+3.40983,3.40983,9,0,9,monthly,Software,3,1
+3.40983,3.40983,10,0,10,monthly,Software,4,1
+3.40983,3.40983,11,0,11,monthly,Software,5,1
+2.3979,,1,0,1,monthly,News & Media,12,1
+2.3979,2.3979,2,0,2,monthly,News & Media,1,1
+2.3979,2.3979,3,0,3,monthly,News & Media,2,1
+2.3979,2.3979,4,0,4,monthly,News & Media,3,1.061
+2.45187,2.3979,1,1,5,monthly,News & Media,4,1
+2.45187,2.45187,2,1,6,monthly,News & Media,5,1
+2.45187,2.45187,3,1,7,monthly,News & Media,6,1
+2.45187,2.45187,4,1,8,monthly,News & Media,7,1
+2.45187,2.45187,5,1,9,monthly,News & Media,8,1
+2.45187,2.45187,6,1,10,monthly,News & Media,9,1
+3.89488,,1,0,1,monthly,News & Media,4,1
+3.89488,3.89488,2,0,2,monthly,News & Media,5,1
+3.00815,,1,0,1,monthly,News & Media,12,1.17143
+3.15913,3.00815,1,1,2,monthly,News & Media,1,1
+3.15913,3.15913,2,1,3,monthly,News & Media,2,1
+3.15913,3.15913,3,1,4,monthly,News & Media,3,1
+3.15913,3.15913,4,1,5,monthly,News & Media,4,1
+3.15913,3.15913,5,1,6,monthly,News & Media,5,1
+3.15913,3.15913,6,1,7,monthly,News & Media,6,1
+3.15913,3.15913,7,1,8,monthly,News & Media,7,1
+3.85227,,1,0,1,monthly,Cloud Storage,5,1
+3.85227,3.85227,2,0,2,monthly,Cloud Storage,6,1
+3.85227,3.85227,3,0,3,monthly,Cloud Storage,7,1
+3.85227,3.85227,4,0,4,monthly,Cloud Storage,8,1
+3.85227,3.85227,5,0,5,monthly,Cloud Storage,9,1
+1.97547,,1,0,1,monthly,Cloud Storage,5,1
+1.97547,1.97547,2,0,2,monthly,Cloud Storage,5,1
+1.97547,1.97547,3,0,3,monthly,Cloud Storage,7,1
+2.11505,,1,0,1,monthly,Streaming,5,1.17833
+2.26072,2.11505,1,1,2,monthly,Streaming,6,1
+2.26072,2.26072,2,1,3,monthly,Streaming,7,1
+2.26072,2.26072,3,1,4,monthly,Streaming,8,1
+2.26072,2.26072,4,1,5,monthly,Streaming,9,1
+2.26072,2.26072,5,1,6,monthly,Streaming,10,1
+2.26072,2.26072,6,1,7,monthly,Streaming,11,1
+2.26072,2.26072,7,1,8,monthly,Streaming,12,1
+2.26072,2.26072,8,1,9,monthly,Streaming,1,1
+2.26072,2.26072,9,1,10,monthly,Streaming,2,1
+2.26072,2.26072,10,1,11,monthly,Streaming,3,1
+2.26072,2.26072,11,1,12,monthly,Streaming,4,1
+2.88982,,1,0,1,monthly,Streaming,3,1
+2.88982,2.88982,2,0,2,monthly,Streaming,4,1
+2.88982,2.88982,3,0,3,monthly,Streaming,5,1
+2.88982,2.88982,4,0,4,monthly,Streaming,6,1
+2.88982,2.88982,5,0,5,monthly,Streaming,7,1
+2.88982,2.88982,6,0,6,monthly,Streaming,8,1
+2.88982,2.88982,7,0,7,monthly,Streaming,9,1
+2.88982,2.88982,8,0,8,monthly,Streaming,10,1
+3.82232,,1,0,1,monthly,News & Media,7,1
+3.82232,3.82232,2,0,2,monthly,News & Media,8,1
+3.82232,3.82232,3,0,3,monthly,News & Media,9,1
+3.82232,3.82232,4,0,4,monthly,News & Media,10,1
+3.82232,3.82232,5,0,5,monthly,News & Media,11,1
+3.82232,3.82232,6,0,6,monthly,News & Media,12,1
+3.82232,3.82232,7,0,7,monthly,News & Media,1,1
+3.82232,3.82232,8,0,8,monthly,News & Media,2,1
+3.82232,3.82232,9,0,9,monthly,News & Media,3,1
+3.75443,,1,0,1,monthly,Fitness,5,1
+3.75443,3.75443,2,0,2,monthly,Fitness,6,1
+3.75443,3.75443,3,0,3,monthly,Fitness,7,1
+1.62924,,1,0,1,monthly,Cloud Storage,12,1
+1.62924,1.62924,2,0,2,monthly,Cloud Storage,1,1
+1.62924,1.62924,3,0,3,monthly,Cloud Storage,2,1
+1.62924,1.62924,4,0,4,monthly,Cloud Storage,3,1
+1.62924,1.62924,5,0,5,monthly,Cloud Storage,4,1
+1.62924,1.62924,6,0,6,monthly,Cloud Storage,5,1
+1.62924,1.62924,7,0,7,monthly,Cloud Storage,6,1
+1.62924,1.62924,8,0,8,monthly,Cloud Storage,7,1
+1.62924,1.62924,9,0,9,monthly,Cloud Storage,8,1
+1.62924,1.62924,10,0,10,monthly,Cloud Storage,9,1
+1.62924,1.62924,11,0,11,monthly,Cloud Storage,10,1
+2.20827,,1,0,1,monthly,Music,7,1
+2.20827,2.20827,2,0,2,monthly,Music,8,1
+2.20827,2.20827,3,0,3,monthly,Music,9,1
+2.20827,2.20827,4,0,4,monthly,Music,10,1
+2.20827,2.20827,5,0,5,monthly,Music,11,1
+2.20827,2.20827,6,0,6,monthly,Music,12,1
+2.20827,2.20827,7,0,7,monthly,Music,1,1
+2.20827,2.20827,8,0,8,monthly,Music,2,1
+2.20827,2.20827,9,0,9,monthly,Music,3,1
+2.20827,2.20827,10,0,10,monthly,Music,4,1
+1.80993,,1,0,1,monthly,Music,11,1
+1.80993,1.80993,2,0,2,monthly,Music,12,1
+1.80993,1.80993,3,0,3,monthly,Music,1,1
+1.80993,1.80993,4,0,4,monthly,Music,2,1
+1.80993,1.80993,5,0,5,monthly,Music,3,1
+1.80993,1.80993,6,0,6,monthly,Music,4,1
+1.80993,1.80993,7,0,7,monthly,Music,5,1
+3.3635,,1,0,1,monthly,News & Media,10,1
+3.3635,3.3635,2,0,2,monthly,News & Media,11,1
+3.3635,3.3635,3,0,3,monthly,News & Media,12,1
+3.3635,3.3635,4,0,4,monthly,News & Media,1,1
+3.3635,3.3635,5,0,5,monthly,News & Media,2,1
+3.3635,3.3635,6,0,6,monthly,News & Media,3,1
+4.07822,,1,0,1,monthly,Streaming,1,1
+4.07822,4.07822,2,0,2,monthly,Streaming,2,1
+4.07822,4.07822,3,0,3,monthly,Streaming,3,1
+4.07822,4.07822,4,0,4,monthly,Streaming,4,1
+4.07822,4.07822,5,0,5,monthly,Streaming,5,1
+4.07822,4.07822,6,0,6,monthly,Streaming,6,1
+4.07822,4.07822,7,0,7,monthly,Streaming,7,1
+4.07822,4.07822,8,0,8,monthly,Streaming,8,1
+4.07822,4.07822,9,0,9,monthly,Streaming,9,1
+4.07822,4.07822,10,0,10,monthly,Streaming,10,1.21813
+4.27249,4.07822,1,1,11,monthly,Streaming,11,1
+4.27249,4.27249,2,1,12,monthly,Streaming,12,1
+2.97451,,1,0,1,monthly,News & Media,6,1
+2.97451,2.97451,2,0,2,monthly,News & Media,7,1
+2.97451,2.97451,3,0,3,monthly,News & Media,8,1
+2.90417,,1,0,1,monthly,Fitness,4,1
+2.90417,2.90417,2,0,2,monthly,Fitness,5,1
+2.90417,2.90417,3,0,3,monthly,Fitness,6,1
+2.90417,2.90417,4,0,4,monthly,Fitness,7,1
+2.90417,2.90417,5,0,5,monthly,Fitness,8,1
+2.90417,2.90417,6,0,6,monthly,Fitness,9,1
+2.90417,2.90417,7,0,7,monthly,Fitness,10,1
+2.54003,,1,0,1,monthly,News & Media,10,1
+2.54003,2.54003,2,0,2,monthly,News & Media,11,1
+2.54003,2.54003,3,0,3,monthly,News & Media,12,1
+2.54003,2.54003,4,0,4,monthly,News & Media,1,1
+2.54003,2.54003,5,0,5,monthly,News & Media,2,1
+2.54003,2.54003,6,0,6,monthly,News & Media,3,1
+2.00821,,1,0,1,monthly,News & Media,2,1
+2.00821,2.00821,2,0,2,monthly,News & Media,3,1
+2.00821,2.00821,3,0,3,monthly,News & Media,4,1
+2.00821,2.00821,4,0,4,monthly,News & Media,5,1
+2.00821,2.00821,5,0,5,monthly,News & Media,6,1
+2.00821,2.00821,6,0,6,monthly,News & Media,7,1
+2.00821,2.00821,7,0,7,monthly,News & Media,8,1
+2.24918,,1,0,1,monthly,Music,3,1
+2.24918,2.24918,2,0,2,monthly,Music,4,1
+2.79728,,1,0,1,monthly,Music,1,1
+2.79728,2.79728,2,0,2,monthly,Music,2,1
+4.25277,,1,0,1,monthly,Software,7,1
+4.25277,4.25277,2,0,2,monthly,Software,8,1
+4.25277,4.25277,3,0,3,monthly,Software,9,1
+4.25277,4.25277,4,0,4,monthly,Software,10,1
+4.25277,4.25277,5,0,5,monthly,Software,11,1
+4.25277,4.25277,6,0,6,monthly,Software,12,1
+4.25277,4.25277,7,0,7,monthly,Software,1,1
+4.25277,4.25277,8,0,8,monthly,Software,2,1
+4.25277,4.25277,9,0,9,monthly,Software,3,1
+4.25277,4.25277,10,0,10,monthly,Software,4,1
+4.25277,4.25277,11,0,11,monthly,Software,5,1
+2.09063,,1,0,1,monthly,Cloud Storage,5,1
+2.09063,2.09063,2,0,2,monthly,Cloud Storage,6,1
+2.09063,2.09063,3,0,3,monthly,Cloud Storage,7,1
+2.09063,2.09063,4,0,4,monthly,Cloud Storage,8,1
+2.09063,2.09063,5,0,5,monthly,Cloud Storage,9,1
+2.09063,2.09063,6,0,6,monthly,Cloud Storage,10,1
+2.09063,2.09063,7,0,7,monthly,Cloud Storage,11,1
+2.1564,,1,0,1,monthly,Fitness,9,1
+2.1564,2.1564,2,0,2,monthly,Fitness,10,1
+2.1564,2.1564,3,0,3,monthly,Fitness,12,1
+2.1564,2.1564,4,0,4,monthly,Fitness,1,1
+2.1564,2.1564,5,0,5,monthly,Fitness,1,1
+2.1564,2.1564,6,0,6,monthly,Fitness,3,1
+2.1564,2.1564,7,0,7,monthly,Fitness,4,1
+2.95855,,1,0,1,monthly,News & Media,8,1
+2.95855,2.95855,2,0,2,monthly,News & Media,9,1
+2.95855,2.95855,3,0,3,monthly,News & Media,10,1.19212
+3.12588,2.95855,1,1,4,monthly,News & Media,11,1
+3.12588,3.12588,2,1,5,monthly,News & Media,12,1
+1.79342,,1,0,1,monthly,Cloud Storage,2,1
+1.79342,1.79342,2,0,2,monthly,Cloud Storage,3,1
+1.79342,1.79342,3,0,3,monthly,Cloud Storage,4,1.16766
+1.92425,1.79342,1,1,4,monthly,Cloud Storage,5,1
+1.92425,1.92425,2,1,5,monthly,Cloud Storage,6,1
+1.92425,1.92425,3,1,6,monthly,Cloud Storage,7,1
+1.92425,1.92425,4,1,7,monthly,Cloud Storage,8,1
+1.92425,1.92425,5,1,8,monthly,Cloud Storage,9,1
+1.92425,1.92425,6,1,9,monthly,Cloud Storage,10,1
+1.92425,1.92425,7,1,10,monthly,Cloud Storage,11,1
+2.38324,,1,0,1,irregular,Cloud Storage,7,1
+2.38324,2.38324,2,0,2,irregular,Cloud Storage,8,1
+2.38324,2.38324,3,0,3,irregular,Cloud Storage,9,1.22866
+3.62541,,1,0,1,monthly,Software,1,1
+3.62541,3.62541,2,0,2,monthly,Software,3,1
+3.62541,3.62541,3,0,3,monthly,Software,4,1
+3.62541,3.62541,4,0,4,monthly,Software,5,1
+3.62541,3.62541,5,0,5,monthly,Software,6,1.10099
+3.71917,3.62541,1,1,6,monthly,Software,7,1
+3.71917,3.71917,2,1,7,monthly,Software,8,1
+3.71917,3.71917,3,1,8,monthly,Software,9,1
+3.71917,3.71917,4,1,9,monthly,Software,10,1
+3.38946,,1,0,1,monthly,News & Media,4,1
+3.38946,3.38946,2,0,2,monthly,News & Media,5,1
+3.38946,3.38946,3,0,3,monthly,News & Media,6,1
+3.38946,3.38946,4,0,4,monthly,News & Media,7,1
+3.38946,3.38946,5,0,5,monthly,News & Media,8,1.13333
+3.51065,3.38946,1,1,6,monthly,News & Media,9,1
+4.34937,,1,0,1,monthly,Cloud Storage,8,1
+4.34937,4.34937,2,0,2,monthly,Cloud Storage,9,1
+4.34937,4.34937,3,0,3,monthly,Cloud Storage,10,1
+4.34937,4.34937,4,0,4,monthly,Cloud Storage,11,1.10402
+4.44711,4.34937,1,1,5,monthly,Cloud Storage,12,1
+3.76027,,1,0,1,monthly,Streaming,2,1
+3.76027,3.76027,2,0,2,monthly,Streaming,3,1.10867
+3.86115,3.76027,1,1,3,monthly,Streaming,4,1
+3.86115,3.86115,2,1,4,monthly,Streaming,5,1
+3.86115,3.86115,3,1,5,monthly,Streaming,6,1
+3.86115,3.86115,4,1,6,monthly,Streaming,7,1
+3.86115,3.86115,5,1,7,monthly,Streaming,8,1
+3.86115,3.86115,6,1,8,monthly,Streaming,9,1
+1.76473,,1,0,1,monthly,Software,12,1
+1.76473,1.76473,2,0,2,monthly,Software,1,1
+1.76473,1.76473,3,0,3,monthly,Software,2,1
+1.76473,1.76473,4,0,4,monthly,Software,3,1
+1.76473,1.76473,5,0,5,monthly,Software,4,1
+1.76473,1.76473,6,0,6,monthly,Software,5,1
+1.76473,1.76473,7,0,7,monthly,Software,6,1
+1.76473,1.76473,8,0,8,monthly,Software,7,1.22521
+1.93586,1.76473,1,1,9,monthly,Software,8,1
+1.93586,1.93586,2,1,10,monthly,Software,9,1
+1.93586,1.93586,3,1,11,monthly,Software,10,1
+1.93586,1.93586,4,1,12,monthly,Software,11,1
+2.80154,,1,0,1,monthly,Software,8,1
+2.80154,2.80154,2,0,2,monthly,Software,9,1.1448
+2.92906,2.80154,1,1,3,monthly,Software,10,1
+4.29592,,1,0,1,monthly,Cloud Storage,11,1
+4.29592,4.29592,2,0,2,monthly,Cloud Storage,12,1.09213
+4.3829,4.29592,1,1,3,monthly,Cloud Storage,1,1
+4.3829,4.3829,2,1,4,monthly,Cloud Storage,2,1
+4.3829,4.3829,3,1,5,monthly,Cloud Storage,3,1
+4.3829,4.3829,4,1,6,monthly,Cloud Storage,4,1
+4.3829,4.3829,5,1,7,monthly,Cloud Storage,5,1
+4.3829,4.3829,6,1,8,monthly,Cloud Storage,6,1
+4.3829,4.3829,7,1,9,monthly,Cloud Storage,7,1
+4.3829,4.3829,8,1,10,monthly,Cloud Storage,8,1
+4.3829,4.3829,9,1,11,monthly,Cloud Storage,9,1
+4.3829,4.3829,10,1,12,monthly,Cloud Storage,10,1
+3.24843,,1,0,1,monthly,Cloud Storage,1,1
+3.24843,3.24843,2,0,2,monthly,Cloud Storage,3,1.18182
+3.4095,3.24843,1,1,3,monthly,Cloud Storage,4,1
+2.79178,,1,0,1,monthly,Cloud Storage,1,1
+2.79178,2.79178,2,0,2,monthly,Cloud Storage,2,1
+2.79178,2.79178,3,0,3,monthly,Cloud Storage,3,1
+2.79178,2.79178,4,0,4,monthly,Cloud Storage,4,1
+2.79178,2.79178,5,0,5,monthly,Cloud Storage,5,1.16917
+2.93916,2.79178,1,1,6,monthly,Cloud Storage,6,1
+2.93916,2.93916,2,1,7,monthly,Cloud Storage,7,1
+2.93916,2.93916,3,1,8,monthly,Cloud Storage,8,1
+2.93916,2.93916,4,1,9,monthly,Cloud Storage,9,1
+3.73719,,1,0,1,monthly,Streaming,9,1
+3.73719,3.73719,2,0,2,monthly,Streaming,10,1
+3.73719,3.73719,3,0,3,monthly,Streaming,11,1
+3.73719,3.73719,4,0,4,monthly,Streaming,12,1
+3.73719,3.73719,5,0,5,monthly,Streaming,1,1
+3.73719,3.73719,6,0,6,monthly,Streaming,2,1
+3.73719,3.73719,7,0,7,monthly,Streaming,3,1
+3.73719,3.73719,8,0,8,monthly,Streaming,4,1.13982
+3.86514,3.73719,1,1,9,monthly,Streaming,5,1
+3.86514,3.86514,2,1,10,monthly,Streaming,6,1
+3.86514,3.86514,3,1,11,monthly,Streaming,7,1
+3.86514,3.86514,4,1,12,monthly,Streaming,8,1
+3.28989,,1,0,1,monthly,Streaming,11,1
+3.28989,3.28989,2,0,2,monthly,Streaming,12,1
+3.28989,3.28989,3,0,3,monthly,Streaming,1,1
+3.28989,3.28989,4,0,4,monthly,Streaming,2,1.17918
+2.43973,,1,0,1,monthly,Cloud Storage,3,1
+2.43973,2.43973,2,0,2,monthly,Cloud Storage,4,1.13085
+2.55257,2.43973,1,1,3,monthly,Cloud Storage,5,1
+2.55257,2.55257,2,1,4,monthly,Cloud Storage,6,1
+2.55257,2.55257,3,1,5,monthly,Cloud Storage,7,1
+2.55257,2.55257,4,1,6,monthly,Cloud Storage,8,1
+4.09834,,1,0,1,monthly,Cloud Storage,4,1
+4.09834,4.09834,2,0,2,monthly,Cloud Storage,5,1
+4.09834,4.09834,3,0,3,monthly,Cloud Storage,6,1
+4.09834,4.09834,4,0,4,monthly,Cloud Storage,7,1.08153
+4.17546,4.09834,1,1,5,monthly,Cloud Storage,8,1
+4.17546,4.17546,2,1,6,monthly,Cloud Storage,9,1
+2.29354,,1,0,1,monthly,Streaming,9,1
+2.29354,2.29354,2,0,2,monthly,Streaming,10,1
+2.29354,2.29354,3,0,3,monthly,Streaming,10,1
+2.29354,2.29354,4,0,4,monthly,Streaming,12,1
+2.29354,2.29354,5,0,5,monthly,Streaming,12,1.17957
+2.44322,2.29354,1,1,6,monthly,Streaming,1,1
+4.28317,,1,0,1,monthly,Music,6,1
+4.28317,4.28317,2,0,2,monthly,Music,7,1
+4.28317,4.28317,3,0,3,monthly,Music,8,1.2047
+4.46706,4.28317,1,1,4,monthly,Music,10,1
+4.46706,4.46706,2,1,5,monthly,Music,10,1
+4.46706,4.46706,3,1,6,monthly,Music,11,1
+4.46706,4.46706,4,1,7,monthly,Music,12,1
+4.46706,4.46706,5,1,8,monthly,Music,2,1
+4.46706,4.46706,6,1,9,monthly,Music,2,1
+1.9865,,1,0,1,monthly,Fitness,12,1
+1.9865,1.9865,2,0,2,monthly,Fitness,1,1
+1.9865,1.9865,3,0,3,monthly,Fitness,2,1
+1.9865,1.9865,4,0,4,monthly,Fitness,3,1
+1.9865,1.9865,5,0,5,monthly,Fitness,4,1
+1.9865,1.9865,6,0,6,monthly,Fitness,5,1
+1.9865,1.9865,7,0,7,monthly,Fitness,6,1.19237
+2.14007,1.9865,1,1,8,monthly,Fitness,7,1
+2.4757,,1,0,1,monthly,Cloud Storage,6,1
+2.4757,2.4757,2,0,2,monthly,Cloud Storage,7,1.11387
+2.5749,2.4757,1,1,3,monthly,Cloud Storage,8,1
+2.5749,2.5749,2,1,4,monthly,Cloud Storage,9,1
+2.83439,,1,0,1,monthly,Streaming,10,1
+2.83439,2.83439,2,0,2,monthly,Streaming,11,1
+2.83439,2.83439,3,0,3,monthly,Streaming,12,1
+2.83439,2.83439,4,0,4,monthly,Streaming,1,1
+2.83439,2.83439,5,0,5,monthly,Streaming,2,1.11923
+2.94075,2.83439,1,1,6,monthly,Streaming,3,1
+2.94075,2.94075,2,1,7,monthly,Streaming,4,1
+2.94075,2.94075,3,1,8,monthly,Streaming,5,1
+2.94075,2.94075,4,1,9,monthly,Streaming,6,1
+2.94075,2.94075,5,1,10,monthly,Streaming,7,1
+2.94075,2.94075,6,1,11,monthly,Streaming,8,1
+2.94075,2.94075,7,1,12,monthly,Streaming,9,1
+3.50134,,1,0,1,monthly,Fitness,12,1
+3.50134,3.50134,2,0,2,monthly,Fitness,1,1
+3.50134,3.50134,3,0,3,monthly,Fitness,2,1
+3.50134,3.50134,4,0,4,monthly,Fitness,3,1
+3.50134,3.50134,5,0,5,monthly,Fitness,4,1
+3.50134,3.50134,6,0,6,monthly,Fitness,5,1
+3.50134,3.50134,7,0,7,monthly,Fitness,6,1
+3.50134,3.50134,8,0,8,monthly,Fitness,7,1
+3.50134,3.50134,9,0,9,monthly,Fitness,8,1.22357
+2.94444,,1,0,1,monthly,Software,3,1
+2.94444,2.94444,2,0,2,monthly,Software,4,1.09944
+3.03447,2.94444,1,1,3,monthly,Software,5,1
+3.90902,,1,0,1,monthly,Fitness,8,1
+3.90902,3.90902,2,0,2,monthly,Fitness,9,1
+3.90902,3.90902,3,0,3,monthly,Fitness,10,1.07369
+3.97875,3.90902,1,1,4,monthly,Fitness,11,1
+3.97875,3.97875,2,1,5,monthly,Fitness,12,1
+3.97875,3.97875,3,1,6,monthly,Fitness,1,1
+3.97875,3.97875,4,1,7,monthly,Fitness,2,1
+3.97875,3.97875,5,1,8,monthly,Fitness,3,1
+3.97875,3.97875,6,1,9,monthly,Fitness,4,1
+3.97875,3.97875,7,1,10,monthly,Fitness,5,1
+3.97875,3.97875,8,1,11,monthly,Fitness,6,1
+3.97875,3.97875,9,1,12,monthly,Fitness,7,1
+3.36488,,1,0,1,monthly,Cloud Storage,5,1
+3.36488,3.36488,2,0,2,monthly,Cloud Storage,6,1.11887
+3.47352,3.36488,1,1,3,monthly,Cloud Storage,7,1
+3.47352,3.47352,2,1,4,monthly,Cloud Storage,8,1
+3.47352,3.47352,3,1,5,monthly,Cloud Storage,9,1
+4.20484,,1,0,1,monthly,Fitness,6,1
+4.20484,4.20484,2,0,2,monthly,Fitness,7,1
+4.20484,4.20484,3,0,3,monthly,Fitness,9,1
+4.20484,4.20484,4,0,4,monthly,Fitness,9,1.06514
+4.26704,4.20484,1,1,5,monthly,Fitness,10,1
+4.26704,4.26704,2,1,6,monthly,Fitness,12,1
+4.26704,4.26704,3,1,7,monthly,Fitness,12,1
+4.26704,4.26704,4,1,8,monthly,Fitness,2,1
+4.26704,4.26704,5,1,9,monthly,Fitness,2,1
+4.26704,4.26704,6,1,10,monthly,Fitness,4,1
+4.26704,4.26704,7,1,11,monthly,Fitness,4,1
+2.92906,,1,0,1,monthly,Cloud Storage,12,1
+2.92906,2.92906,2,0,2,monthly,Cloud Storage,1,1
+2.92906,2.92906,3,0,3,monthly,Cloud Storage,2,1.05421
+2.97909,2.92906,1,1,4,monthly,Cloud Storage,3,1
+3.77552,,1,0,1,monthly,Cloud Storage,3,1
+3.77552,3.77552,2,0,2,monthly,Cloud Storage,5,1.06429
+3.83644,3.77552,1,1,3,monthly,Cloud Storage,5,1
+3.83644,3.83644,2,1,4,monthly,Cloud Storage,6,1
+3.51035,,1,0,1,monthly,Software,7,1
+3.51035,3.51035,2,0,2,monthly,Software,9,1
+3.51035,3.51035,3,0,3,monthly,Software,9,1
+3.51035,3.51035,4,0,4,monthly,Software,11,1
+3.51035,3.51035,5,0,5,monthly,Software,12,1
+3.51035,3.51035,6,0,6,monthly,Software,1,1.23876
+3.71868,3.51035,1,1,7,monthly,Software,2,1
+3.71868,3.71868,2,1,8,monthly,Software,3,1
+3.71868,3.71868,3,1,9,monthly,Software,4,1
+3.71868,3.71868,4,1,10,monthly,Software,4,1
+3.71868,3.71868,5,1,11,monthly,Software,6,1
+3.71868,3.71868,6,1,12,monthly,Software,7,1
+3.52548,,1,0,1,monthly,Music,1,1
+3.52548,3.52548,2,0,2,monthly,Music,2,1
+3.52548,3.52548,3,0,3,monthly,Music,3,1.13831
 5.45233,,1,0,1,quarterly,Education,6,1
 5.45233,5.45233,2,0,2,quarterly,Education,9,1
 5.43786,,1,0,1,quarterly,Insurance,4,1.2356

@@ -62,11 +62,10 @@ describe('gemmaView', () => {
 })
 
 describe('tabpfnView', () => {
-  it('defaults to TabPFN v2 and offers the 3.5 upgrade without blocking', () => {
+  it('defaults to TabPFN v2, ready without a key', () => {
     const v = tabpfnView(health(), 'ok')
     expect(v.tone).toBe('ready')
-    expect(v.detail).toContain('TabPFN v2 scores')
-    expect(v.detail).toContain('Optional')
+    expect(v.detail).toBe('TabPFN v2 scores your charges on this computer.')
   })
   it('names TabPFN-3.5 once the key upgrade is active', () => {
     const v = tabpfnView(

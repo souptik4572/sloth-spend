@@ -10,7 +10,8 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import db, telemetry
-from .api import admin, health, imports, settings as settings_api
+from .api import admin, health, imports, reports, series, setup
+from .api import settings as settings_api
 from .config import settings
 from .reminders import run_scheduler
 from .security import require_token
@@ -40,6 +41,7 @@ def _stdin_watchdog() -> None:
 async def lifespan(_app: FastAPI):
     telemetry.init()
     db.init()
+    runtime.pipeline_lock = asyncio.Lock()  # bound to this server's event loop
     if not os.environ.get("SLOTH_NO_WATCHDOG"):
         threading.Thread(target=_stdin_watchdog, daemon=True).start()
     threading.Thread(target=tabular.warm_up, daemon=True).start()  # never block startup on torch
@@ -60,6 +62,9 @@ app.add_middleware(
 )
 app.include_router(health.router)
 app.include_router(imports.router)
+app.include_router(reports.router)
+app.include_router(series.router)
+app.include_router(setup.router)
 app.include_router(settings_api.router)
 app.include_router(admin.router)
 

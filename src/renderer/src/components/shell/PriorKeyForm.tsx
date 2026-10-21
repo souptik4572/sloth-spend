@@ -69,6 +69,18 @@ export function PriorKeyForm(): React.JSX.Element {
             : 'SlothSpend upgrades to TabPFN-3.5 with this key. Remove it to go back to TabPFN v2.'}
         </p>
         <div className="flex flex-wrap gap-2">
+          {upgrade?.state === 'failed' && (
+            <Button
+              variant="solid"
+              disabled={busy !== null}
+              onClick={() => {
+                useApp.getState().engineRestarting()
+                void window.sloth.restartEngine()
+              }}
+            >
+              Try again
+            </Button>
+          )}
           <Button variant="soft" disabled={busy !== null} onClick={() => setEditing(true)}>
             Replace key
           </Button>

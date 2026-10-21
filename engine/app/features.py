@@ -102,3 +102,18 @@ def next_step_row(g: pd.DataFrame, cadence: str, category: str, next_month: int)
     row = _step_row(amounts, dates, len(amounts), cadence, category)
     row["month_of_year"] = int(next_month)
     return row
+
+
+def series_extras(g_all: pd.DataFrame, g: pd.DataFrame, amount_cv: float) -> dict:
+    """Display-only facts (not TabPFN inputs): "near the 5th", "Varies", and cash per calendar month.
+
+    `g_all` includes duplicate charges (they were real money out); `g` is the de-duplicated series.
+    """
+    dates = pd.to_datetime(g["tx_date"])
+    all_dates = pd.to_datetime(g_all["tx_date"])
+    hist = g_all.assign(month=all_dates.dt.strftime("%Y-%m")).groupby("month")["amount"].sum().round(2)
+    return {
+        "dom_median": float(dates.dt.day.median()),
+        "amount_varies": bool(amount_cv > 0.05),
+        "monthly_hist": {k: float(v) for k, v in hist.items()},
+    }

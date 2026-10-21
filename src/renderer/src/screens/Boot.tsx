@@ -5,6 +5,7 @@ import { SlothHanging } from '../components/brand/SlothHanging'
 import { ThemeToggle } from '../components/shell/ThemeToggle'
 import { StatusIcon } from '../components/shell/StatusIcon'
 import { PriorKeyForm } from '../components/shell/PriorKeyForm'
+import { GemmaSetup } from '../components/shell/GemmaSetup'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { cn } from '../lib/cn'
@@ -19,6 +20,25 @@ import {
   type RowView
 } from '../lib/status'
 import { fullyReady, useApp } from '../store'
+
+const SETUP_DONE = 'sloth.setupDone'
+
+/** First launch stays on Boot (so the optional Prior Labs key is seen); later launches skip it when all is ready. */
+function setupDone(): boolean {
+  try {
+    return localStorage.getItem(SETUP_DONE) === '1'
+  } catch {
+    return false
+  }
+}
+
+function markSetupDone(): void {
+  try {
+    localStorage.setItem(SETUP_DONE, '1')
+  } catch {
+    /* storage unavailable: Boot just shows again next time */
+  }
+}
 
 interface RowProps {
   title: string
@@ -68,12 +88,19 @@ export function Boot(): React.JSX.Element {
   const rows = [engineView(engine, exitCode), gemmaView(health, engine), tabpfnView(health, engine)]
   const ring = firstActionable(rows)
 
-  // Everything green: go straight to the workspace (IMPL M1.8).
+  const tabpfnStatus = health?.tabpfn.status
+
+  // Everything green on a later launch: go straight to the workspace (IMPL M1.8).
   useEffect(() => {
-    if (engine !== 'ok' || !ready) return
+    if (engine !== 'ok' || !ready || !setupDone()) return
     const t = setTimeout(() => setScreen('workspace'), 600)
     return () => clearTimeout(t)
   }, [engine, ready, setScreen])
+
+  const enterWorkspace = (): void => {
+    markSetupDone()
+    setScreen('workspace')
+  }
 
   useEffect(() => {
     if (engine === 'stopped') void window.sloth.engineLogs().then(setLogs)
@@ -157,20 +184,39 @@ export function Boot(): React.JSX.Element {
               view={rows[1]}
               actionIcon={Download}
               ringed={ring === 1}
-            />
+            >
+              {engine === 'ok' && <GemmaSetup />}
+            </CheckRow>
             <CheckRow
               title={tabpfnLabel(health)}
               view={rows[2]}
               actionIcon={Key}
               ringed={ring === 2}
             >
+              {engine === 'ok' && (tabpfnStatus === 'unavailable' || tabpfnStatus === 'error') && (
+                <div>
+                  <Button variant="soft" icon={RefreshCw} onClick={restart}>
+                    Retry
+                  </Button>
+                </div>
+              )}
               <PriorKeyForm />
             </CheckRow>
           </ol>
 
+          {engine === 'ok' && ready && (
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-3 pt-1">
+              <Button variant="solid" size="lg" onClick={enterWorkspace}>
+                Continue
+              </Button>
+              <p className="m-0 flex-[1_1_240px] text-xs leading-[1.65] text-muted">
+                Everything runs on this computer from here on.
+              </p>
+            </div>
+          )}
           {engine === 'ok' && !ready && (
             <div className="flex flex-wrap items-center gap-x-4 gap-y-3 pt-1">
-              <Button variant="outline" size="lg" onClick={() => setScreen('workspace')}>
+              <Button variant="outline" size="lg" onClick={enterWorkspace}>
                 Continue in limited mode
               </Button>
               <p className="m-0 flex-[1_1_240px] text-xs leading-[1.65] text-muted">

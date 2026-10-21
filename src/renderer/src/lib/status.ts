@@ -135,12 +135,11 @@ export function tabpfnView(h: Health | null, engine: EngineState): RowView {
     case 'ready': {
       const name = tabpfnLabel(h)
       const where = t.model === 'tabpfn-3.5-fast' ? 'this computer’s CPU' : 'this computer'
+      // The Boot row's key form explains the optional TabPFN-3.5 upgrade, so only a failure is mentioned here.
       const upgrade =
         t.upgrade.state === 'failed'
           ? ` Still using TabPFN v2: the TabPFN-3.5 upgrade didn’t work (${t.upgrade.error ?? 'unknown error'}).`
-          : t.model === 'tabpfn-v2'
-            ? ' Optional: add a free Prior Labs key to upgrade to TabPFN-3.5.'
-            : ''
+          : ''
       return {
         tone: 'ready',
         status: 'Ready',

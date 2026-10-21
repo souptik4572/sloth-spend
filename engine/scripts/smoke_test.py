@@ -52,6 +52,8 @@ def start(binary: Path, data_dir: str, port: int) -> subprocess.Popen:
         "SLOTH_DATA_DIR": data_dir,
         "TABPFN_MODEL_CACHE_DIR": str(Path(data_dir) / "tabpfn-weights"),
         "PYTHONUNBUFFERED": "1",
+        # The self-check already proves tabpfn imports; don't start a 70 MB weights download per CI run.
+        "SLOTH_DISABLE_TABPFN": "1",
     }
     env.pop("TABPFN_TOKEN", None)
     return subprocess.Popen([str(binary)], env=env, stdin=subprocess.PIPE,

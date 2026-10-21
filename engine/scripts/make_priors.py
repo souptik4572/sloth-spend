@@ -75,14 +75,19 @@ def _with_hike(rng: np.random.Generator, prices: list[float], period: float, cha
 
 # ── archetypes: (label, sub_like, categories, simulate) ─────────────────────
 
+def _subscription_price(rng) -> float:
+    """Log-uniform $3.99–$79.99: music and streaming at the bottom, gyms and software at the top."""
+    return round(float(np.exp(rng.uniform(np.log(3.99), np.log(79.99)))), 2)
+
+
 def monthly_fixed(rng) -> History:
     n = int(rng.integers(3, 14))
-    return _periodic(rng, n, 30.44, 2), [round(float(rng.uniform(4.99, 29.99)), 2)] * n
+    return _periodic(rng, n, 30.44, 2), [_subscription_price(rng)] * n
 
 
 def monthly_price_rise(rng) -> History:
     n = int(rng.integers(4, 14))
-    price = round(float(rng.uniform(4.99, 29.99)), 2)
+    price = _subscription_price(rng)
     step = int(rng.integers(2, n))
     risen = round(price * (1 + rng.uniform(0.05, 0.25)), 2)
     return _periodic(rng, n, 30.44, 2), [price] * step + [risen] * (n - step)

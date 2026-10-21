@@ -1,84 +1,84 @@
 n_charges,span_days,median_interval,interval_cv,cadence,cadence_fit,dom_std,amount_cv,modal_amount_share,log_amount,days_since_last,category,subscription_like,label,archetype
-11,305,31,0.101851,monthly,0.8,1.94554,1.591e-16,1,3.14974,1,News & Media,1,1,monthly fixed-price subscription
-9,244,30.5,0.0655738,monthly,1,1.41421,0,1,3.00469,27,Cloud Storage,1,1,monthly fixed-price subscription
-3,60,30,0.0333333,monthly,1,0.816497,1.45603e-16,1,2.58022,11,Streaming,1,1,monthly fixed-price subscription
-8,213,30,0.0839838,monthly,1,13.8874,0,1,2.24707,27,Fitness,1,1,monthly fixed-price subscription
-4,93,30,0.0696854,monthly,1,1.58114,0,1,1.85317,12,News & Media,1,1,monthly fixed-price subscription
-6,150,31,0.0788811,monthly,0.8,1.34371,0,1,2.94022,24,Music,1,1,monthly fixed-price subscription
-8,213,28,0.0959861,monthly,0.857143,1.72753,0,1,2.43274,26,Music,1,1,monthly fixed-price subscription
-7,187,31,0.0504491,monthly,1,2.12852,1.20349e-16,1,2.12585,30,Streaming,1,1,monthly fixed-price subscription
-10,274,29,0.0943274,monthly,1,1.62788,0,1,2.92101,22,Music,1,1,monthly fixed-price subscription
-5,125,31.5,0.0887243,monthly,1,1.41421,1.29851e-16,1,2.05924,27,Cloud Storage,1,1,monthly fixed-price subscription
-5,119,30,0.0366294,monthly,1,1.35647,0,1,1.80829,20,Software,1,1,monthly fixed-price subscription
-6,153,32,0.0867091,monthly,1,1.73205,1.91006e-16,1,2.33214,14,Music,1,1,monthly fixed-price subscription
-11,303,30,0.0910437,monthly,0.9,2.12424,0,1,3.16884,11,Streaming,1,1,monthly fixed-price subscription
-12,335,31,0.082076,monthly,0.909091,13.7747,0,1,3.28766,25,Music,1,1,monthly fixed-price subscription
-6,155,31,0.0539781,monthly,1,1.1547,0,1,2.53211,24,Streaming,1,1,monthly fixed-price subscription
-9,250,31,0.063498,monthly,0.875,1.66296,0,1,2.92959,9,Music,1,1,monthly fixed-price subscription
-12,334,31,0.0632297,monthly,1,1.55233,1.95204e-16,1,2.31254,14,Fitness,1,1,monthly fixed-price subscription
-13,366,30.5,0.103248,monthly,0.75,2.0206,0,1,2.21812,19,Software,1,1,monthly fixed-price subscription
-5,122,30.5,0.0819672,monthly,1,1.83303,0,1,2.80275,23,Streaming,1,1,monthly fixed-price subscription
-11,303,30.5,0.0738714,monthly,0.9,1.49379,2.06074e-16,1,2.90362,15,Software,1,1,monthly fixed-price subscription
-4,92,32,0.085587,monthly,1,1.65831,0,1,3.19908,2,Fitness,1,1,monthly fixed-price subscription
-6,151,31,0.0945885,monthly,0.8,14.0238,0,1,2.30558,17,Music,1,1,monthly fixed-price subscription
-8,215,30,0.0416013,monthly,1,0.866025,0,1,3.30322,18,Software,1,1,monthly fixed-price subscription
-11,306,30,0.0588235,monthly,0.9,1.14992,1.38724e-16,1,3.28129,28,Cloud Storage,1,1,monthly fixed-price subscription
-3,57,28.5,0.122807,monthly,0.5,2.16025,0,1,3.02481,23,Software,1,1,monthly fixed-price subscription
-3,61,30.5,0.114754,monthly,1,1.88562,0,1,2.95855,24,News & Media,1,1,monthly fixed-price subscription
-4,89,28,0.130066,irregular,0.333333,2.12132,0,1,3.31963,1,News & Media,1,1,monthly fixed-price subscription
-6,147,28,0.128353,monthly,0.6,9.65517,1.13288e-16,1,2.17929,20,News & Media,1,1,monthly fixed-price subscription
-13,362,30,0.0646669,monthly,0.916667,1.5914,1.27566e-16,1,3.36211,9,Fitness,1,1,monthly fixed-price subscription
-3,61,30.5,0.0491803,monthly,1,1.63299,0,1,2.04381,26,Fitness,1,1,monthly fixed-price subscription
-13,364,30.5,0.0716396,monthly,1,7.46828,0,1,2.95073,13,Housing,1,1,monthly fixed-price subscription
-11,301,30.5,0.0638185,monthly,1,1.3484,1.91624e-16,1,2.32923,22,Streaming,1,1,monthly fixed-price subscription
-12,333,31,0.0582304,monthly,0.909091,1.68943,0,1,2.96887,26,Cloud Storage,1,1,monthly fixed-price subscription
-12,331,30,0.0769059,monthly,0.909091,1.86339,0,1,3.12983,30,Software,1,1,monthly fixed-price subscription
-6,149,30,0.0885296,monthly,1,2.19216,0,1,2.93439,21,Fitness,1,1,monthly fixed-price subscription
-12,334,30,0.0759795,monthly,0.909091,10.6027,1.38399e-16,1,3.28354,9,Cloud Storage,1,1,monthly fixed-price subscription
-7,182,30.5,0.0491444,monthly,1,1.16058,1.56507e-16,1,3.16548,13,Fitness,0,1,monthly fixed-price subscription
-10,273,31,0.0538349,monthly,1,1.42829,0,1,2.86619,30,News & Media,1,1,monthly fixed-price subscription
-12,336,31,0.0769217,monthly,0.909091,1.49071,3.70332e-16,1,3.39384,11,Fitness,1,1,monthly fixed-price subscription
-7,185,30.5,0.029109,monthly,1,1.17803,0,1,3.04357,28,Cloud Storage,1,1,monthly fixed-price subscription
-13,362,29,0.0864778,monthly,0.916667,1.71661,0.03799,0.692308,1.9036,3,Cloud Storage,1,1,monthly subscription with a price rise
-6,154,31,0.0558593,monthly,1,1.63299,0.0506155,0.666667,2.98163,15,News & Media,1,1,monthly subscription with a price rise
-11,303,30.5,0.0809086,monthly,0.9,1.72966,0.0747633,0.818182,2.48823,10,Streaming,1,1,monthly subscription with a price rise
-6,154,30,0.0805823,monthly,0.8,9.82203,0.0471252,0.833333,2.26384,27,Music,0,1,monthly subscription with a price rise
-6,156,30,0.0742041,monthly,1,2.33928,0.0361792,0.833333,3.18965,23,Streaming,1,1,monthly subscription with a price rise
-10,277,30,0.0849719,monthly,0.888889,2.0025,0.0177229,0.9,3.36488,18,Cloud Storage,1,1,monthly subscription with a price rise
-13,361,30.5,0.0954373,monthly,0.916667,2.2532,0.025438,0.769231,3.44394,1,Insurance,1,1,monthly subscription with a price rise
-8,214,31,0.0520352,monthly,1,1,0.0604154,0.5,2.82672,6,Cloud Storage,0,1,monthly subscription with a price rise
-4,92,31,0.0406702,monthly,1,0.866025,0.0693669,0.5,3.11263,14,Streaming,1,1,monthly subscription with a price rise
-8,211,29,0.076125,monthly,0.857143,1.96453,0.0264067,0.625,3.24843,21,Streaming,1,1,monthly subscription with a price rise
-4,89,29,0.0317801,monthly,1,12.2958,0.0906162,0.75,3.36902,6,Cloud Storage,1,1,monthly subscription with a price rise
-4,91,30,0.094531,monthly,1,2.06155,0.10798,0.75,2.19054,14,News & Media,1,1,monthly subscription with a price rise
-4,93,32,0.0696854,monthly,1,1.29904,0.059489,0.5,3.28223,23,Streaming,1,1,monthly subscription with a price rise
-5,125,31,0.0614492,monthly,1,1.83303,0.0803279,0.8,3.0214,0,News & Media,0,1,monthly subscription with a price rise
-12,335,29,0.0943019,monthly,0.818182,1.92029,0.04709,0.916667,3.01111,9,Software,1,1,monthly subscription with a price rise
-13,361,30.5,0.0934877,monthly,0.833333,2.29999,0.0952778,0.692308,3.3555,3,Streaming,1,1,monthly subscription with a price rise
-8,214,31,0.0759256,monthly,0.857143,11.8051,0.0527892,0.5,2.6641,28,Fitness,1,1,monthly subscription with a price rise
-5,122,31,0.0751242,monthly,1,2,0.070594,0.6,3.22486,27,Fitness,1,1,monthly subscription with a price rise
-11,308,31,0.0779221,monthly,1,1.7768,0.0778097,0.818182,1.90954,12,Cloud Storage,1,1,monthly subscription with a price rise
-11,304,31.5,0.0834775,monthly,0.9,1.36666,0.054456,0.818182,2.94391,21,Cloud Storage,1,1,monthly subscription with a price rise
-10,272,30,0.0851164,monthly,0.888889,13.4926,0.0588889,0.9,2.20827,17,Cloud Storage,1,1,monthly subscription with a price rise
-7,183,30.5,0.0412559,monthly,1,0.728431,0.0864944,0.857143,2.28849,16,Cloud Storage,0,1,monthly subscription with a price rise
-12,337,29,0.0753031,monthly,0.909091,1.67498,0.0688543,0.583333,3.05022,16,News & Media,1,1,monthly subscription with a price rise
-9,243,30,0.0568736,monthly,1,1.57135,0.0978084,0.777778,3.0042,0,Software,1,1,monthly subscription with a price rise
-10,273,30,0.0538349,monthly,1,1.51327,0.0628116,0.8,3.04738,7,News & Media,1,1,monthly subscription with a price rise
-10,274,30,0.0676906,monthly,0.888889,1.28062,0.0879227,0.8,2.22786,10,Music,0,1,monthly subscription with a price rise
-12,334,31,0.053054,monthly,1,1.18732,0.0863979,0.75,3.42165,22,Cloud Storage,1,1,monthly subscription with a price rise
-5,122,30.5,0.0675919,monthly,1,1.0198,0.0776365,0.8,3.32288,0,News & Media,1,1,monthly subscription with a price rise
-13,369,30,0.059559,monthly,1,1.98217,0.102304,0.538462,3.19417,28,Streaming,1,1,monthly subscription with a price rise
-12,335,30,0.0530638,monthly,1,7.87886,0.108479,0.5,2.44712,25,Streaming,1,1,monthly subscription with a price rise
-4,89,31,0.088472,monthly,0.666667,1.78536,0.109971,0.5,2.05668,8,Education,1,1,monthly subscription with a price rise
-12,333,29,0.0772653,monthly,1,1.59861,0.0611859,0.666667,3.15359,18,Cloud Storage,1,1,monthly subscription with a price rise
-11,304,30.5,0.0885107,monthly,0.9,1.79991,0.0762412,0.636364,3.31419,14,Software,1,1,monthly subscription with a price rise
-7,182,31,0.0728929,monthly,1,1.66599,0.0280773,0.714286,3.19171,18,Fitness,0,1,monthly subscription with a price rise
-4,92,29,0.125824,monthly,0.666667,2.27761,0.0823529,0.5,2.842,26,Cloud Storage,0,1,monthly subscription with a price rise
-8,216,31,0.0502907,monthly,1,0.780625,0.0713243,0.75,2.49403,12,News & Media,1,1,monthly subscription with a price rise
-7,180,30.5,0.113855,monthly,0.5,2.3819,0.0816331,0.857143,2.71204,23,Music,1,1,monthly subscription with a price rise
-8,215,30,0.0644484,monthly,1,1.65831,0.0309993,0.5,3.34709,2,Cloud Storage,1,1,monthly subscription with a price rise
-7,179,30,0.0527038,monthly,1,0.880631,0.0210941,0.857143,2.7682,22,Streaming,1,1,monthly subscription with a price rise
-10,276,31,0.0670045,monthly,0.888889,1.49666,0.0841885,0.7,3.2554,27,Cloud Storage,1,1,monthly subscription with a price rise
+11,305,31,0.101851,monthly,0.8,1.94554,0,1,3.49469,1,News & Media,1,1,monthly fixed-price subscription
+9,244,30.5,0.0655738,monthly,1,1.41421,0,1,3.1307,27,Cloud Storage,1,1,monthly fixed-price subscription
+3,60,30,0.0333333,monthly,1,0.816497,0,1,2.34947,11,Streaming,1,1,monthly fixed-price subscription
+8,213,30,0.0839838,monthly,1,13.8874,0,1,1.95303,27,Fitness,1,1,monthly fixed-price subscription
+4,93,30,0.0696854,monthly,1,1.58114,0,1,1.64481,12,News & Media,1,1,monthly fixed-price subscription
+6,150,31,0.0788811,monthly,0.8,1.34371,0,1,2.98619,24,Music,1,1,monthly fixed-price subscription
+8,213,28,0.0959861,monthly,0.857143,1.72753,0,1,2.15524,26,Music,1,1,monthly fixed-price subscription
+7,187,31,0.0504491,monthly,1,2.12852,0,1,1.84214,30,Streaming,1,1,monthly fixed-price subscription
+10,274,29,0.0943274,monthly,1,1.62788,0,1,2.94602,22,Music,1,1,monthly fixed-price subscription
+5,125,31.5,0.0887243,monthly,1,1.41421,0,1,1.78842,27,Cloud Storage,1,1,monthly fixed-price subscription
+5,119,30,0.0366294,monthly,1,1.35647,0,1,1.61741,20,Software,1,1,monthly fixed-price subscription
+6,153,32,0.0867091,monthly,1,1.73205,0,1,2.03992,14,Music,1,1,monthly fixed-price subscription
+11,303,30,0.0910437,monthly,0.9,2.12424,2.10844e-16,1,3.54674,11,Streaming,1,1,monthly fixed-price subscription
+12,335,31,0.082076,monthly,0.909091,13.7747,0,1,3.89772,25,Music,1,1,monthly fixed-price subscription
+6,155,31,0.0539781,monthly,1,1.1547,2.01859e-16,1,2.28238,24,Streaming,1,1,monthly fixed-price subscription
+9,250,31,0.063498,monthly,0.875,1.66296,0,1,2.96321,9,Music,1,1,monthly fixed-price subscription
+12,334,31,0.0632297,monthly,1,1.55233,0,1,2.0189,14,Fitness,1,1,monthly fixed-price subscription
+13,366,30.5,0.103248,monthly,0.75,2.0206,0,1,1.92571,19,Software,1,1,monthly fixed-price subscription
+5,122,30.5,0.0819672,monthly,1,1.83303,0,1,2.71138,23,Streaming,1,1,monthly fixed-price subscription
+11,303,30.5,0.0738714,monthly,0.9,1.49379,0,1,2.90908,15,Software,1,1,monthly fixed-price subscription
+4,92,32,0.085587,monthly,1,1.65831,0,1,3.63204,2,Fitness,1,1,monthly fixed-price subscription
+6,151,31,0.0945885,monthly,0.8,14.0238,1.37065e-16,1,2.01223,17,Music,1,1,monthly fixed-price subscription
+8,215,30,0.0416013,monthly,1,0.866025,0,1,3.94662,18,Software,1,1,monthly fixed-price subscription
+11,306,30,0.0588235,monthly,0.9,1.14992,0,1,3.87785,28,Cloud Storage,1,1,monthly fixed-price subscription
+3,57,28.5,0.122807,monthly,0.5,2.16025,0,1,3.17764,23,Software,1,1,monthly fixed-price subscription
+3,61,30.5,0.114754,monthly,1,1.88562,0,1,3.02626,24,News & Media,1,1,monthly fixed-price subscription
+4,89,28,0.130066,irregular,0.333333,2.12132,0,1,3.99985,1,News & Media,1,1,monthly fixed-price subscription
+6,147,28,0.128353,monthly,0.6,9.65517,0,1,1.8901,20,News & Media,1,1,monthly fixed-price subscription
+13,362,30,0.0646669,monthly,0.916667,1.5914,1.14863e-16,1,4.14091,9,Fitness,1,1,monthly fixed-price subscription
+3,61,30.5,0.0491803,monthly,1,1.63299,0,1,1.77665,26,Fitness,1,1,monthly fixed-price subscription
+13,364,30.5,0.0716396,monthly,1,7.46828,1.84461e-16,1,3.00865,13,Housing,1,1,monthly fixed-price subscription
+11,301,30.5,0.0638185,monthly,1,1.3484,1.3336e-16,1,2.03601,22,Streaming,1,1,monthly fixed-price subscription
+12,333,31,0.0582304,monthly,0.909091,1.68943,0,1,3.0488,26,Cloud Storage,1,1,monthly fixed-price subscription
+12,331,30,0.0769059,monthly,0.909091,1.86339,2.35201e-16,1,3.44074,30,Software,1,1,monthly fixed-price subscription
+6,149,30,0.0885296,monthly,1,2.19216,1.91315e-16,1,2.974,21,Fitness,1,1,monthly fixed-price subscription
+12,334,30,0.0759795,monthly,0.909091,10.6027,0,1,3.88527,9,Cloud Storage,1,1,monthly fixed-price subscription
+7,182,30.5,0.0491444,monthly,1,1.16058,2.12992e-16,1,3.53689,13,Fitness,0,1,monthly fixed-price subscription
+10,273,31,0.0538349,monthly,1,1.42829,0,1,2.83262,30,News & Media,1,1,monthly fixed-price subscription
+12,336,31,0.0769217,monthly,0.909091,1.49071,2.0533e-16,1,4.25149,11,Fitness,1,1,monthly fixed-price subscription
+7,185,30.5,0.029109,monthly,1,1.17803,0,1,3.22247,28,Cloud Storage,1,1,monthly fixed-price subscription
+13,362,29,0.0864778,monthly,0.916667,1.71661,0.0381963,0.692308,1.6771,3,Cloud Storage,1,1,monthly subscription with a price rise
+6,154,31,0.0558593,monthly,1,1.63299,0.050532,0.666667,3.07777,15,News & Media,1,1,monthly subscription with a price rise
+11,303,30.5,0.0809086,monthly,0.9,1.72966,0.0746034,0.818182,2.18717,10,Streaming,1,1,monthly subscription with a price rise
+6,154,30,0.0805823,monthly,0.8,9.82203,0.0471133,0.833333,1.96991,27,Music,0,1,monthly subscription with a price rise
+6,156,30,0.0742041,monthly,1,2.33928,0.0361429,0.833333,3.60495,23,Streaming,1,1,monthly subscription with a price rise
+10,277,30,0.0849719,monthly,0.888889,2.0025,0.0177572,0.9,4.1512,18,Cloud Storage,1,1,monthly subscription with a price rise
+13,361,30.5,0.0954373,monthly,0.916667,2.2532,0.0253767,0.769231,4.2775,1,Insurance,1,1,monthly subscription with a price rise
+8,214,31,0.0520352,monthly,1,1,0.0604219,0.5,2.70705,6,Cloud Storage,0,1,monthly subscription with a price rise
+4,92,31,0.0406702,monthly,1,0.866025,0.0692649,0.5,3.29268,14,Streaming,1,1,monthly subscription with a price rise
+8,211,29,0.076125,monthly,0.857143,1.96453,0.0264294,0.625,3.77689,21,Streaming,1,1,monthly subscription with a price rise
+4,89,29,0.0317801,monthly,1,12.2958,0.0906861,0.75,4.16527,6,Cloud Storage,1,1,monthly subscription with a price rise
+4,91,30,0.094531,monthly,1,2.06155,0.108253,0.75,1.89912,14,News & Media,1,1,monthly subscription with a price rise
+4,93,32,0.0696854,monthly,1,1.29904,0.0595096,0.5,3.76143,23,Streaming,1,1,monthly subscription with a price rise
+5,125,31,0.0614492,monthly,1,1.83303,0.0802106,0.8,3.16927,0,News & Media,0,1,monthly subscription with a price rise
+12,335,29,0.0943019,monthly,0.818182,1.92029,0.047121,0.916667,3.14544,9,Software,1,1,monthly subscription with a price rise
+13,361,30.5,0.0934877,monthly,0.833333,2.29999,0.0953144,0.692308,4.11871,3,Streaming,1,1,monthly subscription with a price rise
+8,214,31,0.0759256,monthly,0.857143,11.8051,0.0530303,0.5,2.44755,28,Fitness,1,1,monthly subscription with a price rise
+5,122,31,0.0751242,monthly,1,2,0.0706726,0.6,3.70672,27,Fitness,1,1,monthly subscription with a price rise
+11,308,31,0.0779221,monthly,1,1.7768,0.0776685,0.818182,1.68083,12,Cloud Storage,1,1,monthly subscription with a price rise
+11,304,31.5,0.0834775,monthly,0.9,1.36666,0.0544893,0.818182,2.99423,21,Cloud Storage,1,1,monthly subscription with a price rise
+10,272,30,0.0851164,monthly,0.888889,13.4926,0.0585492,0.9,1.91545,17,Cloud Storage,1,1,monthly subscription with a price rise
+7,183,30.5,0.0412559,monthly,1,0.728431,0.0866539,0.857143,1.99334,16,Cloud Storage,0,1,monthly subscription with a price rise
+12,337,29,0.0753031,monthly,0.909091,1.67498,0.0688759,0.583333,3.23789,16,News & Media,1,1,monthly subscription with a price rise
+9,243,30,0.0568736,monthly,1,1.57135,0.0978435,0.777778,3.12851,0,Software,1,1,monthly subscription with a price rise
+10,273,30,0.0538349,monthly,1,1.51327,0.0629675,0.8,3.23199,7,News & Media,1,1,monthly subscription with a price rise
+10,274,30,0.0676906,monthly,0.888889,1.28062,0.0878378,0.8,1.93442,10,Music,0,1,monthly subscription with a price rise
+12,334,31,0.053054,monthly,1,1.18732,0.0864554,0.75,3.87287,22,Cloud Storage,1,1,monthly subscription with a price rise
+5,122,30.5,0.0675919,monthly,1,1.0198,0.0775932,0.8,4.0106,0,News & Media,1,1,monthly subscription with a price rise
+13,369,30,0.059559,monthly,1,1.98217,0.102373,0.538462,3.61711,28,Streaming,1,1,monthly subscription with a price rise
+12,335,30,0.0530638,monthly,1,7.87886,0.108481,0.5,2.15234,25,Streaming,1,1,monthly subscription with a price rise
+4,89,31,0.088472,monthly,0.666667,1.78536,0.110676,0.5,1.80911,8,Education,1,1,monthly subscription with a price rise
+12,333,29,0.0772653,monthly,1,1.59861,0.0611347,0.666667,3.30101,18,Cloud Storage,1,1,monthly subscription with a price rise
+11,304,30.5,0.0885107,monthly,0.9,1.79991,0.0761998,0.636364,3.98248,14,Software,1,1,monthly subscription with a price rise
+7,182,31,0.0728929,monthly,1,1.66599,0.0281169,0.714286,3.61065,18,Fitness,0,1,monthly subscription with a price rise
+4,92,29,0.125824,monthly,0.666667,2.27761,0.0824195,0.5,2.71701,26,Cloud Storage,0,1,monthly subscription with a price rise
+8,216,31,0.0502907,monthly,1,0.780625,0.0715365,0.75,2.19611,12,News & Media,1,1,monthly subscription with a price rise
+7,180,30.5,0.113855,monthly,0.5,2.3819,0.081502,0.857143,2.55334,23,Music,1,1,monthly subscription with a price rise
+8,215,30,0.0644484,monthly,1,1.65831,0.0310276,0.5,4.02159,2,Cloud Storage,1,1,monthly subscription with a price rise
+7,179,30,0.0527038,monthly,1,0.880631,0.0210222,0.857143,2.64971,22,Streaming,1,1,monthly subscription with a price rise
+10,276,31,0.0670045,monthly,0.888889,1.49666,0.0841891,0.7,3.79773,27,Cloud Storage,1,1,monthly subscription with a price rise
 17,113,7,0.161973,weekly,1,9.07409,0.0194433,0.411765,3.93261,5,Food Delivery,1,1,weekly meal kit
 8,49,7,0.202031,weekly,1,9.23901,0.0158565,0.25,4.42556,26,Food Delivery,1,1,weekly meal kit
 23,154,7,0.268991,weekly,0.727273,8.4993,0.0181049,0.26087,3.94951,18,Food Delivery,1,1,weekly meal kit

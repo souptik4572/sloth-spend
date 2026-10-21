@@ -6,14 +6,18 @@ Later milestones add their helpers here (pipeline M4, chat M6, reminders M7).
 
 import json
 import sqlite3
+from typing import TYPE_CHECKING
 from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import datetime, timezone
 
 from .config import settings
 
+if TYPE_CHECKING:
+    import pandas as pd
+
 DB_PATH = settings.data_dir / "slothspend.db"
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 # Spec §7.2 with the IMPL §3.1 additions folded in (a new database, so no ALTERs).
 SCHEMA = """
@@ -153,7 +157,12 @@ def init() -> None:
         version = conn.execute("PRAGMA user_version").fetchone()[0]
         if version < 1:
             conn.executescript(SCHEMA)
-            conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+        if version < 2:
+            # v2 (M4): the 19 forecast quantiles per series, for the drawer's "Next charge" range.
+            cols = {r["name"] for r in conn.execute("PRAGMA table_info(series)")}
+            if "quantiles_json" not in cols:
+                conn.execute("ALTER TABLE series ADD COLUMN quantiles_json TEXT")
+        conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
 
 
 def wipe() -> None:
@@ -288,3 +297,200 @@ def transactions(import_id: int | None = None) -> list[dict]:
         args = (import_id,)
     with connect() as conn:
         return [dict(r) for r in conn.execute(sql + " ORDER BY tx_date, id", args)]
+
+
+def debit_key_stats() -> list[dict]:
+    """Per description key: how often and how much — normalisation priority (IMPL M4.1)."""
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT desc_key, COUNT(*) AS n, SUM(amount) AS total, MAX(amount) AS largest "
+            "FROM transactions WHERE direction = 'debit' GROUP BY desc_key").fetchall()
+    return [dict(r) for r in rows]
+
+
+def debits_frame() -> "pd.DataFrame":
+    import pandas as pd
+
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT t.id, t.tx_date, t.amount, t.desc_key, t.raw_description, t.merchant, t.category, "
+            "t.is_duplicate, COALESCE(m.subscription_like, 0) AS subscription_like, "
+            "COALESCE(m.source, 'rule') AS source "
+            "FROM transactions t LEFT JOIN merchant_map m ON m.desc_key = t.desc_key "
+            "WHERE t.direction = 'debit' ORDER BY t.tx_date, t.id").fetchall()
+    cols = ["id", "tx_date", "amount", "desc_key", "raw_description", "merchant", "category", "is_duplicate",
+            "subscription_like", "source"]
+    return pd.DataFrame([dict(r) for r in rows], columns=cols)
+
+
+def latest_tx_date() -> str | None:
+    return max_tx_date()
+
+
+def merchant_transactions(merchant: str) -> list[dict]:
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT id, tx_date, amount, raw_description, desc_key, is_duplicate FROM transactions "
+            "WHERE direction = 'debit' AND merchant = ? ORDER BY tx_date, id", (merchant,)).fetchall()
+    return [dict(r) for r in rows]
+
+
+def mark_duplicates(ids: set[int]) -> None:
+    with connect() as conn:
+        conn.execute("UPDATE transactions SET is_duplicate = 0 WHERE is_duplicate != 0")
+        conn.executemany("UPDATE transactions SET is_duplicate = 1 WHERE id = ?", [(i,) for i in ids])
+
+
+# ── merchant_map ────────────────────────────────────────────────────────────
+
+def merchant_map_get(keys: list[str]) -> dict[str, dict]:
+    out: dict[str, dict] = {}
+    with connect() as conn:
+        for start in range(0, len(keys), 500):
+            chunk = keys[start:start + 500]
+            marks = ",".join("?" * len(chunk))
+            for r in conn.execute(f"SELECT * FROM merchant_map WHERE desc_key IN ({marks})", chunk):  # noqa: S608
+                out[r["desc_key"]] = dict(r)
+    return out
+
+
+def merchant_map_upsert(entries: dict[str, dict]) -> None:
+    """Precedence user > llm > rule: a user edit is never overwritten, a Gemma name never by the rule."""
+    if not entries:
+        return
+    now = now_iso()
+    with connect() as conn:
+        conn.executemany(
+            "INSERT INTO merchant_map(desc_key, merchant, category, subscription_like, source, updated_at) "
+            "VALUES(?, ?, ?, ?, ?, ?) ON CONFLICT(desc_key) DO UPDATE SET merchant = excluded.merchant, "
+            "category = excluded.category, subscription_like = excluded.subscription_like, "
+            "source = excluded.source, updated_at = excluded.updated_at "
+            "WHERE merchant_map.source != 'user' AND NOT (merchant_map.source = 'llm' AND excluded.source = 'rule')"
+            " OR excluded.source = 'user'",
+            [(k, e["merchant"], e["category"], int(bool(e["subscription_like"])), e["source"], now)
+             for k, e in entries.items()])
+
+
+def apply_merchant_map() -> None:
+    """Copy names and categories from merchant_map onto every transaction."""
+    with connect() as conn:
+        conn.execute(
+            "UPDATE transactions SET merchant = m.merchant, category = m.category "
+            "FROM merchant_map m WHERE m.desc_key = transactions.desc_key")
+
+
+def desc_keys_for_merchant(merchant: str) -> list[str]:
+    with connect() as conn:
+        return [r[0] for r in conn.execute(
+            "SELECT DISTINCT desc_key FROM transactions WHERE merchant = ? ORDER BY desc_key", (merchant,))]
+
+
+def raw_descriptions_for_merchant(merchant: str, limit: int = 3) -> list[str]:
+    with connect() as conn:
+        return [r[0] for r in conn.execute(
+            "SELECT raw_description, COUNT(*) AS n FROM transactions WHERE merchant = ? "
+            "GROUP BY raw_description ORDER BY n DESC, raw_description LIMIT ?", (merchant, limit))]
+
+
+# ── series, labels, report ──────────────────────────────────────────────────
+
+SERIES_JSON = ("features_json", "similar_json", "flags_json", "flag_details_json", "monthly_hist_json",
+               "quantiles_json")
+
+
+def series_statuses() -> dict[str, str]:
+    with connect() as conn:
+        return {r["merchant"]: r["status"] for r in conn.execute("SELECT merchant, status FROM series")}
+
+
+def save_series(rows: list[dict]) -> None:
+    """Upsert on merchant (ids stay stable for reminders); drop series that vanished unless a reminder uses them."""
+    cols = ["merchant", "category", "features_json", "n_charges", "first_date", "last_date", "cadence",
+            "cadence_days", "last_amount", "monthly_equiv", "recurring_prob", "scorer", "similar_json",
+            "next_due_date", "fc_q10", "fc_q50", "fc_q90", "hike_prob", "flags_json", "flag_details_json",
+            "priority", "cancellable", "status", "kind", "dom_median", "amount_varies", "monthly_hist_json",
+            "quantiles_json"]
+    sql = (f"INSERT INTO series({', '.join(cols)}) VALUES({', '.join('?' * len(cols))}) "  # noqa: S608
+           f"ON CONFLICT(merchant) DO UPDATE SET {', '.join(f'{c} = excluded.{c}' for c in cols[1:])}")
+    keep = [r["merchant"] for r in rows]
+    with connect() as conn:
+        conn.executemany(sql, [tuple(r.get(c) for c in cols) for r in rows])
+        marks = ",".join("?" * len(keep)) or "''"
+        conn.execute(
+            f"DELETE FROM series WHERE merchant NOT IN ({marks}) "  # noqa: S608
+            "AND id NOT IN (SELECT series_id FROM reminders)", keep)
+
+
+def _series_dict(r: sqlite3.Row) -> dict:
+    d = dict(r)
+    for key in SERIES_JSON:
+        d[key] = json.loads(d[key]) if d.get(key) else None
+    return d
+
+
+def list_series() -> list[dict]:
+    with connect() as conn:
+        return [_series_dict(r) for r in conn.execute("SELECT * FROM series")]
+
+
+def series_by_id(series_id: int) -> dict | None:
+    with connect() as conn:
+        r = conn.execute("SELECT * FROM series WHERE id = ?", (series_id,)).fetchone()
+    return _series_dict(r) if r else None
+
+
+def series_id_for(merchant: str) -> int | None:
+    with connect() as conn:
+        r = conn.execute("SELECT id FROM series WHERE merchant = ?", (merchant,)).fetchone()
+    return r[0] if r else None
+
+
+def set_series_status(merchant: str, status: str) -> None:
+    with connect() as conn:
+        conn.execute("UPDATE series SET status = ? WHERE merchant = ?", (status, merchant))
+
+
+def rename_merchant_state(old: str, new: str) -> None:
+    """Carry a user label and status over when a merchant is renamed."""
+    if old == new:
+        return
+    with connect() as conn:
+        conn.execute("UPDATE OR REPLACE user_labels SET merchant = ? WHERE merchant = ?", (new, old))
+        row = conn.execute("SELECT status FROM series WHERE merchant = ?", (old,)).fetchone()
+        if row and row["status"] != "active":
+            conn.execute("UPDATE series SET status = ? WHERE merchant = ?", (row["status"], new))
+
+
+def upsert_label(merchant: str, label: int, features: dict) -> None:
+    with connect() as conn:
+        conn.execute(
+            "INSERT INTO user_labels(merchant, label, features_json, created_at) VALUES(?, ?, ?, ?) "
+            "ON CONFLICT(merchant) DO UPDATE SET label = excluded.label, features_json = excluded.features_json, "
+            "created_at = excluded.created_at", (merchant, label, json.dumps(features), now_iso()))
+
+
+def user_labels() -> list[dict]:
+    with connect() as conn:
+        return [{"merchant": r["merchant"], "label": r["label"], **json.loads(r["features_json"])}
+                for r in conn.execute("SELECT * FROM user_labels")]
+
+
+def save_report_meta(meta: dict) -> None:
+    cols = ["generated_at", "report_date", "currency", "monthly_recurring", "fc30_q10", "fc30_q50", "fc30_q90",
+            "potential_savings", "executive_summary", "scorer", "monthly_subscriptions", "monthly_bills",
+            "fc30_sub_q10", "fc30_sub_q50", "fc30_sub_q90", "dispute_total", "monthly_json", "summary_source"]
+    with connect() as conn:
+        conn.execute(
+            f"INSERT INTO report_meta(id, {', '.join(cols)}) VALUES(1, {', '.join('?' * len(cols))}) "  # noqa: S608
+            f"ON CONFLICT(id) DO UPDATE SET {', '.join(f'{c} = excluded.{c}' for c in cols)}",
+            tuple(meta.get(c) for c in cols))
+
+
+def report_meta() -> dict | None:
+    with connect() as conn:
+        r = conn.execute("SELECT * FROM report_meta WHERE id = 1").fetchone()
+    if r is None:
+        return None
+    d = dict(r)
+    d["monthly_json"] = json.loads(d["monthly_json"]) if d["monthly_json"] else []
+    return d

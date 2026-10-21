@@ -1,3 +1,4 @@
+import json
 import os
 import socket
 import sys
@@ -12,6 +13,8 @@ os.environ["SLOTH_TOKEN"] = TOKEN
 os.environ["SLOTH_DATA_DIR"] = tempfile.mkdtemp(prefix="sloth-test-")
 os.environ["SLOTH_NO_WATCHDOG"] = "1"
 os.environ["SLOTH_TELEMETRY"] = "0"
+os.environ["SLOTH_DISABLE_TABPFN"] = "1"  # heuristic scorer: no model downloads in tests (IMPL M4.13)
+os.environ.pop("TABPFN_TOKEN", None)
 
 
 def _closed_port() -> int:
@@ -59,3 +62,42 @@ def client():
 @pytest.fixture()
 def auth() -> dict:
     return {"X-Sloth-Token": TOKEN}
+
+
+@pytest.fixture()
+def canned_gemma(monkeypatch):
+    """Stand-in for Gemma: names every sample description from fixtures/sample_merchant_map.json."""
+    from app import normalize, report
+
+    mapping = json.loads((FIXTURES / "sample_merchant_map.json").read_text())
+
+    async def fake_batch(client, model, keys):
+        return {k: {**mapping[k], "source": "llm"} if k in mapping else normalize.rule_fallback(k) for k in keys}
+
+    async def fake_model():
+        return "gemma-fixture"
+
+    monkeypatch.setattr(normalize, "normalize_batch", fake_batch)
+    monkeypatch.setattr(report, "_gemma_model", fake_model)
+    return mapping
+
+
+def sse(client, path: str, body: dict | None = None) -> list[tuple[str, dict]]:
+    """POST and collect a server-sent event stream as [(event, data), …]."""
+    events, name = [], None
+    with client.stream("POST", path, headers={"X-Sloth-Token": TOKEN}, json=body or {}) as r:
+        assert r.status_code == 200, r.read()
+        for line in r.iter_lines():
+            if line.startswith("event:"):
+                name = line[6:].strip()
+            elif line.startswith("data:"):
+                events.append((name, json.loads(line[5:])))
+    return events
+
+
+@pytest.fixture()
+def sample_report(client, canned_gemma):
+    """The bundled 12-month sample, audited (heuristic scorer, canned Gemma names)."""
+    events = sse(client, "/demo/load-sample", {"file": "main"})
+    assert events[-1][0] == "done", events[-1]
+    return events[-1][1]["report"]
