@@ -9,6 +9,9 @@ files:
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  # Source artwork, the website and the Python engine are not part of the app bundle
+  # (the engine ships as a PyInstaller binary via extraResources in M2).
+  - '!{design,site,engine}/**'
 asarUnpack:
   - resources/**
 win:

@@ -239,7 +239,10 @@ sloth-spend/
 ├── sloth-spend-spec.md · IMPL.md · README.md ✚ · LICENSE
 ├── package.json · electron.vite.config.ts · electron-builder.yml
 ├── tsconfig.json / tsconfig.node.json / tsconfig.web.json · eslint.config.js ✚ · .prettierrc ✚
-├── build/                               # icon.icns, icon.ico, icon.png (from the logo SVG)
+├── build/                               # electron-builder buildResources (packaging only):
+│                                        #   icon.icns, icon.ico, icon.png, entitlements.mac.plist
+├── resources/                           # runtime files shipped in the app: icon.png (window), icon-macos.png (dev Dock)
+├── design/icons/                        # source artwork, never packaged — README maps every icon to its home
 ├── src/
 │   ├── main/{index.ts, sidecars.ts, secrets.ts, logbuffer.ts ✚}
 │   ├── preload/index.ts
@@ -247,12 +250,13 @@ sloth-spend/
 │       ├── index.html                    # CSP meta (M1.6)
 │       └── src/
 │           ├── main.tsx · App.tsx
+│           ├── assets/{brand/logo-mark.svg, mascot/{sloth-hanging, sloth-avatar, sloth-avatar-sleepy}.svg} ✚
 │           ├── styles/{index.css, tokens.css} ✚
 │           ├── lib/{api.ts, types.ts ✚, format.ts ✚, theme.ts ✚, notify.ts ✚, ui-derive.ts ✚}
 │           ├── store.ts ✚                # zustand: tab, drawer, modal, chat prefill, report cache
 │           ├── screens/{Boot.tsx, Workspace.tsx, KitchenSink.tsx ✚ (dev only)}
 │           └── components/
-│               ├── brand/{Logo.tsx, SlothHanging.tsx, SlothAvatar.tsx} ✚
+│               ├── brand/{Logo.tsx (Logo, SlothAvatar, SlothAvatarSleepy, Wordmark), SlothHanging.tsx} ✚
 │               ├── ui/{Button, Chip, SourceChip, Card, ProgressBar, Spinner, Switch, Field,
 │               │       Select, Stepper, Modal, Sheet, Popover, Menu, Tooltip, CopyButton}.tsx ✚
 │               ├── shell/{TopBar, StatusPills, ThemeToggle, NotificationBell, NotificationInbox,
@@ -279,7 +283,7 @@ sloth-spend/
 │   └── tests/{conftest.py ✚, test_ingest.py, test_features.py, test_detectors.py, test_report.py ✚,
 │              test_api.py ✚, test_agent_tools.py ✚, test_reminders.py, test_egress.py,
 │              fixtures/{hdfc_style.csv, us_signed.csv, sample_merchant_map.json ✚}}
-├── site/index.html
+├── site/{index.html, favicon.ico, favicon.svg, apple-touch-icon.png, icon-192.png, icon-512.png}
 └── .github/workflows/{release.yml, ci.yml ✚}
 ```
 
@@ -383,15 +387,17 @@ Every money figure uses `font-variant-numeric: tabular-nums`.
 
 ### 5.6 Icons (`lucide-react`, 2 px stroke, 16–20 px)
 
-`Sun`, `Moon`, `Bell`, `SlidersHorizontal` (settings), `CircleCheck` (ready pill), `LoaderCircle` (working), `CircleAlert` (needs action), `Download`, `KeyRound`, `Lock` ("never leaves this computer"), `Upload`, `FileText`, `ChevronDown`, `Check`, `ArrowUp` (send), `SquarePen` (new conversation), `Ellipsis` (more actions), `X` (close), `Copy`, `RefreshCw` (draft again), `CalendarCheck` (I cancelled it), `BellPlus` (Remind me), `ThumbsUp` (Keep), `Ban` (not a subscription), `MessageCircle` (Ask Sloth), `CopyPlus` (duplicate flag), `TrendingUp` (price creep), `Layers` (overlap), `Ghost` (zombie suspect), `CalendarClock` (possible annual), `Wrench` (tool badge), `ExternalLink`, `Info` (banner), `TriangleAlert` (still charged), `AlarmClock` (snooze), `Trash2` (delete data). No emoji anywhere.
+**Source of truth: `design/icons/ui/icons.json`** (the icon kit's map of file → `lucide-react` component → where it's used). Import the components, never the SVG files. The kit's choices: `CircleCheck` (ready pill, Keep, key saved), `Check` (finished steps, I cancelled it, Verified), `X` (close), `Bell` (notifications, Remind me), `SlidersHorizontal` (settings), `Sun`/`Moon` (theme; `Moon` also on Snooze), `Upload` (drop zone, import newer statement), `Download` (Gemma download), `FileText` (statement chip, Choose CSV file), `Lock` ("never leaves this computer"), `ChevronDown` (Demo data), `TrendingUp` (price creep, Change column), `Copy` (duplicate flag, Copy draft), `Layers` (overlap), `Ghost` (zombie suspect), `Calendar` (possible annual), `Ellipsis` (more actions), `ListChecks` (How to cancel), `Ban` (not a subscription), `MessageCircle` (Ask Sloth), `Plus` (new conversation), `Wrench` (tool badge), `ArrowUp` (send), `Info` (banner), `TriangleAlert` (still charged), `LoaderCircle` (working), `Key` (TabPFN key row), `ExternalLink`, `Mail` (draft refund / cancellation request), `Pencil` (mapper "set by you"), `RefreshCw` (draft again, restart engine), `Trash` (delete data). Status pills also use `CircleAlert` (needs action). No emoji anywhere.
 
 ### 5.7 Brand art
 
-Copy the three SVGs from `Boot.dc.html` and `Import.dc.html` into React components. Their strokes are hard-coded `#0B051D` on pink or white **in both themes**, which is intentional.
+The SlothSpend icon kit (`design/icons/`, see its README) supplies every brand file, each in exactly one place. The art is hard-coded `#0B051D` on pink or white **in both themes**, which is intentional.
 
-- `Logo` (36 px, sloth face on a pink circle) is used in every header. It also becomes `build/icon.png` and the `.icns`/`.ico`, rendered at 1024 px.
-- `SlothHanging` (240×214 viewBox, sloth hanging from a branch) appears on the Boot hero, with `role="img"` and an aria-label.
-- `SlothAvatar` (the face on a white circle, 96 px) appears in the Ask Sloth empty and waiting states.
+- `Logo` renders `src/renderer/src/assets/brand/logo-mark.svg` (36 px, sloth face on a pink circle) in every header.
+- `SlothHanging` renders `assets/mascot/sloth-hanging.svg` on the Boot hero, with alt text.
+- `SlothAvatar` (`assets/mascot/sloth-avatar.svg`, 96 px) appears in the Ask Sloth empty states; `SlothAvatarSleepy` (eyes closed) in waiting/working states such as "Reading along with you." (M5).
+- App icons are ready-made: `build/icon.icns` (macOS grid), `build/icon.ico` (16–256 px) and `build/icon.png` (1024) for electron-builder; `resources/icon.png` is the Windows/Linux window icon and `resources/icon-macos.png` the Dock icon during `npm run dev`. The app icon uses longer, slanted eye stripes than the logo so it reads as a sloth at 16 px.
+- `site/` holds the slothspend.tech favicons (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`).
 
 ### 5.8 Formatting rules — `lib/format.ts` (renderer) and `app/money.py` (engine)
 
@@ -534,7 +540,7 @@ export function stream(path: string, body: unknown, on: Record<string, (d: any) 
 | M2.3 | `electron-builder.yml` | Verbatim from §12.2, plus `asarUnpack: []` and `artifactName: SlothSpend-${version}-${os}-${arch}.${ext}` |
 | M2.4 | `.github/workflows/release.yml` | Verbatim from §12.3 |
 | M2.5 | `.github/workflows/ci.yml` ✚ | Runs on PR and push to `main`, on `ubuntu-latest`: `npm ci && npm run typecheck && npm run lint && npm test`, then `pip install -r engine/requirements.txt -r engine/requirements-dev.txt` (CPU torch index) and `pytest engine/tests -q`. About 3 minutes |
-| M2.6 | Icons | `build/icon.png` (1024), `.icns`, `.ico`, generated from `Logo` |
+| M2.6 | Icons | Done ahead of M2: the icon kit's `build/icon.{icns,ico,png}` are in place (§5.7). Verify the packaged `.app`, DMG, `.exe` and installer show the sloth, and that `electron-builder.yml` keeps `design/`, `site/` and `engine/` out of the app bundle |
 
 **Exit checklist (Checkpoint A)**
 - [ ] The `workflow_dispatch` run produces `SlothSpend-0.1.0-mac-arm64.dmg` and `SlothSpend-0.1.0-win-x64.exe`.

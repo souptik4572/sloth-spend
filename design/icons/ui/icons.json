@@ -1,0 +1,167 @@
+[
+  {
+    "file": "circle-check.svg",
+    "lucideReact": "CircleCheck",
+    "usedFor": "Model status pills in the top bar, \"Keep\", key saved"
+  },
+  {
+    "file": "check.svg",
+    "lucideReact": "Check",
+    "usedFor": "Finished steps, \"I cancelled it\", Verified, Engine ready"
+  },
+  {
+    "file": "x.svg",
+    "lucideReact": "X",
+    "usedFor": "Close the drawer and Settings"
+  },
+  {
+    "file": "bell.svg",
+    "lucideReact": "Bell",
+    "usedFor": "Notifications button, \"Remind me\""
+  },
+  {
+    "file": "sliders-horizontal.svg",
+    "lucideReact": "SlidersHorizontal",
+    "usedFor": "Settings button"
+  },
+  {
+    "file": "sun.svg",
+    "lucideReact": "Sun",
+    "usedFor": "Theme toggle — light"
+  },
+  {
+    "file": "moon.svg",
+    "lucideReact": "Moon",
+    "usedFor": "Theme toggle — dark; Snooze buttons"
+  },
+  {
+    "file": "upload.svg",
+    "lucideReact": "Upload",
+    "usedFor": "Drop zone, \"Import newer statement\""
+  },
+  {
+    "file": "download.svg",
+    "lucideReact": "Download",
+    "usedFor": "Gemma download row on Boot"
+  },
+  {
+    "file": "file-text.svg",
+    "lucideReact": "FileText",
+    "usedFor": "Statement file chip, \"Choose CSV file\""
+  },
+  {
+    "file": "lock.svg",
+    "lucideReact": "Lock",
+    "usedFor": "\"Your statement never leaves this computer\""
+  },
+  {
+    "file": "chevron-down.svg",
+    "lucideReact": "ChevronDown",
+    "usedFor": "\"Demo data\" menu"
+  },
+  {
+    "file": "trending-up.svg",
+    "lucideReact": "TrendingUp",
+    "usedFor": "Price-creep flag, Change column"
+  },
+  {
+    "file": "copy.svg",
+    "lucideReact": "Copy",
+    "usedFor": "Duplicate-charge flag, Copy draft"
+  },
+  {
+    "file": "layers.svg",
+    "lucideReact": "Layers",
+    "usedFor": "Overlap flag"
+  },
+  {
+    "file": "ghost.svg",
+    "lucideReact": "Ghost",
+    "usedFor": "Zombie-suspect flag"
+  },
+  {
+    "file": "calendar.svg",
+    "lucideReact": "Calendar",
+    "usedFor": "Possible-annual flag"
+  },
+  {
+    "file": "ellipsis.svg",
+    "lucideReact": "Ellipsis",
+    "usedFor": "Row \"More actions\""
+  },
+  {
+    "file": "list-checks.svg",
+    "lucideReact": "ListChecks",
+    "usedFor": "\"How to cancel\""
+  },
+  {
+    "file": "ban.svg",
+    "lucideReact": "Ban",
+    "usedFor": "\"Not a subscription\""
+  },
+  {
+    "file": "message-circle.svg",
+    "lucideReact": "MessageCircle",
+    "usedFor": "\"Ask Sloth\""
+  },
+  {
+    "file": "plus.svg",
+    "lucideReact": "Plus",
+    "usedFor": "New conversation"
+  },
+  {
+    "file": "wrench.svg",
+    "lucideReact": "Wrench",
+    "usedFor": "Tool-call badges in Ask Sloth"
+  },
+  {
+    "file": "arrow-up.svg",
+    "lucideReact": "ArrowUp",
+    "usedFor": "Send message"
+  },
+  {
+    "file": "info.svg",
+    "lucideReact": "Info",
+    "usedFor": "Reminders banner"
+  },
+  {
+    "file": "triangle-alert.svg",
+    "lucideReact": "TriangleAlert",
+    "usedFor": "\"Still charged\" state and notification"
+  },
+  {
+    "file": "loader-circle.svg",
+    "lucideReact": "LoaderCircle",
+    "usedFor": "Working / in-progress states"
+  },
+  {
+    "file": "key.svg",
+    "lucideReact": "Key",
+    "usedFor": "TabPFN key row on Boot"
+  },
+  {
+    "file": "external-link.svg",
+    "lucideReact": "ExternalLink",
+    "usedFor": "Link to platform.priorlabs.ai"
+  },
+  {
+    "file": "mail.svg",
+    "lucideReact": "Mail",
+    "usedFor": "\"Draft refund request\", \"Draft cancellation request\""
+  },
+  {
+    "file": "pencil.svg",
+    "lucideReact": "Pencil",
+    "usedFor": "Column mapper \"set by you\" chip"
+  },
+  {
+    "file": "refresh-cw.svg",
+    "lucideReact": "RefreshCw",
+    "usedFor": "\"Draft cancellation request again\""
+  },
+  {
+    "file": "trash.svg",
+    "lucideReact": "Trash",
+    "usedFor": "\"Delete all local data\""
+  }
+]

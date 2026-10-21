@@ -6,6 +6,10 @@ import { optimizer } from '@electron-toolkit/utils'
 import { freePort, startEngine, stopEngine, type RuntimeConfig } from './sidecars'
 import { secretsEnv } from './secrets'
 import { LogBuffer } from './logbuffer'
+// Runtime icons (resources/ is shipped and asar-unpacked). Packaged builds take the app icon from
+// build/icon.icns / build/icon.ico instead — see design/icons/README.md.
+import windowIcon from '../../resources/icon.png?asset'
+import devDockIcon from '../../resources/icon-macos.png?asset'
 
 let cfg: RuntimeConfig
 let engine: ChildProcess | null = null
@@ -52,6 +56,8 @@ function createWindow(): BrowserWindow {
     title: 'SlothSpend',
     show: false,
     autoHideMenuBar: true,
+    // Windows and Linux show this in the title bar and taskbar; macOS uses the bundle icon.
+    ...(process.platform === 'darwin' ? {} : { icon: windowIcon }),
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#0B051D' : '#FFFFFF',
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
@@ -70,6 +76,8 @@ function createWindow(): BrowserWindow {
 
 app.whenReady().then(() => {
   if (process.platform === 'win32') app.setAppUserModelId('tech.slothspend.desktop') // Windows toasts
+  // `npm run dev` runs the stock Electron.app; show the sloth in the Dock instead of the Electron logo.
+  if (process.platform === 'darwin' && !app.isPackaged) app.dock?.setIcon(devDockIcon)
   // F12 opens DevTools in dev; Cmd/Ctrl+R reload is disabled in production.
   app.on('browser-window-created', (_, window) => optimizer.watchWindowShortcuts(window))
   const booting = boot()

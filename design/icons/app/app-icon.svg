@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>SlothSpend app icon</title>
+  <rect width="1024" height="1024" rx="228" fill="#FFA8CD"/>
+  <g fill="none" stroke="#0B051D" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="512" cy="548" rx="350" ry="318" stroke-width="34"/>
+    <path d="M452 238C462 202 496 184 528 192" stroke-width="30"/>
+    <path d="M526 232C544 200 580 190 610 202" stroke-width="30"/>
+    <path d="M512 352C660 352 776 440 776 566C776 692 660 780 512 780C364 780 248 692 248 566C248 440 364 352 512 352Z" fill="#FFFFFF" stroke-width="28"/>
+    <path d="M462 520C430 498 360 500 300 532C266 550 262 594 296 604C352 620 426 600 460 572C478 556 478 532 462 520Z" fill="#0B051D" stroke="none"/>
+    <path d="M562 520C594 498 664 500 724 532C758 550 762 594 728 604C672 620 598 600 564 572C546 556 546 532 562 520Z" fill="#0B051D" stroke="none"/>
+    <circle cx="420" cy="540" r="20" fill="#FFFFFF" stroke="none"/>
+    <circle cx="604" cy="540" r="20" fill="#FFFFFF" stroke="none"/>
+    <ellipse cx="512" cy="642" rx="44" ry="30" fill="#0B051D" stroke="none"/>
+    <path d="M440 700C480 732 544 732 584 700" stroke-width="24"/>
+  </g>
+</svg>

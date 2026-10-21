@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <title>SlothSpend mark — one colour (uses currentColor)</title>
+  <ellipse cx="512" cy="548" rx="400" ry="368" stroke-width="64"/>
+  <path d="M440 196C452 154 492 132 530 142M528 186C550 152 592 140 628 156" stroke-width="52"/>
+  <path d="M470 500C434 474 352 476 282 514C240 538 238 594 280 606C344 624 430 600 466 570C490 550 490 518 470 500Z" fill="currentColor" stroke="none"/>
+  <path d="M554 500C590 474 672 476 742 514C784 538 786 594 744 606C680 624 594 600 558 570C534 550 534 518 554 500Z" fill="currentColor" stroke="none"/>
+  <ellipse cx="512" cy="656" rx="58" ry="42" fill="currentColor" stroke="none"/>
+  <path d="M422 734C474 772 550 772 602 734" stroke-width="48"/>
+</svg>

@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import { Cpu, Download, KeyRound, Lock, RotateCw } from 'lucide-react'
+import { Cpu, Download, Key, Lock, RefreshCw } from 'lucide-react'
 import { Wordmark } from '../components/brand/Logo'
 import { SlothHanging } from '../components/brand/SlothHanging'
 import { ThemeToggle } from '../components/shell/ThemeToggle'
@@ -142,7 +142,7 @@ export function Boot(): React.JSX.Element {
                     </pre>
                   )}
                   <div>
-                    <Button variant="solid" icon={RotateCw} onClick={restart}>
+                    <Button variant="solid" icon={RefreshCw} onClick={restart}>
                       Restart engine
                     </Button>
                   </div>
@@ -155,7 +155,7 @@ export function Boot(): React.JSX.Element {
               actionIcon={Download}
               ringed={ring === 1}
             />
-            <CheckRow title="TabPFN-3.5" view={rows[2]} actionIcon={KeyRound} ringed={ring === 2} />
+            <CheckRow title="TabPFN-3.5" view={rows[2]} actionIcon={Key} ringed={ring === 2} />
           </ol>
 
           {engine === 'ok' && !ready && (

@@ -2,19 +2,19 @@ import { useState, type ReactNode } from 'react'
 import {
   Ban,
   Bell,
-  BellPlus,
-  CalendarCheck,
-  CalendarClock,
-  CopyPlus,
+  Calendar,
+  Check,
+  CircleCheck,
+  Copy,
   Ghost,
   Layers,
   Lock,
+  Mail,
   MessageCircle,
   Moon,
   SlidersHorizontal,
   Sun,
-  ThumbsUp,
-  Trash2,
+  Trash,
   TrendingUp,
   TriangleAlert,
   Upload,
@@ -36,7 +36,7 @@ import { Popover } from '../components/ui/Popover'
 import { Hint } from '../components/ui/Hint'
 import { CopyButton } from '../components/ui/CopyButton'
 import { Segmented } from '../components/ui/Segmented'
-import { Logo, SlothAvatar, Wordmark } from '../components/brand/Logo'
+import { Logo, SlothAvatar, SlothAvatarSleepy, Wordmark } from '../components/brand/Logo'
 import { SlothHanging } from '../components/brand/SlothHanging'
 import { ThemeToggle } from '../components/shell/ThemeToggle'
 import { readPref, setPref, type ThemePref } from '../lib/theme'
@@ -131,13 +131,13 @@ export function KitchenSink(): React.JSX.Element {
             <Button variant="outline" size="lg">
               Load sample statement
             </Button>
-            <Button variant="solid" icon={CalendarCheck}>
+            <Button variant="solid" icon={Check}>
               I cancelled it
             </Button>
-            <Button variant="soft" icon={BellPlus}>
+            <Button variant="soft" icon={Bell}>
               Remind me
             </Button>
-            <Button variant="soft" icon={ThumbsUp}>
+            <Button variant="soft" icon={CircleCheck}>
               Keep
             </Button>
             <Button variant="soft" icon={Ban}>
@@ -146,8 +146,10 @@ export function KitchenSink(): React.JSX.Element {
             <Button variant="ghost" icon={MessageCircle}>
               Ask Sloth
             </Button>
-            <Button variant="outline-strong">Draft refund request</Button>
-            <Button variant="danger" icon={Trash2}>
+            <Button variant="outline-strong" icon={Mail}>
+              Draft refund request
+            </Button>
+            <Button variant="danger" icon={Trash}>
               Delete all local data
             </Button>
             <Button variant="solid" disabled>
@@ -160,7 +162,7 @@ export function KitchenSink(): React.JSX.Element {
 
         <Section title="Chips">
           <div className="flex flex-wrap items-center gap-1.5">
-            <Chip variant="solid" icon={CopyPlus}>
+            <Chip variant="solid" icon={Copy}>
               Duplicate · Jul 5/6
             </Chip>
             <Chip variant="accent" icon={TrendingUp}>
@@ -172,7 +174,7 @@ export function KitchenSink(): React.JSX.Element {
             <Chip variant="outline" icon={Ghost}>
               Zombie suspect
             </Chip>
-            <Chip variant="tint" icon={CalendarClock}>
+            <Chip variant="tint" icon={Calendar}>
               Possible annual
             </Chip>
             <Chip variant="dashed">Low confidence</Chip>
@@ -391,6 +393,9 @@ export function KitchenSink(): React.JSX.Element {
             <Logo />
             <Card tone="panel" className="p-4">
               <SlothAvatar />
+            </Card>
+            <Card tone="panel" className="p-4">
+              <SlothAvatarSleepy />
             </Card>
             <Card tone="accent" radius="hero" className="flex flex-col gap-4 p-12">
               <p className="m-0 text-display-xl">Slow and steady.</p>
