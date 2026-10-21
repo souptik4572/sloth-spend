@@ -147,3 +147,17 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# SlothSpend
+out/
+release/
+.eslintcache
+.DS_Store
+engine/.venv/
+engine/build/
+engine/dist/
+__pycache__/
+.pytest_cache/
+*.db
+*.db-wal
+*.db-shm

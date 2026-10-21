@@ -1,0 +1,133 @@
+@import 'tailwindcss';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/archivo/400.css';
+@import '@fontsource/archivo/700.css';
+@import './tokens.css';
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-panel: var(--panel);
+  --color-raised: var(--raised);
+  --color-tint: var(--tint);
+  --color-ink: var(--ink);
+  --color-text-2: var(--text-2);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-solid: var(--solid);
+  --color-on-solid: var(--on-solid);
+  --color-on-solid-2: var(--on-solid-2);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-accent-edge: var(--accent-edge);
+  --color-accent-tint: var(--accent-tint);
+  --color-accent-wash: var(--accent-wash);
+  --color-success: var(--success);
+  --color-success-tint: var(--success-tint);
+  --color-link-hover: var(--link-hover);
+  --color-scrim: var(--scrim);
+
+  --font-sans: 'Inter', -apple-system, system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-display: 'Archivo', 'Inter', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-hero: 48px;
+  --radius-section: 32px;
+  --radius-card: 24px;
+  --radius-tile: 16px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  transition:
+    background-color 400ms ease-out,
+    color 400ms ease-out;
+}
+
+/* Type scale from the artboards (IMPL §5.3). */
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-size: 52px;
+  line-height: 1;
+  font-weight: 700;
+}
+@utility text-display-tab {
+  font-family: var(--font-display);
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+@utility text-stat {
+  font-family: var(--font-display);
+  font-size: 43.2px;
+  line-height: 0.95;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+@utility text-h2 {
+  font-size: 32px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+@utility text-h3 {
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+@utility text-lead {
+  font-size: 20px;
+  line-height: 1.4;
+}
+@utility text-small {
+  font-size: 14px;
+  line-height: 1.45;
+}
+@utility text-caption {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@keyframes sloth-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sloth-slide-in {
+  from {
+    transform: translateX(32px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes sloth-rise {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

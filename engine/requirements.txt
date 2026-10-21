@@ -1,0 +1,12 @@
+# Unpinned starting point (spec §5). Pinned via uv after the first green build (IMPL M9.7).
+fastapi
+uvicorn
+sse-starlette
+python-multipart
+pydantic>=2
+httpx
+pandas
+numpy
+tabpfn
+ollama
+sentry-sdk[fastapi]

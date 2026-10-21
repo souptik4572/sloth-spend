@@ -1,0 +1,88 @@
+/* Color tokens copied exactly from the SlothSpend MVP design canvas (IMPL §5.1).
+   Pink (--accent) surfaces set data-theme="light" on themselves so ink-on-pink stays dark in both themes. */
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --card: #f8f7fa;
+  --panel: #efecff;
+  --raised: #ffffff;
+  --tint: #e4e0f7;
+  --ink: #0b051d;
+  --text-2: #282636;
+  --muted: #504f5f;
+  --subtle: #6c6b74;
+  --faint: #96959f;
+  --line: #e2e2e7;
+  --line-strong: #c4c3ca;
+  --solid: #0b051d;
+  --on-solid: #f9f8f5;
+  --on-solid-2: #e4e0f7;
+  --accent: #ffa8cd;
+  --on-accent: #0b051d;
+  --accent-edge: #0b051d;
+  --accent-tint: #ffe3ef;
+  --accent-wash: #fff4f9;
+  --success: #046234;
+  --success-tint: #e9f3ee;
+  --link-hover: #582fb4;
+  --scrim: rgba(11, 5, 29, 0.36);
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b051d;
+  --card: #161029;
+  --panel: #1f192f;
+  --raised: #2a2340;
+  --tint: #342a4e;
+  --ink: #f9f8f5;
+  --text-2: #dcd9e8;
+  --muted: #b5b2c6;
+  --subtle: #9d9ab0;
+  --faint: #6f6a86;
+  --line: #2c2542;
+  --line-strong: #4b4366;
+  --solid: #f9f8f5;
+  --on-solid: #0b051d;
+  --on-solid-2: #504f5f;
+  --accent: #ffa8cd;
+  --on-accent: #0b051d;
+  --accent-edge: #ffa8cd;
+  --accent-tint: #4a2440;
+  --accent-wash: #2a1630;
+  --success: #7ed9a8;
+  --success-tint: #12352a;
+  --link-hover: #c9b8ff;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --shadow: rgba(0, 0, 0, 0.5);
+}
+
+/* A pink surface inside a dark page: its own tokens stay light, but it keeps no page background. */
+[data-theme='light'] {
+  color: var(--ink);
+}
+
+a {
+  color: var(--ink);
+}
+a:hover {
+  color: var(--link-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #7b57d8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}
