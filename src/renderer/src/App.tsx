@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Wordmark } from './components/brand/Logo'
-import { ThemeToggle } from './components/shell/ThemeToggle'
+import { init } from './lib/api'
+import { useHealthPolling } from './lib/useHealthPolling'
+import { useApp } from './store'
+import { Boot } from './screens/Boot'
+import { Workspace } from './screens/Workspace'
 import { KitchenSink } from './screens/KitchenSink'
 
 function useHash(): string {
@@ -15,26 +18,16 @@ function useHash(): string {
 
 function App(): React.JSX.Element {
   const hash = useHash()
-  if (import.meta.env.DEV && hash === '#/kitchen-sink') return <KitchenSink />
+  const screen = useApp((s) => s.screen)
 
-  // M0 placeholder. M1 replaces this with the Boot screen and the workspace shell.
-  return (
-    <div className="flex min-h-screen flex-col bg-bg text-ink">
-      <header className="flex min-h-[72px] items-center gap-4 px-6 py-3.5">
-        <span className="mr-auto">
-          <Wordmark />
-        </span>
-        <ThemeToggle />
-      </header>
-      <main className="flex flex-1 flex-col items-start gap-4 px-6 pb-10">
-        <h1 className="m-0 text-display-xl">Slow and steady.</h1>
-        <p className="m-0 text-lead text-muted">
-          The engine and Boot screen arrive in the next milestone.
-        </p>
-        {import.meta.env.DEV && <a href="#/kitchen-sink">Open the kitchen sink</a>}
-      </main>
-    </div>
-  )
+  useEffect(() => {
+    void init().then((cfg) => useApp.getState().configure(cfg.version))
+    return window.sloth.onEngineExit((code) => useApp.getState().engineExited(code))
+  }, [])
+  useHealthPolling()
+
+  if (import.meta.env.DEV && hash === '#/kitchen-sink') return <KitchenSink />
+  return screen === 'boot' ? <Boot /> : <Workspace />
 }
 
 export default App

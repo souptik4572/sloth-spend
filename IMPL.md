@@ -77,6 +77,7 @@ The dark artboards (`*Dark.dc.html`) render the same components with `theme="dar
 | 17 | Burn chart, current month | — | October drawn as a full $87.46 | The real October bar is **month-to-date** (report date Oct 15, so $65.48). Draw it with a hatched top and the tooltip "Oct 1–15 so far". The mock's number is placeholder |
 | 18 | Follow-up CSVs | §11.1: follow-ups differ only in IronTrap | The reminders board shows IronTrap **Still charged** and StreamFlix **Verified** at the same time | **Both** follow-up CSVs leave out StreamFlix after Oct 15, so the combined state can be demoed |
 | 19 | Prototype link | — | D-Progress "Skip ahead to the finished report (prototype)" | Not built |
+| 20 | Gemma model | §5, §7: `gemma4:e4b` (fallback `gemma4:e2b`) | "Gemma 4 · local" chips; "Download Gemma 4" | **Use whatever Gemma model Ollama already has** (owner's decision, 2026-10-21). Selection: an explicit choice (Settings / `SLOTH_CHAT_MODEL`) if it is installed, else the best installed Gemma (newest generation first, then the `e4b` → `latest` tags). Only when *no* Gemma is installed does Boot offer to download `gemma4:e4b`. `/health` returns the model in use plus `available_models`; chips and labels name the real generation ("Gemma 3 · local") |
 
 ---
 
@@ -152,7 +153,8 @@ export type Phase = "WATCHING" | "REMINDED" | "SNOOZED" | "KEPT" | "EXPIRED" | "
 export interface Health {
   engine: "ok";
   ollama: { status: "ready" | "unreachable" | "outdated" | "missing_model"; version: string | null;
-            model: string; model_present: boolean; loopback: boolean };
+            model: string /* installed Gemma in use, or the download offer */; model_present: boolean;
+            available_models: string[]; loopback: boolean };
   tabpfn: { status: "cold" | "warming" | "ready" | "missing_weights" | "error"; model: Scorer | null; error: string | null };
   telemetry: boolean;
 }
@@ -211,7 +213,7 @@ export interface Reminder {
 export interface Notice { id: number; series_id: number; kind: "reminder" | "verified" | "still_charged";
   title: string; body: string; created_at: string; read_at: string | null }
 
-export interface EngineSettings { currency: "USD" | "INR" | "EUR" | "GBP"; chat_model: "gemma4:e4b" | "gemma4:e2b";
+export interface EngineSettings { currency: "USD" | "INR" | "EUR" | "GBP"; chat_model: string | null /* null = best installed Gemma */;
   days_before: number; demo_compress_seconds: number }
 ```
 
@@ -448,7 +450,7 @@ Call `applyTheme()` before React mounts, so the window never flashes the wrong t
 
 | # | Task | Details |
 |---|---|---|
-| M1.1 | `engine/app/{paths,config,security,state}.py` | `paths.py` and `security.py` verbatim from §7.1. `config.py` is a Pydantic `BaseSettings`-style object reading `SLOTH_PORT`, `SLOTH_TOKEN`, `SLOTH_DATA_DIR`, `OLLAMA_HOST` (default `http://127.0.0.1:11434`), `SLOTH_CHAT_MODEL`, `SLOTH_TELEMETRY`. Its `chat_model` property returns the `settings` table value if one is set, else the env var, else `gemma4:e4b`. `state.py` holds `runtime = SimpleNamespace(scheduler_task=None, pipeline_lock=asyncio.Lock(), pending={})` |
+| M1.1 | `engine/app/{paths,config,security,state}.py` | `paths.py` and `security.py` verbatim from §7.1. `config.py` is a Pydantic `BaseSettings`-style object reading `SLOTH_PORT`, `SLOTH_TOKEN`, `SLOTH_DATA_DIR`, `OLLAMA_HOST` (default `http://127.0.0.1:11434`), `SLOTH_CHAT_MODEL`, `SLOTH_TELEMETRY`. Its `preferred_model` property returns the `settings` table value if one is set, else the env var, else `None`; `ollama_setup.pick_model()` turns that into the installed Gemma model actually used (§2 #20). `state.py` holds `runtime = SimpleNamespace(scheduler_task=None, pipeline_lock=asyncio.Lock(), pending={})` |
 | M1.2 | `engine/app/main.py` | Verbatim from §7.1, plus routers from `app/api/*` and `POST /shutdown`. Shutdown answers `{ok}`, then `loop.call_later(0.2, os._exit, 0)`. In M1 `db.init()` and `run_scheduler` are stubs |
 | M1.3 | `GET /health` (`api/health.py` + `ollama_setup.py`) | Ollama: `httpx` GET `{host}/api/version` (1 s timeout). Unreachable → `unreachable`. Version below `0.20.0` (compare as a tuple) → `outdated`. Otherwise GET `/api/tags`; a missing model → `missing_model`, else `ready`. `loopback` = the host resolves to 127.0.0.1, ::1 or localhost. TabPFN comes from `tabular.status` (a stub that returns `missing_weights` until M4). **The handler never blocks on torch.** Every blocking call goes through `asyncio.to_thread` |
 | M1.4 | `src/main/sidecars.ts` | Verbatim from §6.2, plus: stdout/stderr go into `logbuffer.ts` (a ring of 200 lines), and `proc.on("exit", code => win.webContents.send("engine:exit", code))` |
@@ -551,7 +553,7 @@ export function stream(path: string, body: unknown, on: Record<string, (d: any) 
 | M3.3 | `app/db.py` | The spec schema plus the changes in §3.1, `user_version` migration, and `PRAGMA journal_mode=WAL; foreign_keys=ON`. Each call opens a **short-lived connection** (`sqlite3.connect(DB_PATH, timeout=5)`, `row_factory=sqlite3.Row`), which is safe across `to_thread` workers. Helper signatures are below |
 | M3.4 | `app/ingest.py` | Code verbatim from §7.3, plus `parse(bytes, file_name) -> Parsed` (encoding → delimiter → `detect_header` → mapping → confidence → preview), `commit(import_id, opts) -> CommitResult` (dayfirst inference, sign rules, currency, appending only rows newer than `max(tx_date)` with boundary-day rows skipped, desc_key, insert), and `report_date` = the latest tx date. `columns[]` = header cells with a suggested role (`date\|description\|amount\|debit\|credit\|type\|ignore`) for the mapper selects |
 | M3.5 | `api/imports.py` | `POST /import`: compute the sha256. Same sha with `status='done'` → `{duplicate:true}`. Same sha pending → reuse that row. Otherwise insert a pending row and keep the bytes in `runtime.pending[id]`. `DELETE /import/{id}` (pending only). Confirm is wired in M4 |
-| M3.6 | `api/settings.py` | `GET/PUT /settings`, backed by the `settings` table. Defaults: `{currency:"USD", chat_model:"gemma4:e4b", days_before:3, demo_compress_seconds:0}` |
+| M3.6 | `api/settings.py` | `GET/PUT /settings`, backed by the `settings` table. Defaults: `{currency:"USD", chat_model:null, days_before:3, demo_compress_seconds:0}` (`null` = best installed Gemma, §2 #20) |
 | M3.7 | `tests/test_ingest.py` | Per §13.1 on the three fixtures: header row (HDFC → row index 13), mapping, dayfirst, sign, row counts, 2 skipped dates; plus "a newer statement appends only later rows" and "re-import of the same sha is a no-op" |
 
 ```python
@@ -603,8 +605,8 @@ Start with a **15-minute spike** to confirm the installed `tabpfn` exposes `Mode
 | M4.7 | `app/llm_summary.py` | Implements §7.8 step 8. The fact sheet is formatted with `money.py`. First sentence template: "You pay {monthly_recurring} a month in recurring charges, and {monthly_subscriptions} of that is subscriptions." The last sentence always says nothing was cancelled. Gemma rewrites it (`temperature 0.4`, `think=False`, `num_ctx 4096`). Validation: every number-like token in the output must appear in the fact sheet, otherwise use the template. Returns `(text, "gemma" \| "template")` |
 | M4.8 | `api/reports.py` and `api/series.py` | `POST /import/{id}/confirm`, `POST /demo/load-sample` (reads `DATA/<file>.csv`, then the same flow), `GET /report`, `POST /report/rescore`, `GET /series/{id}`, `POST /series/{id}/label` (upserts `user_labels` with the series' `features_json`; `not_subscription` → label 0 and status `not_subscription`; `keep` → label 1 and status `keep`, which clears zombie; `subscription` → label 1 and status `active`; then `rescore`), `PATCH /series/{id}/merchant`, and `PATCH /merchant-map/{desc_key}` (spec) |
 | M4.9 | Heuristic override | In heuristic mode, user labels can't move the scorer, so a labelled merchant's displayed `recurring_prob` is pinned (1.0 or 0.0) and `scorer` stays `heuristic`. In TabPFN mode, the label goes into the context ×3 (§7.6) and the model's own score is shown |
-| M4.10 | `POST /setup/ollama/pull` | Wraps `AsyncClient.pull(model, stream=True)` as SSE `progress {status, completed, total}`. Accepts `gemma4:e4b` or `gemma4:e2b` only |
-| M4.11 | Boot actions (D-Boot) | **Gemma row:** *unreachable* → **Install Ollama** (`openExternal("https://ollama.com/download")`) + **Retry**. *outdated* → **Update Ollama**. *missing_model* → **Download Gemma 4 (≈ 5 GB)**, then a progress bar with "2.1 GB of 5.0 GB" and "About 6 min left" (rolling 10 s rate). The "8 GB of memory or less? **Use gemma4:e2b instead**" link calls `PUT /settings {chat_model:"gemma4:e2b"}` and pulls e2b. **TabPFN row:** *missing_weights* → the key form (password input, **Save key**, link to platform.priorlabs.ai). *warming* → spinner "Downloading weights and warming up — first time only". *error* → the message + **Retry** (engine restart). The **first row needing action** gets the `box-shadow: inset 0 0 0 2px var(--ink)` ring |
+| M4.10 | `POST /setup/ollama/pull` | Wraps `AsyncClient.pull(model, stream=True)` as SSE `progress {status, completed, total}`. Accepts any `gemma*` model name (Boot offers `gemma4:e4b`; Settings may pull another) |
+| M4.11 | Boot actions (D-Boot) | **Gemma row:** *unreachable* → **Install Ollama** (`openExternal("https://ollama.com/download")`) + **Retry**. *outdated* → **Update Ollama**. *missing_model* (no Gemma model installed at all) → **Download Gemma 4 (≈ 5 GB)** (`gemma4:e4b`), then a progress bar with "2.1 GB of 5.0 GB" and "About 6 min left" (rolling 10 s rate). The "8 GB of memory or less? **Use gemma4:e2b instead**" link pulls e2b instead. Any installed Gemma model counts as ready (§2 #20). **TabPFN row:** *missing_weights* → the key form (password input, **Save key**, link to platform.priorlabs.ai). *warming* → spinner "Downloading weights and warming up — first time only". *error* → the message + **Retry** (engine restart). The **first row needing action** gets the `box-shadow: inset 0 0 0 2px var(--ink)` ring |
 | M4.12 | `src/main/secrets.ts` | Code below. IPC handlers: `secrets:has`, `secrets:set` (then `engine:restart`), `secrets:clear` (then restart), `prefs:telemetry:get/set` (then restart). The key **never** goes back to the renderer |
 | M4.13 | Tests | `conftest.py`: temp `SLOTH_DATA_DIR`, the token, and `normalize` patched to read `fixtures/sample_merchant_map.json` (canned Gemma output for every sample `desc_key`), `tabular.status="missing_weights"` (heuristic). `test_features.py` and `test_detectors.py` per §13.1. `test_report.py` asserts the **golden values in §7** through `POST /demo/load-sample`. `test_api.py` covers 401 without the token, 409 on a concurrent pipeline, and `DELETE /import` |
 
@@ -698,7 +700,7 @@ Removing the key leaves the downloaded weights in place, so TabPFN keeps working
 
 **Exit checklist (Checkpoint B)**
 - [ ] `pytest engine/tests` is green, including `test_report.py` golden values in heuristic mode.
-- [ ] With Ollama + `gemma4:e4b` + the Prior Labs key: `/demo/load-sample` completes in ≤ 60 s on Apple Silicon. Scorer is `tabpfn-3.5`. Merchant names look like §7. IronTrap has `price_creep +25.0 %` since Jul 5 and `duplicate Jul 5/6`.
+- [ ] With Ollama + an installed Gemma model + the Prior Labs key: `/demo/load-sample` completes in ≤ 60 s on Apple Silicon. Scorer is `tabpfn-3.5`. Merchant names look like §7. IronTrap has `price_creep +25.0 %` since Jul 5 and `duplicate Jul 5/6`.
 - [ ] `POST /series/{IronTrap}/label {"label":"not_subscription"}` returns in ≤ 5 s and persists across an engine restart.
 - [ ] From the Boot screen: pulling Gemma shows progress, saving the key restarts the engine, and TabPFN goes `warming → ready`.
 
@@ -796,7 +798,7 @@ The Audit tab is a state machine in `store.ts`: `empty → mapping → running �
 
 | # | Task | Details |
 |---|---|---|
-| M8.1 | `SettingsModal` (D-Settings) | Opened from the top bar's sliders button, with a scrim over the workspace. h2 "Settings" + close. Sections, in order: **Appearance** (a segmented control Light / Dark, plus "System" as a third option; copy "Also in the top bar. SlothSpend starts in your computer's setting until you pick one."); **Models** (Chat model radios: `gemma4:e4b` "Recommended. Best answers and tool use." / `gemma4:e2b` "Lighter. For computers with 8 GB of memory or less." If the chosen model isn't installed, an inline **Download** button with progress via `/setup/ollama/pull`. Prior Labs key status: "Saved · encrypted on this computer" or "Not set", the explanation, **Replace key** (inline password field) / **Remove**); **Statements** (Default currency select + helper); **Reminders** (days-before stepper − [n] + in 1–14; **Demo mode** switch with a `For demos` chip and the "Compress waits to [30] seconds" field, range 5–600, shown when on); **Privacy** (the **Share performance traces** switch, default off, via IPC → engine restart; the "Where your data goes" table, below); **Delete all local data** (`danger` button → confirmation modal "Delete everything SlothSpend stored on this computer? Statements, merchant edits, chats and reminders. Model downloads stay." → `DELETE /data`, clear `sloth.cid` and `sloth.lastToastId`, reset the Audit tab to `empty`); **Done** |
+| M8.1 | `SettingsModal` (D-Settings) | Opened from the top bar's sliders button, with a scrim over the workspace. h2 "Settings" + close. Sections, in order: **Appearance** (a segmented control Light / Dark, plus "System" as a third option; copy "Also in the top bar. SlothSpend starts in your computer's setting until you pick one."); **Models** (Chat model radios: **Automatic** "Use the best Gemma model installed ({model})" plus one radio per entry in `/health` `available_models`; picking one saves `chat_model`. If no Gemma model is installed, an inline **Download gemma4:e4b** button with progress via `/setup/ollama/pull`. Prior Labs key status: "Saved · encrypted on this computer" or "Not set", the explanation, **Replace key** (inline password field) / **Remove**); **Statements** (Default currency select + helper); **Reminders** (days-before stepper − [n] + in 1–14; **Demo mode** switch with a `For demos` chip and the "Compress waits to [30] seconds" field, range 5–600, shown when on); **Privacy** (the **Share performance traces** switch, default off, via IPC → engine restart; the "Where your data goes" table, below); **Delete all local data** (`danger` button → confirmation modal "Delete everything SlothSpend stored on this computer? Statements, merchant edits, chats and reminders. Model downloads stay." → `DELETE /data`, clear `sloth.cid` and `sloth.lastToastId`, reset the Audit tab to `empty`); **Done** |
 | M8.2 | `EgressTable` | Copy the 7 rows from §3.3 using the design's wording. The *Goes to* column shows a chip: `This computer` (success-tint), `Internet · one time` (tint), `Internet · opt-in` (outline), then the destination on a second line. Closing line: "After the one-time model downloads, SlothSpend makes no network calls at all unless traces are on." |
 | M8.3 | Save behaviour | Engine settings `PUT` on change (debounced 400 ms), with an "Saved" caption in the section. Telemetry and key changes restart the engine; the top-bar pills show *Starting…* until `/health` is ok again. Theme is applied instantly |
 | M8.4 | `api/admin.py` | `DELETE /data` → `db.wipe()`, cancel any pending import, `{ok}`. `POST /shutdown` (already from M1) |
@@ -804,7 +806,7 @@ The Audit tab is a state machine in `store.ts`: `empty → mapping → running �
 
 **Exit checklist**
 - [ ] Every Settings control persists across a restart (theme in localStorage, telemetry in prefs.json, the rest in SQLite).
-- [ ] Switching to `gemma4:e2b` without it installed offers the download, and chat uses e2b afterwards.
+- [ ] Picking another installed Gemma model in Settings switches chat to it; Automatic goes back to the best installed one.
 - [ ] `pytest engine/tests/test_egress.py` is green.
 - [ ] Delete all local data → the Audit tab is empty, the Reminders tab is empty, the inbox is empty, and Gemma and TabPFN stay ready.
 

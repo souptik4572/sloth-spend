@@ -1,0 +1,48 @@
+import { create } from 'zustand'
+import type { Health } from './lib/types'
+import type { EngineState } from './lib/status'
+
+export type Screen = 'boot' | 'workspace'
+export type Tab = 'audit' | 'reminders'
+
+interface AppState {
+  /** True once api.init() has the engine address and token. */
+  configured: boolean
+  version: string
+  screen: Screen
+  tab: Tab
+  engine: EngineState
+  exitCode: number | null
+  health: Health | null
+  configure: (version: string) => void
+  setScreen: (s: Screen) => void
+  setTab: (t: Tab) => void
+  healthOk: (h: Health) => void
+  healthFailed: () => void
+  engineExited: (code: number | null) => void
+  engineRestarting: () => void
+}
+
+export const useApp = create<AppState>((set) => ({
+  configured: false,
+  version: '',
+  screen: 'boot',
+  tab: 'audit',
+  engine: 'starting',
+  exitCode: null,
+  health: null,
+  configure: (version) => set({ configured: true, version }),
+  setScreen: (screen) => set({ screen }),
+  setTab: (tab) => set({ tab }),
+  healthOk: (health) => set({ health, engine: 'ok', exitCode: null }),
+  // A failed poll before the first success just means "still starting"; after an exit we stay stopped.
+  healthFailed: () =>
+    set((s) => (s.engine === 'stopped' ? s : { engine: 'starting', health: null })),
+  engineExited: (exitCode) => set({ engine: 'stopped', exitCode, health: null, screen: 'boot' }),
+  engineRestarting: () => set({ engine: 'starting', exitCode: null, health: null })
+}))
+
+/** True when Gemma and TabPFN are both usable — anything less is limited mode. */
+export function fullyReady(h: Health | null): boolean {
+  return !!h && h.ollama.status === 'ready' && h.tabpfn.status === 'ready'
+}

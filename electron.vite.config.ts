@@ -13,6 +13,22 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [react(), tailwindcss()]
+    plugins: [react(), tailwindcss()],
+    // Pre-bundle up front: a dependency discovered mid-load triggers a reload that can leave
+    // two copies of React in the dev renderer ("Invalid hook call").
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'zustand',
+        '@microsoft/fetch-event-source',
+        'lucide-react',
+        'react-markdown',
+        'remark-gfm'
+      ]
+    }
   }
 })
