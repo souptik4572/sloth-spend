@@ -90,7 +90,7 @@ Use `PRAGMA user_version`: `0` → run the spec schema and then these changes, a
 
 ```sql
 -- imports: pending vs committed, statement coverage, verification count
-ALTER TABLE imports ADD COLUMN status TEXT NOT NULL DEFAULT 'pending';   -- pending|done
+ALTER TABLE imports ADD COLUMN status TEXT NOT NULL DEFAULT 'pending';   -- pending|committed|done (rows stored ≠ report built)
 ALTER TABLE imports ADD COLUMN header_row INTEGER;
 ALTER TABLE imports ADD COLUMN period_start TEXT;
 ALTER TABLE imports ADD COLUMN period_end TEXT;
@@ -564,6 +564,7 @@ export function stream(path: string, body: unknown, on: Record<string, (d: any) 
 | M3.5 | `api/imports.py` | `POST /import`: compute the sha256. Same sha with `status='done'` → `{duplicate:true}`. Same sha pending → reuse that row. Otherwise insert a pending row and keep the bytes in `runtime.pending[id]`. `DELETE /import/{id}` (pending only). Confirm is wired in M4 |
 | M3.6 | `api/settings.py` | `GET/PUT /settings`, backed by the `settings` table. Defaults: `{currency:"USD", chat_model:null, days_before:3, demo_compress_seconds:0}` (`null` = best installed Gemma, §2 #20) |
 | M3.7 | `tests/test_ingest.py` | Per §13.1 on the three fixtures: header row (HDFC → row index 13), mapping, dayfirst, sign, row counts, 2 skipped dates; plus "a newer statement appends only later rows" and "re-import of the same sha is a no-op" |
+| M3.8 | Done-notes (2026-10-21) | Built as planned, with these additions. **Fixtures:** `hdfc_style.csv` (auto-mapped Indian layout) **plus `statement_oct26.csv`**, the D-Mapper file whose `Outflow`/`Inflow` columns the mapper must ask about (use it for the M5 mapper check). **Import states:** `pending → committed` (rows stored) `→ done` (report built), so a failed audit never re-inserts rows. **Remembered layouts:** a confirmed mapping is saved under `settings['layout:<header hash>']` and reused next time (D-Mapper's "we'll remember this layout"). **Currency detection:** symbols/codes, then Indian digit grouping, then UPI/NEFT/IMPS rails, else the Settings default. **`desc_key`:** one extra pattern strips card masks inside a token (`4160XXXX2291`). **Shared features:** `features.regression_rows` / `next_step_row` live beside `series_features`, so the hikes priors and runtime regression rows share one implementation. **Postman:** `engine/postman/slothspend.postman_collection.json` (23 assertions) |
 
 ```python
 # app/db.py — helpers used by later milestones
@@ -734,7 +735,7 @@ The Audit tab is a state machine in `store.ts`: `empty → mapping → running �
 | M5.11 | `lib/ui-derive.ts` and unit tests | — | Pure functions: `cadenceLabel`, `changeLabel`, `flagChips`, `filterCounts`, `sortFindings`, `niceAxis`, `phaseView` (M7). Vitest specs for each, using the §7 golden fixture JSON |
 
 **Exit checklist (Checkpoint C)**
-- [ ] Drop `tests/fixtures/hdfc_style.csv` → the mapper appears with INR and day-first detected → Run audit → progress → report in ₹ with Indian grouping.
+- [ ] Drop `tests/fixtures/statement_oct26.csv` → the mapper appears with INR and day-first detected (and `hdfc_style.csv` imports without it) → Run audit → progress → report in ₹ with Indian grouping.
 - [ ] Load the sample → the report matches D-Main's structure and the §7 golden values. The October bar is drawn as partial.
 - [ ] Not a subscription on StreamFlix → the row, cards and chart update in ≤ 5 s. Overlap disappears from WatchNest. This survives a restart.
 - [ ] Rename "Metro Electric" → "City Power" in the drawer → the table updates and the reasons say "You set this merchant's name".

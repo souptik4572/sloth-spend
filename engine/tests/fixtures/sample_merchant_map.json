@@ -1,0 +1,1002 @@
+{
+  "BASIL BAKERY": {
+    "category": "Dining",
+    "merchant": "Basil Bakery",
+    "subscription_like": false
+  },
+  "BASIL BISTRO": {
+    "category": "Dining",
+    "merchant": "Basil Bistro",
+    "subscription_like": false
+  },
+  "BEANTHERE COFFEE": {
+    "category": "Dining",
+    "merchant": "BeanThere Coffee",
+    "subscription_like": false
+  },
+  "BLUE HERON BOOKS": {
+    "category": "Shopping",
+    "merchant": "Blue Heron Books",
+    "subscription_like": false
+  },
+  "BLUE HERON GIFTS STORE 19": {
+    "category": "Shopping",
+    "merchant": "Blue Heron Gifts",
+    "subscription_like": false
+  },
+  "BLUE HERON HARDWARE": {
+    "category": "Shopping",
+    "merchant": "Blue Heron Hardware",
+    "subscription_like": false
+  },
+  "BLUE HERON RECORDS STORE 78": {
+    "category": "Shopping",
+    "merchant": "Blue Heron Records",
+    "subscription_like": false
+  },
+  "BLUEBIRD CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Bluebird Cabs",
+    "subscription_like": false
+  },
+  "BLUEBIRD RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Bluebird Rides",
+    "subscription_like": false
+  },
+  "CEDAR BAKERY": {
+    "category": "Dining",
+    "merchant": "Cedar Bakery",
+    "subscription_like": false
+  },
+  "CEDAR DINER": {
+    "category": "Dining",
+    "merchant": "Cedar Diner",
+    "subscription_like": false
+  },
+  "CEDAR GRILL": {
+    "category": "Dining",
+    "merchant": "Cedar Grill",
+    "subscription_like": false
+  },
+  "CEDAR KITCHEN": {
+    "category": "Dining",
+    "merchant": "Cedar Kitchen",
+    "subscription_like": false
+  },
+  "CEDAR PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Cedar Pizzeria",
+    "subscription_like": false
+  },
+  "CLOUDBOX PRO ANNUAL": {
+    "category": "Cloud Storage",
+    "merchant": "CloudBox Pro",
+    "subscription_like": true
+  },
+  "COPPER GRILL": {
+    "category": "Dining",
+    "merchant": "Copper Grill",
+    "subscription_like": false
+  },
+  "COPPER PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Copper Pizzeria",
+    "subscription_like": false
+  },
+  "COPPER TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Copper Taqueria",
+    "subscription_like": false
+  },
+  "DRIFTWOOD BOOKS": {
+    "category": "Shopping",
+    "merchant": "Driftwood Books",
+    "subscription_like": false
+  },
+  "DRIFTWOOD HARDWARE": {
+    "category": "Shopping",
+    "merchant": "Driftwood Hardware",
+    "subscription_like": false
+  },
+  "DRIFTWOOD HOME GOODS STORE 82": {
+    "category": "Shopping",
+    "merchant": "Driftwood Home Goods",
+    "subscription_like": false
+  },
+  "DRIFTWOOD OUTFITTERS STORE 73": {
+    "category": "Shopping",
+    "merchant": "Driftwood Outfitters",
+    "subscription_like": false
+  },
+  "DRIFTWOOD SUPPLY CO STORE 93": {
+    "category": "Shopping",
+    "merchant": "Driftwood Supply Co",
+    "subscription_like": false
+  },
+  "EMBER GRILL": {
+    "category": "Dining",
+    "merchant": "Ember Grill",
+    "subscription_like": false
+  },
+  "EMBER NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Ember Noodle Bar",
+    "subscription_like": false
+  },
+  "FENNEL GRILL": {
+    "category": "Dining",
+    "merchant": "Fennel Grill",
+    "subscription_like": false
+  },
+  "FENNEL KITCHEN": {
+    "category": "Dining",
+    "merchant": "Fennel Kitchen",
+    "subscription_like": false
+  },
+  "FENNEL NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Fennel Noodle Bar",
+    "subscription_like": false
+  },
+  "FENNEL TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Fennel Taqueria",
+    "subscription_like": false
+  },
+  "FOX & PINE HARDWARE STORE 76": {
+    "category": "Shopping",
+    "merchant": "Fox & Pine Hardware",
+    "subscription_like": false
+  },
+  "FOX & PINE HOME GOODS": {
+    "category": "Shopping",
+    "merchant": "Fox & Pine Home Goods",
+    "subscription_like": false
+  },
+  "FOX & PINE SUPPLY CO STORE 69": {
+    "category": "Shopping",
+    "merchant": "Fox & Pine Supply Co",
+    "subscription_like": false
+  },
+  "FOX & PINE TOYS STORE 47": {
+    "category": "Shopping",
+    "merchant": "Fox & Pine Toys",
+    "subscription_like": false
+  },
+  "FRESHCART": {
+    "category": "Groceries",
+    "merchant": "FreshCart",
+    "subscription_like": false
+  },
+  "GRANITE BOOKS STORE 11": {
+    "category": "Shopping",
+    "merchant": "Granite Books",
+    "subscription_like": false
+  },
+  "GRANITE GIFTS STORE 16": {
+    "category": "Shopping",
+    "merchant": "Granite Gifts",
+    "subscription_like": false
+  },
+  "GRANITE HARDWARE STORE 10": {
+    "category": "Shopping",
+    "merchant": "Granite Hardware",
+    "subscription_like": false
+  },
+  "GRANITE HOME GOODS": {
+    "category": "Shopping",
+    "merchant": "Granite Home Goods",
+    "subscription_like": false
+  },
+  "GRANITE OUTFITTERS": {
+    "category": "Shopping",
+    "merchant": "Granite Outfitters",
+    "subscription_like": false
+  },
+  "GRANITE RECORDS": {
+    "category": "Shopping",
+    "merchant": "Granite Records",
+    "subscription_like": false
+  },
+  "GRANITE SUPPLY CO": {
+    "category": "Shopping",
+    "merchant": "Granite Supply Co",
+    "subscription_like": false
+  },
+  "GRANITE TOYS STORE 20": {
+    "category": "Shopping",
+    "merchant": "Granite Toys",
+    "subscription_like": false
+  },
+  "GREENLINE CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Greenline Cabs",
+    "subscription_like": false
+  },
+  "GREENLINE RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Greenline Rides",
+    "subscription_like": false
+  },
+  "GREENLINE TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Greenline Taxi",
+    "subscription_like": false
+  },
+  "HARBOR BAKERY": {
+    "category": "Dining",
+    "merchant": "Harbor Bakery",
+    "subscription_like": false
+  },
+  "HARBOR GRILL": {
+    "category": "Dining",
+    "merchant": "Harbor Grill",
+    "subscription_like": false
+  },
+  "HILLCREST CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Hillcrest Cabs",
+    "subscription_like": false
+  },
+  "HILLCREST CAR SERVICE TRIP": {
+    "category": "Transport",
+    "merchant": "Hillcrest Car Service",
+    "subscription_like": false
+  },
+  "HILLCREST TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Hillcrest Taxi",
+    "subscription_like": false
+  },
+  "IRONTRAP FITNESS MEMB": {
+    "category": "Fitness",
+    "merchant": "IronTrap Fitness",
+    "subscription_like": true
+  },
+  "LAKESHORE CAR SERVICE TRIP": {
+    "category": "Transport",
+    "merchant": "Lakeshore Car Service",
+    "subscription_like": false
+  },
+  "LAKESHORE RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Lakeshore Rides",
+    "subscription_like": false
+  },
+  "LAKESHORE TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Lakeshore Taxi",
+    "subscription_like": false
+  },
+  "LANTERN GRILL": {
+    "category": "Dining",
+    "merchant": "Lantern Grill",
+    "subscription_like": false
+  },
+  "MAPLE BISTRO": {
+    "category": "Dining",
+    "merchant": "Maple Bistro",
+    "subscription_like": false
+  },
+  "MAPLE GRILL": {
+    "category": "Dining",
+    "merchant": "Maple Grill",
+    "subscription_like": false
+  },
+  "MAPLE KITCHEN": {
+    "category": "Dining",
+    "merchant": "Maple Kitchen",
+    "subscription_like": false
+  },
+  "MAPLE PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Maple Pizzeria",
+    "subscription_like": false
+  },
+  "MARIGOLD BISTRO": {
+    "category": "Dining",
+    "merchant": "Marigold Bistro",
+    "subscription_like": false
+  },
+  "MARIGOLD GRILL": {
+    "category": "Dining",
+    "merchant": "Marigold Grill",
+    "subscription_like": false
+  },
+  "MARIGOLD TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Marigold Taqueria",
+    "subscription_like": false
+  },
+  "METRO ELECTRIC AUTOPAY": {
+    "category": "Utilities",
+    "merchant": "Metro Electric",
+    "subscription_like": true
+  },
+  "NORTHSIDE CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Northside Cabs",
+    "subscription_like": false
+  },
+  "NORTHSIDE CAR SERVICE TRIP": {
+    "category": "Transport",
+    "merchant": "Northside Car Service",
+    "subscription_like": false
+  },
+  "OLD MILL GIFTS": {
+    "category": "Shopping",
+    "merchant": "Old Mill Gifts",
+    "subscription_like": false
+  },
+  "OLD MILL HARDWARE STORE 49": {
+    "category": "Shopping",
+    "merchant": "Old Mill Hardware",
+    "subscription_like": false
+  },
+  "OLD MILL HOME GOODS STORE 26": {
+    "category": "Shopping",
+    "merchant": "Old Mill Home Goods",
+    "subscription_like": false
+  },
+  "OLD MILL OUTFITTERS": {
+    "category": "Shopping",
+    "merchant": "Old Mill Outfitters",
+    "subscription_like": false
+  },
+  "OLD MILL TOYS": {
+    "category": "Shopping",
+    "merchant": "Old Mill Toys",
+    "subscription_like": false
+  },
+  "PAPER LANTERN GIFTS": {
+    "category": "Shopping",
+    "merchant": "Paper Lantern Gifts",
+    "subscription_like": false
+  },
+  "PAPER LANTERN HARDWARE": {
+    "category": "Shopping",
+    "merchant": "Paper Lantern Hardware",
+    "subscription_like": false
+  },
+  "PAPER LANTERN RECORDS": {
+    "category": "Shopping",
+    "merchant": "Paper Lantern Records",
+    "subscription_like": false
+  },
+  "PAPER LANTERN SUPPLY CO": {
+    "category": "Shopping",
+    "merchant": "Paper Lantern Supply Co",
+    "subscription_like": false
+  },
+  "PARKWAY CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Parkway Cabs",
+    "subscription_like": false
+  },
+  "PARKWAY CAR SERVICE TRIP": {
+    "category": "Transport",
+    "merchant": "Parkway Car Service",
+    "subscription_like": false
+  },
+  "PARKWAY RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Parkway Rides",
+    "subscription_like": false
+  },
+  "PARKWAY TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Parkway Taxi",
+    "subscription_like": false
+  },
+  "PAYROLL DEPOSIT ACME TOOLWORKS": {
+    "category": "Transfers",
+    "merchant": "Acme Toolworks Payroll",
+    "subscription_like": false
+  },
+  "QUINCE BISTRO": {
+    "category": "Dining",
+    "merchant": "Quince Bistro",
+    "subscription_like": false
+  },
+  "QUINCE KITCHEN": {
+    "category": "Dining",
+    "merchant": "Quince Kitchen",
+    "subscription_like": false
+  },
+  "QUINCE NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Quince Noodle Bar",
+    "subscription_like": false
+  },
+  "QUINCE PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Quince Pizzeria",
+    "subscription_like": false
+  },
+  "RENT TRANSFER TO OAKWOOD PROP": {
+    "category": "Housing",
+    "merchant": "Rent transfer",
+    "subscription_like": false
+  },
+  "RIVERBEND CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Riverbend Cabs",
+    "subscription_like": false
+  },
+  "RIVERBEND RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Riverbend Rides",
+    "subscription_like": false
+  },
+  "RIVERBEND TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Riverbend Taxi",
+    "subscription_like": false
+  },
+  "SAFFRON TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Saffron Taqueria",
+    "subscription_like": false
+  },
+  "SORREL BISTRO": {
+    "category": "Dining",
+    "merchant": "Sorrel Bistro",
+    "subscription_like": false
+  },
+  "SORREL GRILL": {
+    "category": "Dining",
+    "merchant": "Sorrel Grill",
+    "subscription_like": false
+  },
+  "SORREL KITCHEN": {
+    "category": "Dining",
+    "merchant": "Sorrel Kitchen",
+    "subscription_like": false
+  },
+  "SORREL NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Sorrel Noodle Bar",
+    "subscription_like": false
+  },
+  "SORREL TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Sorrel Taqueria",
+    "subscription_like": false
+  },
+  "SPARROW BOOKS STORE 70": {
+    "category": "Shopping",
+    "merchant": "Sparrow Books",
+    "subscription_like": false
+  },
+  "SPARROW GIFTS STORE 28": {
+    "category": "Shopping",
+    "merchant": "Sparrow Gifts",
+    "subscription_like": false
+  },
+  "SPARROW HARDWARE STORE 16": {
+    "category": "Shopping",
+    "merchant": "Sparrow Hardware",
+    "subscription_like": false
+  },
+  "SPARROW HOME GOODS": {
+    "category": "Shopping",
+    "merchant": "Sparrow Home Goods",
+    "subscription_like": false
+  },
+  "SPARROW OUTFITTERS": {
+    "category": "Shopping",
+    "merchant": "Sparrow Outfitters",
+    "subscription_like": false
+  },
+  "SPARROW SUPPLY CO STORE 82": {
+    "category": "Shopping",
+    "merchant": "Sparrow Supply Co",
+    "subscription_like": false
+  },
+  "SPARROW TOYS": {
+    "category": "Shopping",
+    "merchant": "Sparrow Toys",
+    "subscription_like": false
+  },
+  "SQ *BASIL GRILL": {
+    "category": "Dining",
+    "merchant": "Basil Grill",
+    "subscription_like": false
+  },
+  "SQ *BEANTHERE COFFEE": {
+    "category": "Dining",
+    "merchant": "BeanThere Coffee",
+    "subscription_like": false
+  },
+  "SQ *CEDAR NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Cedar Noodle Bar",
+    "subscription_like": false
+  },
+  "SQ *COPPER BISTRO": {
+    "category": "Dining",
+    "merchant": "Copper Bistro",
+    "subscription_like": false
+  },
+  "SQ *COPPER KITCHEN": {
+    "category": "Dining",
+    "merchant": "Copper Kitchen",
+    "subscription_like": false
+  },
+  "SQ *COPPER NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Copper Noodle Bar",
+    "subscription_like": false
+  },
+  "SQ *FENNEL BAKERY": {
+    "category": "Dining",
+    "merchant": "Fennel Bakery",
+    "subscription_like": false
+  },
+  "SQ *FENNEL DINER": {
+    "category": "Dining",
+    "merchant": "Fennel Diner",
+    "subscription_like": false
+  },
+  "SQ *HARBOR DINER": {
+    "category": "Dining",
+    "merchant": "Harbor Diner",
+    "subscription_like": false
+  },
+  "SQ *JUNIPER BAKERY": {
+    "category": "Dining",
+    "merchant": "Juniper Bakery",
+    "subscription_like": false
+  },
+  "SQ *JUNIPER KITCHEN": {
+    "category": "Dining",
+    "merchant": "Juniper Kitchen",
+    "subscription_like": false
+  },
+  "SQ *JUNIPER PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Juniper Pizzeria",
+    "subscription_like": false
+  },
+  "SQ *LANTERN BISTRO": {
+    "category": "Dining",
+    "merchant": "Lantern Bistro",
+    "subscription_like": false
+  },
+  "SQ *LANTERN PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Lantern Pizzeria",
+    "subscription_like": false
+  },
+  "SQ *LANTERN TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Lantern Taqueria",
+    "subscription_like": false
+  },
+  "SQ *MARIGOLD BAKERY": {
+    "category": "Dining",
+    "merchant": "Marigold Bakery",
+    "subscription_like": false
+  },
+  "SQ *MARIGOLD KITCHEN": {
+    "category": "Dining",
+    "merchant": "Marigold Kitchen",
+    "subscription_like": false
+  },
+  "SQ *MARIGOLD NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Marigold Noodle Bar",
+    "subscription_like": false
+  },
+  "SQ *OLIVE BISTRO": {
+    "category": "Dining",
+    "merchant": "Olive Bistro",
+    "subscription_like": false
+  },
+  "SQ *OLIVE DINER": {
+    "category": "Dining",
+    "merchant": "Olive Diner",
+    "subscription_like": false
+  },
+  "SQ *OLIVE PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Olive Pizzeria",
+    "subscription_like": false
+  },
+  "SQ *OLIVE TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Olive Taqueria",
+    "subscription_like": false
+  },
+  "SQ *QUINCE BAKERY": {
+    "category": "Dining",
+    "merchant": "Quince Bakery",
+    "subscription_like": false
+  },
+  "SQ *SAFFRON BISTRO": {
+    "category": "Dining",
+    "merchant": "Saffron Bistro",
+    "subscription_like": false
+  },
+  "SQ *SAFFRON GRILL": {
+    "category": "Dining",
+    "merchant": "Saffron Grill",
+    "subscription_like": false
+  },
+  "SQ *SAFFRON KITCHEN": {
+    "category": "Dining",
+    "merchant": "Saffron Kitchen",
+    "subscription_like": false
+  },
+  "SQ *SAFFRON NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Saffron Noodle Bar",
+    "subscription_like": false
+  },
+  "SQ *SAFFRON PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Saffron Pizzeria",
+    "subscription_like": false
+  },
+  "SQ *THISTLE BISTRO": {
+    "category": "Dining",
+    "merchant": "Thistle Bistro",
+    "subscription_like": false
+  },
+  "SQ *THISTLE KITCHEN": {
+    "category": "Dining",
+    "merchant": "Thistle Kitchen",
+    "subscription_like": false
+  },
+  "SQ *THISTLE NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Thistle Noodle Bar",
+    "subscription_like": false
+  },
+  "SQ *THISTLE PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Thistle Pizzeria",
+    "subscription_like": false
+  },
+  "SQ *WILLOW DINER": {
+    "category": "Dining",
+    "merchant": "Willow Diner",
+    "subscription_like": false
+  },
+  "SQ *WILLOW NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Willow Noodle Bar",
+    "subscription_like": false
+  },
+  "STREAMFLIX UHD SUBSCR": {
+    "category": "Streaming",
+    "merchant": "StreamFlix UHD",
+    "subscription_like": true
+  },
+  "SUNSET CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Sunset Cabs",
+    "subscription_like": false
+  },
+  "SUNSET CAR SERVICE TRIP": {
+    "category": "Transport",
+    "merchant": "Sunset Car Service",
+    "subscription_like": false
+  },
+  "SUNSET RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Sunset Rides",
+    "subscription_like": false
+  },
+  "SUNSET TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Sunset Taxi",
+    "subscription_like": false
+  },
+  "SWIFTWAY CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Swiftway Cabs",
+    "subscription_like": false
+  },
+  "SWIFTWAY RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Swiftway Rides",
+    "subscription_like": false
+  },
+  "SWIFTWAY TAXI TRIP": {
+    "category": "Transport",
+    "merchant": "Swiftway Taxi",
+    "subscription_like": false
+  },
+  "THISTLE DINER": {
+    "category": "Dining",
+    "merchant": "Thistle Diner",
+    "subscription_like": false
+  },
+  "THISTLE GRILL": {
+    "category": "Dining",
+    "merchant": "Thistle Grill",
+    "subscription_like": false
+  },
+  "TIN ROBOT BOOKS": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Books",
+    "subscription_like": false
+  },
+  "TIN ROBOT GIFTS STORE 22": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Gifts",
+    "subscription_like": false
+  },
+  "TIN ROBOT HARDWARE": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Hardware",
+    "subscription_like": false
+  },
+  "TIN ROBOT HOME GOODS": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Home Goods",
+    "subscription_like": false
+  },
+  "TIN ROBOT OUTFITTERS": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Outfitters",
+    "subscription_like": false
+  },
+  "TIN ROBOT RECORDS": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Records",
+    "subscription_like": false
+  },
+  "TIN ROBOT TOYS STORE 94": {
+    "category": "Shopping",
+    "merchant": "Tin Robot Toys",
+    "subscription_like": false
+  },
+  "TST* BASIL DINER": {
+    "category": "Dining",
+    "merchant": "Basil Diner",
+    "subscription_like": false
+  },
+  "TST* BASIL KITCHEN": {
+    "category": "Dining",
+    "merchant": "Basil Kitchen",
+    "subscription_like": false
+  },
+  "TST* BASIL NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Basil Noodle Bar",
+    "subscription_like": false
+  },
+  "TST* BASIL TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Basil Taqueria",
+    "subscription_like": false
+  },
+  "TST* CEDAR TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Cedar Taqueria",
+    "subscription_like": false
+  },
+  "TST* EMBER BAKERY": {
+    "category": "Dining",
+    "merchant": "Ember Bakery",
+    "subscription_like": false
+  },
+  "TST* EMBER DINER": {
+    "category": "Dining",
+    "merchant": "Ember Diner",
+    "subscription_like": false
+  },
+  "TST* EMBER PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Ember Pizzeria",
+    "subscription_like": false
+  },
+  "TST* FENNEL BISTRO": {
+    "category": "Dining",
+    "merchant": "Fennel Bistro",
+    "subscription_like": false
+  },
+  "TST* HARBOR BISTRO": {
+    "category": "Dining",
+    "merchant": "Harbor Bistro",
+    "subscription_like": false
+  },
+  "TST* HARBOR KITCHEN": {
+    "category": "Dining",
+    "merchant": "Harbor Kitchen",
+    "subscription_like": false
+  },
+  "TST* HARBOR NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Harbor Noodle Bar",
+    "subscription_like": false
+  },
+  "TST* JUNIPER GRILL": {
+    "category": "Dining",
+    "merchant": "Juniper Grill",
+    "subscription_like": false
+  },
+  "TST* JUNIPER NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Juniper Noodle Bar",
+    "subscription_like": false
+  },
+  "TST* JUNIPER TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Juniper Taqueria",
+    "subscription_like": false
+  },
+  "TST* LANTERN BAKERY": {
+    "category": "Dining",
+    "merchant": "Lantern Bakery",
+    "subscription_like": false
+  },
+  "TST* LANTERN DINER": {
+    "category": "Dining",
+    "merchant": "Lantern Diner",
+    "subscription_like": false
+  },
+  "TST* LANTERN KITCHEN": {
+    "category": "Dining",
+    "merchant": "Lantern Kitchen",
+    "subscription_like": false
+  },
+  "TST* MAPLE DINER": {
+    "category": "Dining",
+    "merchant": "Maple Diner",
+    "subscription_like": false
+  },
+  "TST* MAPLE TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Maple Taqueria",
+    "subscription_like": false
+  },
+  "TST* MARIGOLD PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Marigold Pizzeria",
+    "subscription_like": false
+  },
+  "TST* OLIVE GRILL": {
+    "category": "Dining",
+    "merchant": "Olive Grill",
+    "subscription_like": false
+  },
+  "TST* OLIVE KITCHEN": {
+    "category": "Dining",
+    "merchant": "Olive Kitchen",
+    "subscription_like": false
+  },
+  "TST* OLIVE NOODLE BAR": {
+    "category": "Dining",
+    "merchant": "Olive Noodle Bar",
+    "subscription_like": false
+  },
+  "TST* QUINCE GRILL": {
+    "category": "Dining",
+    "merchant": "Quince Grill",
+    "subscription_like": false
+  },
+  "TST* SAFFRON BAKERY": {
+    "category": "Dining",
+    "merchant": "Saffron Bakery",
+    "subscription_like": false
+  },
+  "TST* SAFFRON DINER": {
+    "category": "Dining",
+    "merchant": "Saffron Diner",
+    "subscription_like": false
+  },
+  "TST* SORREL BAKERY": {
+    "category": "Dining",
+    "merchant": "Sorrel Bakery",
+    "subscription_like": false
+  },
+  "TST* THISTLE BAKERY": {
+    "category": "Dining",
+    "merchant": "Thistle Bakery",
+    "subscription_like": false
+  },
+  "TST* THISTLE TAQUERIA": {
+    "category": "Dining",
+    "merchant": "Thistle Taqueria",
+    "subscription_like": false
+  },
+  "TST* WILLOW BAKERY": {
+    "category": "Dining",
+    "merchant": "Willow Bakery",
+    "subscription_like": false
+  },
+  "TUNETIDE MUSIC": {
+    "category": "Music",
+    "merchant": "TuneTide",
+    "subscription_like": true
+  },
+  "UPTOWN CABS TRIP": {
+    "category": "Transport",
+    "merchant": "Uptown Cabs",
+    "subscription_like": false
+  },
+  "UPTOWN CAR SERVICE TRIP": {
+    "category": "Transport",
+    "merchant": "Uptown Car Service",
+    "subscription_like": false
+  },
+  "UPTOWN RIDES TRIP": {
+    "category": "Transport",
+    "merchant": "Uptown Rides",
+    "subscription_like": false
+  },
+  "VELVET MOTH GIFTS STORE 15": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Gifts",
+    "subscription_like": false
+  },
+  "VELVET MOTH HARDWARE": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Hardware",
+    "subscription_like": false
+  },
+  "VELVET MOTH HOME GOODS": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Home Goods",
+    "subscription_like": false
+  },
+  "VELVET MOTH OUTFITTERS STORE 94": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Outfitters",
+    "subscription_like": false
+  },
+  "VELVET MOTH RECORDS STORE 60": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Records",
+    "subscription_like": false
+  },
+  "VELVET MOTH SUPPLY CO": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Supply Co",
+    "subscription_like": false
+  },
+  "VELVET MOTH TOYS STORE 69": {
+    "category": "Shopping",
+    "merchant": "Velvet Moth Toys",
+    "subscription_like": false
+  },
+  "WATCHNEST*MONTHLY": {
+    "category": "Streaming",
+    "merchant": "WatchNest",
+    "subscription_like": true
+  },
+  "WILD FERN BOOKS STORE 60": {
+    "category": "Shopping",
+    "merchant": "Wild Fern Books",
+    "subscription_like": false
+  },
+  "WILD FERN GIFTS": {
+    "category": "Shopping",
+    "merchant": "Wild Fern Gifts",
+    "subscription_like": false
+  },
+  "WILD FERN HOME GOODS STORE 94": {
+    "category": "Shopping",
+    "merchant": "Wild Fern Home Goods",
+    "subscription_like": false
+  },
+  "WILD FERN OUTFITTERS": {
+    "category": "Shopping",
+    "merchant": "Wild Fern Outfitters",
+    "subscription_like": false
+  },
+  "WILD FERN RECORDS": {
+    "category": "Shopping",
+    "merchant": "Wild Fern Records",
+    "subscription_like": false
+  },
+  "WILLOW PIZZERIA": {
+    "category": "Dining",
+    "merchant": "Willow Pizzeria",
+    "subscription_like": false
+  }
+}

@@ -10,7 +10,7 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import db, telemetry
-from .api import admin, health
+from .api import admin, health, imports, settings as settings_api
 from .config import settings
 from .reminders import run_scheduler
 from .security import require_token
@@ -59,6 +59,8 @@ app.add_middleware(
     allow_headers=["X-Sloth-Token", "Content-Type"],
 )
 app.include_router(health.router)
+app.include_router(imports.router)
+app.include_router(settings_api.router)
 app.include_router(admin.router)
 
 

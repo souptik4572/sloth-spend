@@ -1,0 +1,681 @@
+n_charges,span_days,median_interval,interval_cv,cadence,cadence_fit,dom_std,amount_cv,modal_amount_share,log_amount,days_since_last,category,subscription_like,label,archetype
+11,305,31,0.101851,monthly,0.8,1.94554,1.591e-16,1,3.14974,1,News & Media,1,1,monthly fixed-price subscription
+9,244,30.5,0.0655738,monthly,1,1.41421,0,1,3.00469,27,Cloud Storage,1,1,monthly fixed-price subscription
+3,60,30,0.0333333,monthly,1,0.816497,1.45603e-16,1,2.58022,11,Streaming,1,1,monthly fixed-price subscription
+8,213,30,0.0839838,monthly,1,13.8874,0,1,2.24707,27,Fitness,1,1,monthly fixed-price subscription
+4,93,30,0.0696854,monthly,1,1.58114,0,1,1.85317,12,News & Media,1,1,monthly fixed-price subscription
+6,150,31,0.0788811,monthly,0.8,1.34371,0,1,2.94022,24,Music,1,1,monthly fixed-price subscription
+8,213,28,0.0959861,monthly,0.857143,1.72753,0,1,2.43274,26,Music,1,1,monthly fixed-price subscription
+7,187,31,0.0504491,monthly,1,2.12852,1.20349e-16,1,2.12585,30,Streaming,1,1,monthly fixed-price subscription
+10,274,29,0.0943274,monthly,1,1.62788,0,1,2.92101,22,Music,1,1,monthly fixed-price subscription
+5,125,31.5,0.0887243,monthly,1,1.41421,1.29851e-16,1,2.05924,27,Cloud Storage,1,1,monthly fixed-price subscription
+5,119,30,0.0366294,monthly,1,1.35647,0,1,1.80829,20,Software,1,1,monthly fixed-price subscription
+6,153,32,0.0867091,monthly,1,1.73205,1.91006e-16,1,2.33214,14,Music,1,1,monthly fixed-price subscription
+11,303,30,0.0910437,monthly,0.9,2.12424,0,1,3.16884,11,Streaming,1,1,monthly fixed-price subscription
+12,335,31,0.082076,monthly,0.909091,13.7747,0,1,3.28766,25,Music,1,1,monthly fixed-price subscription
+6,155,31,0.0539781,monthly,1,1.1547,0,1,2.53211,24,Streaming,1,1,monthly fixed-price subscription
+9,250,31,0.063498,monthly,0.875,1.66296,0,1,2.92959,9,Music,1,1,monthly fixed-price subscription
+12,334,31,0.0632297,monthly,1,1.55233,1.95204e-16,1,2.31254,14,Fitness,1,1,monthly fixed-price subscription
+13,366,30.5,0.103248,monthly,0.75,2.0206,0,1,2.21812,19,Software,1,1,monthly fixed-price subscription
+5,122,30.5,0.0819672,monthly,1,1.83303,0,1,2.80275,23,Streaming,1,1,monthly fixed-price subscription
+11,303,30.5,0.0738714,monthly,0.9,1.49379,2.06074e-16,1,2.90362,15,Software,1,1,monthly fixed-price subscription
+4,92,32,0.085587,monthly,1,1.65831,0,1,3.19908,2,Fitness,1,1,monthly fixed-price subscription
+6,151,31,0.0945885,monthly,0.8,14.0238,0,1,2.30558,17,Music,1,1,monthly fixed-price subscription
+8,215,30,0.0416013,monthly,1,0.866025,0,1,3.30322,18,Software,1,1,monthly fixed-price subscription
+11,306,30,0.0588235,monthly,0.9,1.14992,1.38724e-16,1,3.28129,28,Cloud Storage,1,1,monthly fixed-price subscription
+3,57,28.5,0.122807,monthly,0.5,2.16025,0,1,3.02481,23,Software,1,1,monthly fixed-price subscription
+3,61,30.5,0.114754,monthly,1,1.88562,0,1,2.95855,24,News & Media,1,1,monthly fixed-price subscription
+4,89,28,0.130066,irregular,0.333333,2.12132,0,1,3.31963,1,News & Media,1,1,monthly fixed-price subscription
+6,147,28,0.128353,monthly,0.6,9.65517,1.13288e-16,1,2.17929,20,News & Media,1,1,monthly fixed-price subscription
+13,362,30,0.0646669,monthly,0.916667,1.5914,1.27566e-16,1,3.36211,9,Fitness,1,1,monthly fixed-price subscription
+3,61,30.5,0.0491803,monthly,1,1.63299,0,1,2.04381,26,Fitness,1,1,monthly fixed-price subscription
+13,364,30.5,0.0716396,monthly,1,7.46828,0,1,2.95073,13,Housing,1,1,monthly fixed-price subscription
+11,301,30.5,0.0638185,monthly,1,1.3484,1.91624e-16,1,2.32923,22,Streaming,1,1,monthly fixed-price subscription
+12,333,31,0.0582304,monthly,0.909091,1.68943,0,1,2.96887,26,Cloud Storage,1,1,monthly fixed-price subscription
+12,331,30,0.0769059,monthly,0.909091,1.86339,0,1,3.12983,30,Software,1,1,monthly fixed-price subscription
+6,149,30,0.0885296,monthly,1,2.19216,0,1,2.93439,21,Fitness,1,1,monthly fixed-price subscription
+12,334,30,0.0759795,monthly,0.909091,10.6027,1.38399e-16,1,3.28354,9,Cloud Storage,1,1,monthly fixed-price subscription
+7,182,30.5,0.0491444,monthly,1,1.16058,1.56507e-16,1,3.16548,13,Fitness,0,1,monthly fixed-price subscription
+10,273,31,0.0538349,monthly,1,1.42829,0,1,2.86619,30,News & Media,1,1,monthly fixed-price subscription
+12,336,31,0.0769217,monthly,0.909091,1.49071,3.70332e-16,1,3.39384,11,Fitness,1,1,monthly fixed-price subscription
+7,185,30.5,0.029109,monthly,1,1.17803,0,1,3.04357,28,Cloud Storage,1,1,monthly fixed-price subscription
+13,362,29,0.0864778,monthly,0.916667,1.71661,0.03799,0.692308,1.9036,3,Cloud Storage,1,1,monthly subscription with a price rise
+6,154,31,0.0558593,monthly,1,1.63299,0.0506155,0.666667,2.98163,15,News & Media,1,1,monthly subscription with a price rise
+11,303,30.5,0.0809086,monthly,0.9,1.72966,0.0747633,0.818182,2.48823,10,Streaming,1,1,monthly subscription with a price rise
+6,154,30,0.0805823,monthly,0.8,9.82203,0.0471252,0.833333,2.26384,27,Music,0,1,monthly subscription with a price rise
+6,156,30,0.0742041,monthly,1,2.33928,0.0361792,0.833333,3.18965,23,Streaming,1,1,monthly subscription with a price rise
+10,277,30,0.0849719,monthly,0.888889,2.0025,0.0177229,0.9,3.36488,18,Cloud Storage,1,1,monthly subscription with a price rise
+13,361,30.5,0.0954373,monthly,0.916667,2.2532,0.025438,0.769231,3.44394,1,Insurance,1,1,monthly subscription with a price rise
+8,214,31,0.0520352,monthly,1,1,0.0604154,0.5,2.82672,6,Cloud Storage,0,1,monthly subscription with a price rise
+4,92,31,0.0406702,monthly,1,0.866025,0.0693669,0.5,3.11263,14,Streaming,1,1,monthly subscription with a price rise
+8,211,29,0.076125,monthly,0.857143,1.96453,0.0264067,0.625,3.24843,21,Streaming,1,1,monthly subscription with a price rise
+4,89,29,0.0317801,monthly,1,12.2958,0.0906162,0.75,3.36902,6,Cloud Storage,1,1,monthly subscription with a price rise
+4,91,30,0.094531,monthly,1,2.06155,0.10798,0.75,2.19054,14,News & Media,1,1,monthly subscription with a price rise
+4,93,32,0.0696854,monthly,1,1.29904,0.059489,0.5,3.28223,23,Streaming,1,1,monthly subscription with a price rise
+5,125,31,0.0614492,monthly,1,1.83303,0.0803279,0.8,3.0214,0,News & Media,0,1,monthly subscription with a price rise
+12,335,29,0.0943019,monthly,0.818182,1.92029,0.04709,0.916667,3.01111,9,Software,1,1,monthly subscription with a price rise
+13,361,30.5,0.0934877,monthly,0.833333,2.29999,0.0952778,0.692308,3.3555,3,Streaming,1,1,monthly subscription with a price rise
+8,214,31,0.0759256,monthly,0.857143,11.8051,0.0527892,0.5,2.6641,28,Fitness,1,1,monthly subscription with a price rise
+5,122,31,0.0751242,monthly,1,2,0.070594,0.6,3.22486,27,Fitness,1,1,monthly subscription with a price rise
+11,308,31,0.0779221,monthly,1,1.7768,0.0778097,0.818182,1.90954,12,Cloud Storage,1,1,monthly subscription with a price rise
+11,304,31.5,0.0834775,monthly,0.9,1.36666,0.054456,0.818182,2.94391,21,Cloud Storage,1,1,monthly subscription with a price rise
+10,272,30,0.0851164,monthly,0.888889,13.4926,0.0588889,0.9,2.20827,17,Cloud Storage,1,1,monthly subscription with a price rise
+7,183,30.5,0.0412559,monthly,1,0.728431,0.0864944,0.857143,2.28849,16,Cloud Storage,0,1,monthly subscription with a price rise
+12,337,29,0.0753031,monthly,0.909091,1.67498,0.0688543,0.583333,3.05022,16,News & Media,1,1,monthly subscription with a price rise
+9,243,30,0.0568736,monthly,1,1.57135,0.0978084,0.777778,3.0042,0,Software,1,1,monthly subscription with a price rise
+10,273,30,0.0538349,monthly,1,1.51327,0.0628116,0.8,3.04738,7,News & Media,1,1,monthly subscription with a price rise
+10,274,30,0.0676906,monthly,0.888889,1.28062,0.0879227,0.8,2.22786,10,Music,0,1,monthly subscription with a price rise
+12,334,31,0.053054,monthly,1,1.18732,0.0863979,0.75,3.42165,22,Cloud Storage,1,1,monthly subscription with a price rise
+5,122,30.5,0.0675919,monthly,1,1.0198,0.0776365,0.8,3.32288,0,News & Media,1,1,monthly subscription with a price rise
+13,369,30,0.059559,monthly,1,1.98217,0.102304,0.538462,3.19417,28,Streaming,1,1,monthly subscription with a price rise
+12,335,30,0.0530638,monthly,1,7.87886,0.108479,0.5,2.44712,25,Streaming,1,1,monthly subscription with a price rise
+4,89,31,0.088472,monthly,0.666667,1.78536,0.109971,0.5,2.05668,8,Education,1,1,monthly subscription with a price rise
+12,333,29,0.0772653,monthly,1,1.59861,0.0611859,0.666667,3.15359,18,Cloud Storage,1,1,monthly subscription with a price rise
+11,304,30.5,0.0885107,monthly,0.9,1.79991,0.0762412,0.636364,3.31419,14,Software,1,1,monthly subscription with a price rise
+7,182,31,0.0728929,monthly,1,1.66599,0.0280773,0.714286,3.19171,18,Fitness,0,1,monthly subscription with a price rise
+4,92,29,0.125824,monthly,0.666667,2.27761,0.0823529,0.5,2.842,26,Cloud Storage,0,1,monthly subscription with a price rise
+8,216,31,0.0502907,monthly,1,0.780625,0.0713243,0.75,2.49403,12,News & Media,1,1,monthly subscription with a price rise
+7,180,30.5,0.113855,monthly,0.5,2.3819,0.0816331,0.857143,2.71204,23,Music,1,1,monthly subscription with a price rise
+8,215,30,0.0644484,monthly,1,1.65831,0.0309993,0.5,3.34709,2,Cloud Storage,1,1,monthly subscription with a price rise
+7,179,30,0.0527038,monthly,1,0.880631,0.0210941,0.857143,2.7682,22,Streaming,1,1,monthly subscription with a price rise
+10,276,31,0.0670045,monthly,0.888889,1.49666,0.0841885,0.7,3.2554,27,Cloud Storage,1,1,monthly subscription with a price rise
+17,113,7,0.161973,weekly,1,9.07409,0.0194433,0.411765,3.93261,5,Food Delivery,1,1,weekly meal kit
+8,49,7,0.202031,weekly,1,9.23901,0.0158565,0.25,4.42556,26,Food Delivery,1,1,weekly meal kit
+23,154,7,0.268991,weekly,0.727273,8.4993,0.0181049,0.26087,3.94951,18,Food Delivery,1,1,weekly meal kit
+5,25,6,0.207846,weekly,1,8.07465,0.0194637,0.4,4.26914,16,Food Delivery,1,1,weekly meal kit
+21,142,7,0.153644,weekly,1,9.01045,0.018765,0.380952,4.38103,29,Food Delivery,1,1,weekly meal kit
+12,76,7,0.168503,weekly,1,9.42072,0.0178178,0.166667,4.45342,13,Food Delivery,1,1,weekly meal kit
+14,90,7,0.183249,weekly,1,9.36886,0.0165714,0.0714286,4.49094,17,Food Delivery,0,1,weekly meal kit
+16,104,7,0.0980581,weekly,1,8.09297,0.0174021,0.25,4.21027,12,Food Delivery,1,1,weekly meal kit
+28,187,7,0.156822,weekly,1,8.97239,0.0183559,0.464286,4.01114,0,Food Delivery,1,1,weekly meal kit
+10,61,7,0.115919,weekly,1,8.73842,0.0156931,0.3,4.29367,28,Food Delivery,1,1,weekly meal kit
+24,162,7,0.184773,weekly,1,8.77496,0.0181223,0.291667,4.22552,9,Food Delivery,1,1,weekly meal kit
+9,58,7,0.215345,weekly,1,8.85828,0.0140185,0.111111,4.42592,8,Food Delivery,1,1,weekly meal kit
+21,138,7,0.158097,weekly,1,8.7862,0.0158339,0.285714,4.32427,25,Food Delivery,1,1,weekly meal kit
+21,139,7,0.1244,weekly,1,8.59626,0.0174695,0.333333,4.32267,30,Food Delivery,1,1,weekly meal kit
+20,134,7,0.180961,weekly,1,8.87412,0.0184289,0.15,4.13509,23,Fees,1,1,weekly meal kit
+27,184,7,0.161222,weekly,1,8.51288,0.0159114,0.148148,4.2023,2,Food Delivery,1,1,weekly meal kit
+6,35,7,0,weekly,1,7.27438,0.00945123,0.5,4.06723,5,Food Delivery,0,1,weekly meal kit
+6,35,7,0,weekly,1,9.63933,0.0180185,0.166667,4.41104,19,Cloud Storage,1,1,weekly meal kit
+8,49,7,0.332847,irregular,0.428571,8.4816,0.0129742,0.625,4.24563,1,Food Delivery,1,1,weekly meal kit
+7,42,7,0.184428,weekly,1,9.6214,0.0193415,0.142857,4.48424,5,Food Delivery,1,1,weekly meal kit
+17,113,7,0.161973,weekly,1,8.58703,0.0203011,0.294118,4.06044,6,Food Delivery,1,1,weekly meal kit
+27,182,7,0.153453,weekly,1,8.7969,0.0174577,0.481481,3.96443,7,Food Delivery,1,1,weekly meal kit
+30,202,7,0.320981,weekly,0.758621,8.55336,0.0162987,0.233333,4.26451,24,Food Delivery,1,1,weekly meal kit
+27,181,7,0.171271,weekly,1,8.60806,0.0151269,0.148148,4.42161,16,Food Delivery,0,1,weekly meal kit
+8,49,8,0.389363,irregular,0.428571,8.2727,0.0178735,0.25,4.41468,22,Food Delivery,1,1,weekly meal kit
+19,129,7.5,0.219395,weekly,0.888889,8.50126,0.0163011,0.263158,4.24463,21,Food Delivery,0,1,weekly meal kit
+26,172,7,0.230074,weekly,0.84,8.8586,0.0169502,0.269231,4.20641,13,Food Delivery,1,1,weekly meal kit
+25,170,7,0.167621,weekly,1,8.42511,0.0148007,0.4,4.46568,5,Food Delivery,1,1,weekly meal kit
+5,28,6.5,0.174964,weekly,1,9.16515,0.0122001,0.2,4.42736,2,Food Delivery,1,1,weekly meal kit
+22,147,7,0.170747,weekly,1,9.00964,0.0161997,0.272727,4.46643,19,Food Delivery,1,1,weekly meal kit
+16,106,7,0.150353,weekly,1,9.11729,0.0205082,0.3125,4.19389,7,Food Delivery,1,1,weekly meal kit
+22,148,7,0.229531,weekly,0.809524,8.45173,0.0175169,0.272727,4.09218,2,Food Delivery,1,1,weekly meal kit
+30,203,7,0.135266,weekly,1,8.90693,0.0158565,0.433333,4.13188,8,Food Delivery,1,1,weekly meal kit
+24,161,7,0.14593,weekly,1,8.83088,0.0182876,0.333333,4.4131,15,Food Delivery,1,1,weekly meal kit
+30,202,7,0.239882,weekly,0.793103,8.5804,0.016885,0.166667,3.95824,13,Food Delivery,1,1,weekly meal kit
+10,62,7,0.106988,weekly,1,8.39285,0.0208522,0.5,4.47989,10,Food Delivery,1,1,weekly meal kit
+28,191,7,0.132865,weekly,1,8.82714,0.0153924,0.214286,3.94304,30,Food Delivery,1,1,weekly meal kit
+6,34,6,0.171499,weekly,1,10.0568,0.00901485,0.333333,3.98425,22,Food Delivery,1,1,weekly meal kit
+17,113,7,0.154043,weekly,1,8.888,0.0198409,0.352941,4.4628,3,Food Delivery,1,1,weekly meal kit
+11,67,6.5,0.221882,weekly,0.8,9.51901,0.0202708,0.272727,4.06062,7,Food Delivery,1,1,weekly meal kit
+4,278,90,0.0485278,quarterly,1,2.48747,0,1,3.90741,12,Education,1,1,quarterly plan
+5,365,90.5,0.0549996,quarterly,1,2.63818,0,1,5.20186,6,Education,1,1,quarterly plan
+2,87,87,,quarterly,1,2,0,1,4.73848,19,Education,1,1,quarterly plan
+4,277,94,0.0334788,quarterly,1,11.2805,0,1,4.10363,8,Insurance,1,1,quarterly plan
+3,184,92,0.076087,quarterly,1,3.29983,0,1,5.57367,9,Software,1,1,quarterly plan
+4,267,90,0.0510793,quarterly,0.666667,3.26917,0,1,5.4952,27,Software,1,1,quarterly plan
+4,276,94,0.0639983,quarterly,1,3.11247,0,1,4.31802,3,Software,1,1,quarterly plan
+2,91,91,,quarterly,1,0,0,1,4.98757,15,Insurance,1,1,quarterly plan
+4,283,95,0.00999444,quarterly,1,3.96074,0,1,4.01006,26,Software,1,1,quarterly plan
+2,98,98,,quarterly,1,3,0,1,5.49141,24,Insurance,1,1,quarterly plan
+4,270,89,0.0327102,quarterly,1,1.92029,0,1,4.0441,12,Software,1,1,quarterly plan
+2,85,85,,quarterly,1,3.5,0,1,3.17764,18,Education,1,1,quarterly plan
+5,361,87.5,0.0769166,quarterly,0.75,4.07922,0,1,5.26186,21,Software,1,1,quarterly plan
+4,280,95,0.0497442,quarterly,1,2.59808,0,1,4.46637,28,Education,0,1,quarterly plan
+3,182,91,0.021978,quarterly,1,0.816497,0,1,5.41597,3,Education,1,1,quarterly plan
+4,279,93,0.0351181,quarterly,1,13.5923,0,1,3.94623,7,Insurance,1,1,quarterly plan
+2,98,98,,quarterly,1,11,0,1,5.06771,27,Insurance,1,1,quarterly plan
+2,92,92,,quarterly,1,0,0,1,5.14464,26,Insurance,1,1,quarterly plan
+3,176,88,0.0340909,quarterly,1,12.9615,1.16506e-16,1,5.50105,25,Education,1,1,quarterly plan
+3,182,91,0.032967,quarterly,1,1.63299,0,1,4.83842,21,Education,1,1,quarterly plan
+4,280,94,0.0440315,quarterly,1,2.38485,0,1,4.81421,9,Education,1,1,quarterly plan
+3,182,91,0,quarterly,1,0.816497,0,1,5.50582,9,Insurance,1,1,quarterly plan
+5,361,91,0.0784966,quarterly,0.75,4.22374,0,1,4.39061,27,Insurance,0,1,quarterly plan
+4,272,89,0.0776423,irregular,0.333333,3.5,0,1,5.41863,25,Insurance,1,1,quarterly plan
+4,277,93,0.0270156,quarterly,1,2.06155,0,1,5.69884,6,Software,1,1,quarterly plan
+4,270,88,0.0480055,quarterly,1,2.95804,0,1,5.53457,13,Software,1,1,quarterly plan
+2,89,89,,quarterly,1,1,0,1,5.07486,29,Insurance,1,1,quarterly plan
+3,183,91.5,0.0163934,quarterly,1,0.471405,0,1,4.12147,7,Insurance,1,1,quarterly plan
+3,180,90,0.0222222,quarterly,1,12.4989,1.59619e-16,1,5.18772,25,Software,1,1,quarterly plan
+4,273,90,0.0155408,quarterly,1,0.829156,0,1,4.98429,26,Streaming,1,1,quarterly plan
+2,92,92,,quarterly,1,0,0,1,5.13597,2,Insurance,1,1,quarterly plan
+5,357,89.5,0.0320603,quarterly,1,2.78568,1.18109e-16,1,4.79843,3,Other,1,1,quarterly plan
+3,188,94,0.0106383,quarterly,1,11.5566,0,1,3.76653,1,Education,1,1,quarterly plan
+2,84,84,,quarterly,1,2.5,0,1,5.15485,7,Software,1,1,quarterly plan
+3,188,94,0.0212766,quarterly,1,1.88562,0,1,4.06783,23,Software,1,1,quarterly plan
+3,190,95,0.0105263,quarterly,1,3.68179,0,1,4.37601,24,Software,1,1,quarterly plan
+2,93,93,,quarterly,1,1,0,1,5.47282,16,Insurance,0,1,quarterly plan
+3,187,93.5,0.00534759,quarterly,1,1.63299,0,1,5.26062,9,Education,1,1,quarterly plan
+3,181,90.5,0.0165746,quarterly,1,1.24722,0,1,5.18515,11,Education,0,1,quarterly plan
+4,273,88,0.0466224,quarterly,1,13.0958,0,1,5.15387,20,Software,1,1,quarterly plan
+2,365,365,,annual,1,0,0,1,3.54847,30,Health,1,1,annual plan
+2,365,365,,annual,1,0.5,0,1,5.21096,3,Education,1,1,annual plan
+2,364,364,,annual,1,1,0,1,5.1661,0,News & Media,1,1,annual plan
+2,376,376,,annual,1,5,0,1,5.21216,23,News & Media,1,1,annual plan
+3,723,361.5,0.00691563,annual,1,3.39935,0,1,3.48646,17,Education,1,1,annual plan
+3,723,361.5,0.0124481,annual,1,3.77124,0,1,3.87888,4,Cloud Storage,1,1,annual plan
+2,372,372,,annual,1,12.5,0,1,4.22552,30,News & Media,1,1,annual plan
+3,727,363.5,0.0123796,annual,1,2.49444,0,1,3.62567,4,Software,0,1,annual plan
+2,366,366,,annual,1,0.5,0,1,5.27131,4,Education,1,1,annual plan
+3,735,367.5,0.0231293,annual,1,10.198,0,1,4.61838,4,Cloud Storage,1,1,annual plan
+3,720,360,0.00833333,annual,1,4.78423,0,1,4.5113,17,News & Media,1,1,annual plan
+2,357,357,,annual,1,4.5,0,1,4.52037,27,News & Media,1,1,annual plan
+2,372,372,,annual,1,3,0,1,5.25473,20,Cloud Storage,1,1,annual plan
+2,365,365,,annual,1,15,0,1,5.10188,25,Other,1,1,annual plan
+3,740,370,0.0108108,annual,1,4.02768,1.41542e-16,1,4.61907,7,Software,1,1,annual plan
+3,721,360.5,0.0124827,annual,1,4.71405,0,1,5.12474,17,News & Media,1,1,annual plan
+3,733,366.5,0.0095498,annual,1,2.0548,1.42787e-16,1,5.29857,14,Housing,1,1,annual plan
+3,741,370.5,0.0175439,annual,1,4.96655,0,1,4.01187,20,Cloud Storage,1,1,annual plan
+3,734,367,0.0108992,annual,1,2.44949,0,1,4.95138,20,Software,1,1,annual plan
+3,732,366,0.010929,annual,1,2.16025,0,1,3.52607,18,News & Media,1,1,annual plan
+3,727,363.5,0.0123796,annual,1,2.49444,0,1,5.0451,10,News & Media,1,1,annual plan
+2,363,363,,annual,1,13.5,0,1,5.21107,22,Education,1,1,annual plan
+2,372,372,,annual,1,3.5,0,1,4.9748,0,Education,1,1,annual plan
+2,365,365,,annual,1,0.5,0,1,4.08396,29,Education,1,1,annual plan
+3,730,365,0.0109589,annual,1,2.16025,0,1,5.07524,17,Education,1,1,annual plan
+2,369,369,,annual,1,2,0,1,4.41195,12,Cloud Storage,1,1,annual plan
+2,367,367,,annual,1,0.5,0,1,3.65506,4,Cloud Storage,1,1,annual plan
+2,378,378,,annual,1,6,0,1,4.47949,21,News & Media,1,1,annual plan
+3,729,364.5,0.0205761,annual,1,3.85861,0,1,3.67503,5,Education,1,1,annual plan
+3,728,364,0.032967,annual,1,5.55778,1.47783e-16,1,5.26435,10,Software,1,1,annual plan
+2,370,370,,annual,1,2.5,0,1,3.91741,30,Education,1,1,annual plan
+2,373,373,,annual,1,3.5,0,1,4.99498,29,Cloud Storage,1,1,annual plan
+2,364,364,,annual,1,1,0,1,4.64641,8,Education,1,1,annual plan
+3,732,366,0.0218579,annual,1,10.1434,0,1,5.29692,20,Software,1,1,annual plan
+3,728,364,0.0302198,annual,1,11.5854,0,1,5.01297,30,Health,1,1,annual plan
+3,733,366.5,0.00682128,annual,1,1.63299,0,1,4.17731,22,News & Media,1,1,annual plan
+2,363,363,,annual,1,1.5,0,1,4.4512,21,Education,1,1,annual plan
+2,368,368,,annual,1,1.5,0,1,4.75247,0,Education,1,1,annual plan
+2,357,357,,annual,1,11.5,0,1,3.781,7,Education,1,1,annual plan
+3,730,365,0.00273973,annual,1,0.816497,0,1,5.04426,7,Utilities,1,1,annual plan
+9,241,30,0.0853401,monthly,0.875,1.74978,0.185068,0.111111,4.56237,4,Software,1,1,usage-based monthly SaaS
+7,182,30,0.077704,monthly,1,1.2454,0.173154,0.142857,4.62399,28,Cloud Storage,1,1,usage-based monthly SaaS
+8,215,31,0.0483363,monthly,1,1.89984,0.282823,0.125,4.66913,5,Cloud Storage,1,1,usage-based monthly SaaS
+8,213,30,0.0239391,monthly,1,0.992157,0.113099,0.125,4.54796,18,Software,1,1,usage-based monthly SaaS
+4,91,31,0.0310816,monthly,1,0.707107,0.153122,0.25,3.77838,12,Cloud Storage,1,1,usage-based monthly SaaS
+6,156,32,0.0373779,monthly,1,1.21335,0.146092,0.166667,4.35613,7,Cloud Storage,0,1,usage-based monthly SaaS
+5,123,29.5,0.0808933,monthly,0.75,1.62481,0.107017,0.2,4.54775,19,Software,1,1,usage-based monthly SaaS
+10,270,30,0.0684935,monthly,0.888889,1.8868,0.233693,0.1,4.35099,19,Software,1,1,usage-based monthly SaaS
+3,61,30.5,0.0491803,monthly,1,0.816497,0.152109,0.333333,4.69281,15,Software,1,1,usage-based monthly SaaS
+13,367,30,0.0541542,monthly,1,1.45951,0.137044,0.0769231,4.5777,13,Software,1,1,usage-based monthly SaaS
+10,276,31,0.0652174,monthly,1,1.34164,0.205525,0.2,3.7281,16,Cloud Storage,0,1,usage-based monthly SaaS
+8,212,30,0.108388,monthly,0.714286,2.05776,0.0980996,0.125,4.11423,4,Software,1,1,usage-based monthly SaaS
+13,364,31,0.0992059,monthly,0.75,1.82358,0.215705,0.0769231,4.24118,28,Cloud Storage,1,1,usage-based monthly SaaS
+5,125,31.5,0.069282,monthly,1,1.0198,0.175518,0.2,4.53002,25,Cloud Storage,1,1,usage-based monthly SaaS
+5,121,29.5,0.0752928,monthly,1,1.85472,0.12143,0.2,2.52011,16,Utilities,1,1,usage-based monthly SaaS
+7,182,31,0.0591776,monthly,1,1.16058,0.213224,0.142857,2.87526,26,Insurance,1,1,usage-based monthly SaaS
+7,182,30.5,0.0491444,monthly,1,1.03016,0.200175,0.285714,3.92217,10,Software,0,1,usage-based monthly SaaS
+9,243,30,0.0365769,monthly,1,0.831479,0.10416,0.111111,4.12358,14,Cloud Storage,1,1,usage-based monthly SaaS
+11,304,29.5,0.0752995,monthly,1,1.46587,0.219863,0.0909091,4.43129,17,Dining,1,1,usage-based monthly SaaS
+13,363,30,0.0854883,monthly,1,1.85574,0.206073,0.153846,4.73532,10,Cloud Storage,1,1,usage-based monthly SaaS
+3,60,30,0,monthly,1,13.9124,0.0708674,0.333333,4.74676,9,Software,1,1,usage-based monthly SaaS
+4,90,30,0.108866,monthly,0.666667,1.78536,0.104468,0.25,4.35812,17,Cloud Storage,1,1,usage-based monthly SaaS
+10,275,31,0.0656563,monthly,1,1.44568,0.288219,0.1,4.26367,15,Cloud Storage,1,1,usage-based monthly SaaS
+10,270,30,0.0471405,monthly,1,1.36015,0.147752,0.1,4.18662,1,Travel,1,1,usage-based monthly SaaS
+12,332,30,0.067486,monthly,1,1.60511,0.134871,0.0833333,3.85291,24,Software,1,1,usage-based monthly SaaS
+5,122,30,0.0714574,monthly,1,1.46969,0.0818965,0.2,4.71644,29,Fees,1,1,usage-based monthly SaaS
+4,92,31,0.0670045,monthly,1,1.29904,0.181121,0.25,4.86472,3,Software,1,1,usage-based monthly SaaS
+6,150,28,0.117379,monthly,0.8,10.1776,0.194746,0.166667,4.24585,18,Software,0,1,usage-based monthly SaaS
+6,149,29,0.0776902,monthly,1,1,0.293319,0.166667,2.78779,16,Cloud Storage,1,1,usage-based monthly SaaS
+4,91,31,0.0310816,monthly,1,0.5,0.157507,0.25,4.26914,5,Cloud Storage,1,1,usage-based monthly SaaS
+6,151,30,0.056969,monthly,1,1.60728,0.354871,0.166667,3.781,29,Software,1,1,usage-based monthly SaaS
+9,242,30.5,0.0488932,monthly,1,1.2862,0.197859,0.111111,4.23642,13,Cloud Storage,1,1,usage-based monthly SaaS
+5,122,30,0.0751242,monthly,1,13.7317,0.224781,0.2,4.15041,23,Cloud Storage,1,1,usage-based monthly SaaS
+5,125,32,0.104614,monthly,0.5,1.95959,0.169071,0.2,4.62399,10,Cloud Storage,1,1,usage-based monthly SaaS
+10,271,30,0.0758031,monthly,0.888889,1.11803,0.143673,0.1,4.4533,3,Transport,1,1,usage-based monthly SaaS
+7,181,30.5,0.0751462,monthly,1,1.41421,0.114805,0.142857,4.71465,14,Software,1,1,usage-based monthly SaaS
+5,123,31,0.0140817,monthly,1,0.489898,0.0892427,0.2,4.33139,24,Cloud Storage,1,1,usage-based monthly SaaS
+12,337,31,0.0626668,monthly,1,1.17851,0.15319,0.0833333,4.19117,1,Cloud Storage,1,1,usage-based monthly SaaS
+4,90,29,0.0720082,monthly,1,1.41421,0.289179,0.25,3.85925,0,Software,1,1,usage-based monthly SaaS
+9,242,30.5,0.0931358,monthly,0.875,13.4412,0.122142,0.111111,3.86472,18,Software,1,1,usage-based monthly SaaS
+3,63,31.5,0.015873,monthly,1,0.942809,0.0127752,0.333333,3.97687,6,Telecom,0,1,phone plan
+6,152,30,0.0610106,monthly,1,1.10554,0.0122709,0.666667,3.95355,14,Telecom,1,1,phone plan
+3,61,30.5,0.0163934,monthly,1,0.471405,0.0111687,0.333333,4.26493,9,Telecom,1,1,phone plan
+12,333,30,0.0317808,monthly,1,1.18732,0.0116566,0.583333,3.82035,3,Telecom,1,1,phone plan
+9,244,30,0.0463677,monthly,1,0.666667,0.00857116,0.333333,4.1239,10,Telecom,0,1,phone plan
+6,151,31,0.056969,monthly,1,1.21335,0.00753463,0.5,3.79019,30,Telecom,1,1,phone plan
+6,153,31,0.0333269,monthly,1,0.372678,0.0106794,0.333333,3.85439,9,Telecom,1,1,phone plan
+3,62,31,0.0645161,monthly,1,0.942809,0.000730642,1,4.22479,24,Telecom,1,1,phone plan
+11,305,30,0.0533732,monthly,1,12.6869,0.0052885,0.909091,4.00588,20,Telecom,1,1,phone plan
+12,335,30,0.0404915,monthly,1,0.953794,0.00923415,0.416667,3.59388,13,Telecom,1,1,phone plan
+3,59,29.5,0.0508475,monthly,1,13.1993,0.00553239,0.333333,3.90741,1,Health,1,1,phone plan
+10,275,31,0.0656563,monthly,1,1.32665,0.00815996,0.4,3.97509,5,Food Delivery,0,1,phone plan
+3,60,30,0.0666667,monthly,1,0.816497,0.00865851,0.666667,3.92356,13,Telecom,1,1,phone plan
+10,277,31,0.0608386,monthly,1,13.6985,0.0101921,0.5,4.14662,14,Telecom,1,1,phone plan
+6,152,30,0.0610106,monthly,1,10.4669,0.00708052,0.333333,4.24477,8,Telecom,1,1,phone plan
+10,274,31,0.0313953,monthly,1,0.774597,0.0105953,0.2,3.75197,24,Telecom,1,1,phone plan
+12,334,30,0.042763,monthly,1,1.44097,0.0110638,0.333333,3.93935,10,Telecom,1,1,phone plan
+8,212,31,0.0521008,monthly,1,1.29904,0.00708552,0.625,4.13276,4,Telecom,1,1,phone plan
+7,184,30.5,0.0585344,monthly,1,1.39971,0.011754,0.285714,3.80488,29,Telecom,1,1,phone plan
+11,304,30,0.0513832,monthly,1,1.15708,0.00858165,0.363636,3.53922,21,Telecom,1,1,phone plan
+7,183,31,0.0491803,monthly,1,1.03016,0.00926741,0.142857,4.07022,20,Telecom,1,1,phone plan
+4,92,31,0.0153719,monthly,1,0.433013,0.0137348,0.5,3.98806,29,Telecom,0,1,phone plan
+7,184,30,0.0834907,monthly,1,1.59079,0.0129218,0.285714,4.36856,28,Telecom,1,1,phone plan
+11,304,31,0.03663,monthly,1,0.987525,0.0116258,0.636364,3.69187,15,Telecom,1,1,phone plan
+3,63,31.5,0.015873,monthly,1,0.942809,0.0040151,1,4.3745,24,Food Delivery,1,1,phone plan
+3,62,31,0.0322581,monthly,1,0.471405,0.0113886,0.333333,3.66305,22,Telecom,1,1,phone plan
+4,92,31,0.0406702,monthly,1,0.829156,0.00623077,0.5,3.6364,14,Telecom,1,1,phone plan
+6,154,31,0.043073,monthly,1,1,0.0127287,0.333333,4.03371,18,Groceries,0,1,phone plan
+9,245,31,0.0459977,monthly,1,1.0304,0.012009,0.222222,3.5799,19,Telecom,1,1,phone plan
+9,245,30.5,0.0430027,monthly,1,0.816497,0.0139362,0.444444,3.73481,7,Telecom,1,1,phone plan
+10,275,30,0.0558629,monthly,1,8.77268,0.0110332,0.5,3.92652,2,Telecom,0,1,phone plan
+11,303,30.5,0.0490629,monthly,1,1.12815,0.00846585,0.454545,3.57851,9,Education,1,1,phone plan
+4,87,28,0.048766,monthly,1,1.80278,0.00981367,0.25,4.07881,25,Telecom,1,1,phone plan
+5,121,30.5,0.0274101,monthly,1,0.632456,0.0117783,0.2,3.52988,8,Telecom,0,1,phone plan
+12,339,31,0.0361282,monthly,1,7.43117,0.0115203,0.25,3.46088,22,Telecom,1,1,phone plan
+3,62,31,0.0322581,monthly,1,0.816497,0.0108247,0.333333,3.73098,10,Telecom,0,1,phone plan
+7,182,30,0.0411171,monthly,1,1.04978,0.0140185,0.285714,3.85057,23,Telecom,1,1,phone plan
+10,275,31,0.0411408,monthly,1,0.7,0.00753064,0.5,4.14011,13,Telecom,1,1,phone plan
+13,365,30.5,0.0560808,monthly,1,1.42256,0.01395,0.384615,3.93905,16,Telecom,1,1,phone plan
+4,93,30,0.0456198,monthly,1,0.707107,0.00146543,1,4.34166,2,Telecom,1,1,phone plan
+11,307,31,0.0438229,monthly,1,1.21288,1.91469e-16,1,4.32042,28,Insurance,1,1,insurance premium
+10,275,30,0.0558629,monthly,1,1.18322,0,1,4.43355,24,Insurance,1,1,insurance premium
+7,185,31,0.0509945,monthly,1,1.03016,0,1,5.25206,2,Insurance,1,1,insurance premium
+4,93,32,0.0456198,monthly,1,0.5,0,1,5.05803,10,Insurance,1,1,insurance premium
+11,307,30.5,0.0461806,monthly,1,1.07565,1.69864e-16,1,5.12587,16,Fees,0,1,insurance premium
+7,184,30.5,0.0406702,monthly,1,0.699854,1.25854e-16,1,5.4242,18,Insurance,1,1,insurance premium
+11,304,30,0.0492323,monthly,1,1.35451,1.76204e-16,1,4.40244,24,Insurance,1,1,insurance premium
+10,277,30,0.0478935,monthly,1,12.9,0,1,5.3045,16,Insurance,1,1,insurance premium
+4,91,31,0.0560332,monthly,1,0.829156,0,1,4.82503,24,Insurance,1,1,insurance premium
+5,121,30,0.0429434,monthly,1,0.632456,1.14539e-16,1,4.82887,20,Insurance,1,1,insurance premium
+4,89,29,0.0572924,monthly,1,1.29904,0,1,4.13003,24,Insurance,1,1,insurance premium
+13,363,30,0.0429434,monthly,1,0.973009,3.66354e-16,1,4.76533,17,Insurance,1,1,insurance premium
+11,304,30,0.0492323,monthly,1,1.3727,1.73494e-16,1,5.10485,23,Insurance,1,1,insurance premium
+5,120,29.5,0.0408248,monthly,1,0.748331,0,1,4.50811,1,Insurance,1,1,insurance premium
+11,305,30,0.0421155,monthly,1,0.962091,0,1,4.82791,24,Insurance,1,1,insurance premium
+9,245,30,0.0459977,monthly,1,0.87489,0,1,4.47198,22,Insurance,1,1,insurance premium
+12,334,30,0.0548811,monthly,1,1.32025,0,1,4.08193,23,Insurance,0,1,insurance premium
+9,245,30.5,0.0631005,monthly,1,1.1547,0,1,5.25546,5,Insurance,1,1,insurance premium
+12,334,30,0.0491966,monthly,1,1.23322,1.89289e-16,1,5.01827,0,Insurance,0,1,insurance premium
+8,215,30,0.0286717,monthly,1,1.05327,0,1,5.24534,7,Insurance,1,1,insurance premium
+9,242,30,0.039635,monthly,1,0.87489,0,1,4.89515,3,Insurance,1,1,insurance premium
+11,303,31,0.0591303,monthly,1,1.22643,0,1,4.64909,14,Insurance,1,1,insurance premium
+5,121,30,0.0634805,monthly,1,0.8,0,1,4.24935,13,Insurance,1,1,insurance premium
+13,363,30,0.0634805,monthly,1,1.41421,1.81088e-16,1,5.06228,18,Insurance,1,1,insurance premium
+6,151,31,0.0486654,monthly,1,0.957427,0,1,5.35266,17,Insurance,1,1,insurance premium
+4,92,30,0.0307438,monthly,1,0.5,0,1,5.49117,5,Insurance,1,1,insurance premium
+6,155,31,0.0456198,monthly,1,1.70783,0,1,5.22704,19,Insurance,1,1,insurance premium
+5,124,31.5,0.0603493,monthly,1,0.748331,0,1,4.18464,11,Insurance,1,1,insurance premium
+8,216,31,0.0364537,monthly,1,13.6239,0,1,5.36513,21,Insurance,1,1,insurance premium
+7,183,30.5,0.0727002,monthly,1,0.92582,1.31789e-16,1,4.68979,4,Insurance,1,1,insurance premium
+10,274,31,0.0581656,monthly,1,1.13578,2.15479e-16,1,4.20395,16,Insurance,1,1,insurance premium
+12,331,30,0.0574813,monthly,1,1.59861,1.85982e-16,1,5.03578,18,Insurance,1,1,insurance premium
+8,214,31,0.0343386,monthly,1,12.2857,0,1,5.37189,23,Insurance,1,1,insurance premium
+9,245,31,0.0362783,monthly,1,0.816497,0,1,5.28665,11,Insurance,1,1,insurance premium
+12,335,31,0.0292476,monthly,1,1.06719,1.34598e-16,1,5.35734,25,Insurance,1,1,insurance premium
+7,182,29.5,0.0527014,monthly,1,1.03016,2.62096e-16,1,4.69538,29,Insurance,1,1,insurance premium
+3,59,29.5,0.0508475,monthly,1,1.24722,0,1,5.12295,3,Insurance,1,1,insurance premium
+6,153,30,0.044329,monthly,1,0.942809,1.16387e-16,1,4.12794,27,Insurance,1,1,insurance premium
+9,244,30.5,0.043373,monthly,1,0.993808,0,1,4.70456,4,Insurance,1,1,insurance premium
+6,152,30,0.0492323,monthly,1,1.06719,0,1,4.84529,23,Insurance,1,1,insurance premium
+7,187,32,0.0915361,monthly,0.833333,13.6561,0.0471016,0.142857,4.06457,6,Utilities,0,1,utility bill
+13,365,30.5,0.097212,monthly,0.75,7.58151,0.231426,0.0769231,4.4358,21,Utilities,0,1,utility bill
+13,365,30,0.0853723,monthly,0.916667,7.24875,0.176401,0.0769231,4.88583,18,Utilities,0,1,utility bill
+13,366,31,0.0634915,monthly,0.916667,1.21139,0.210092,0.153846,4.31254,29,Utilities,0,1,utility bill
+7,184,30.5,0.0643052,monthly,1,1.51186,0.0617938,0.142857,5.09865,26,Utilities,0,1,utility bill
+6,154,32,0.107487,monthly,0.6,10.3763,0.0669815,0.333333,4.89791,8,Utilities,0,1,utility bill
+11,308,30.5,0.0971859,monthly,0.8,2.22681,0.102027,0.0909091,4.45887,15,Utilities,0,1,utility bill
+13,367,30,0.0909853,monthly,0.916667,1.54613,0.180311,0.0769231,4.7755,1,Utilities,1,1,utility bill
+13,368,31.5,0.085587,monthly,0.833333,2.36593,0.236288,0.0769231,3.68311,4,Utilities,0,1,utility bill
+13,366,30,0.0997174,monthly,0.833333,2.25845,0.249164,0.0769231,4.00186,4,Utilities,0,1,utility bill
+11,305,32,0.0722056,monthly,0.9,7.53285,0.19587,0.0909091,4.91464,17,Other,1,1,utility bill
+7,182,29.5,0.077704,monthly,1,9.46314,0.13011,0.142857,4.76525,0,Utilities,0,1,utility bill
+13,368,31,0.0780038,monthly,0.916667,1.77424,0.114524,0.0769231,4.07397,7,Utilities,0,1,utility bill
+10,275,29,0.129181,monthly,0.555556,2.24499,0.211795,0.1,4.64919,26,Utilities,0,1,utility bill
+9,245,29.5,0.124272,monthly,0.75,12.083,0.179527,0.111111,5.14528,19,Utilities,0,1,utility bill
+4,90,32,0.0942809,monthly,0.666667,1.29904,0.126073,0.25,4.71591,17,Utilities,0,1,utility bill
+4,88,30,0.0321412,monthly,1,1.22474,0.111982,0.25,4.55519,4,Utilities,0,1,utility bill
+10,272,30,0.083675,monthly,0.888889,1.97231,0.207725,0.1,4.99278,12,Utilities,0,1,utility bill
+7,179,31.5,0.115171,monthly,0.833333,8.54759,0.0865851,0.142857,4.91684,11,Utilities,0,1,utility bill
+7,181,29.5,0.139878,monthly,0.5,2.64189,0.108996,0.142857,4.97113,10,Utilities,0,1,utility bill
+10,273,31,0.0728929,monthly,1,2.19089,0.162456,0.1,4.03521,14,Utilities,0,1,utility bill
+13,364,30,0.119118,monthly,0.666667,13.042,0.193961,0.0769231,4.54701,13,Utilities,0,1,utility bill
+12,340,32,0.0748701,monthly,1,12.8214,0.204374,0.0833333,5.04655,18,Utilities,0,1,utility bill
+7,182,30.5,0.077704,monthly,1,2.19461,0.108628,0.142857,5.0387,17,Utilities,0,1,utility bill
+5,123,31.5,0.101219,monthly,0.75,1.85472,0.102852,0.4,4.16604,10,Utilities,0,1,utility bill
+12,334,31,0.109025,monthly,0.727273,2.19216,0.252615,0.0833333,4.44922,2,Utilities,1,1,utility bill
+10,273,30,0.124326,monthly,0.777778,2.75862,0.200471,0.1,4.79227,8,Utilities,0,1,utility bill
+12,334,29,0.0913051,monthly,0.818182,2.23607,0.180668,0.0833333,4.70533,29,Utilities,0,1,utility bill
+6,157,31,0.0476644,monthly,1,13.1709,0.0868837,0.166667,4.5213,26,Utilities,0,1,utility bill
+7,188,33.5,0.127216,monthly,0.666667,2.24972,0.118831,0.285714,5.10504,10,Utilities,0,1,utility bill
+9,245,31.5,0.0539949,monthly,1,1.31468,0.202145,0.111111,4.63016,10,Housing,0,1,utility bill
+12,336,31,0.0960715,monthly,0.727273,2.12623,0.136282,0.0833333,3.99967,0,Utilities,1,1,utility bill
+5,121,30.5,0.11775,monthly,0.5,13.4848,0.0790199,0.2,4.14551,6,Utilities,1,1,utility bill
+9,243,29.5,0.097297,monthly,0.75,1.87248,0.12226,0.111111,4.97618,16,Utilities,1,1,utility bill
+8,215,30,0.0732466,monthly,0.857143,8.95824,0.16062,0.125,4.60056,12,Utilities,0,1,utility bill
+13,360,30,0.12838,monthly,0.583333,12.8611,0.181311,0.0769231,4.07822,22,Utilities,0,1,utility bill
+3,60,30,0.1,monthly,1,2.16025,0.102577,0.333333,4.98934,25,Utilities,0,1,utility bill
+11,307,31,0.105096,monthly,0.8,2.26727,0.217914,0.0909091,4.4643,19,Utilities,1,1,utility bill
+4,94,31,0.0915141,monthly,0.666667,2.04634,0.127017,0.25,4.59198,23,Utilities,0,1,utility bill
+7,184,32.5,0.135325,monthly,0.5,2.47436,0.118617,0.142857,4.27012,12,Utilities,0,1,utility bill
+5,124,31,0.0228099,monthly,1,1.0198,0,1,7.65492,16,Housing,0,1,rent
+11,304,30,0.0263158,monthly,1,0.715819,0,1,7.80016,9,Housing,0,1,rent
+11,304,30,0.03663,monthly,1,0.899954,0,1,7.03966,15,Housing,0,1,rent
+9,244,31,0.0675919,monthly,1,1.16534,0,1,7.50714,18,Housing,0,1,rent
+10,275,30,0.0312812,monthly,1,0.781025,0,1,7.93773,8,Housing,0,1,rent
+3,61,30.5,0.0491803,monthly,1,0.816497,0,1,7.93057,6,Housing,0,1,rent
+11,307,31,0.0358306,monthly,1,0.935966,0,1,7.28688,8,Housing,0,1,rent
+5,124,31,0.0228099,monthly,1,0.632456,0,1,7.08255,12,Housing,0,1,rent
+12,333,30,0.0582304,monthly,1,1.5456,0,1,7.88269,8,Housing,0,1,rent
+13,365,30.5,0.0283399,monthly,1,1.38888,0,1,7.85593,15,Housing,0,1,rent
+5,123,31,0.0354382,monthly,1,1.0198,0,1,7.95191,8,Utilities,0,1,rent
+8,214,31,0.029554,monthly,1,1.11102,0,1,7.90875,28,Housing,0,1,rent
+8,215,31,0.0377862,monthly,1,0.695971,0,1,7.41518,28,Housing,0,1,rent
+3,61,30.5,0.0491803,monthly,1,0.942809,0,1,7.68294,14,Housing,0,1,rent
+13,363,30.5,0.0524864,monthly,1,1.21626,0,1,7.9831,5,Housing,1,1,rent
+6,153,30,0.0392157,monthly,1,0.745356,0,1,7.96242,0,Housing,0,1,rent
+5,120,30,0.0333333,monthly,1,1.0198,0,1,7.59639,0,Housing,0,1,rent
+5,121,30,0.036024,monthly,1,1.46969,0,1,7.36581,7,Housing,0,1,rent
+10,275,30,0.0558629,monthly,1,1.00499,0,1,8.00336,4,Housing,1,1,rent
+8,212,31,0.0894984,monthly,0.714286,1.76334,0,1,7.89395,18,Housing,0,1,rent
+3,61,30.5,0.0163934,monthly,1,0.471405,0,1,6.94794,22,Housing,0,1,rent
+8,212,31,0.0521008,monthly,1,1.08972,0,1,7.14756,17,Housing,0,1,rent
+11,304,30,0.0627592,monthly,1,12.8307,0,1,7.89395,21,Housing,0,1,rent
+4,92,31,0.0406702,monthly,1,0.707107,0,1,7.87891,10,Housing,0,1,rent
+4,91,31,0.0560332,monthly,1,1.11803,0,1,7.88269,8,Housing,0,1,rent
+4,93,30,0.0456198,monthly,1,12.5773,0,1,7.17855,14,Dining,0,1,rent
+3,65,32.5,0.0769231,monthly,0.5,3.09121,0,1,7.90507,15,Housing,1,1,rent
+4,90,28,0.0942809,monthly,1,1.08972,0,1,7.87891,0,Housing,0,1,rent
+13,365,30.5,0.0492389,monthly,1,1.06588,0,1,7.08255,19,Housing,0,1,rent
+7,183,30,0.0491803,monthly,1,1.76126,0,1,7.43897,22,Housing,0,1,rent
+3,62,31,0,monthly,1,0.471405,0,1,7.96242,2,Housing,0,1,rent
+9,243,30.5,0.0433566,monthly,1,0.993808,0,1,7.66435,2,Housing,0,1,rent
+11,305,31,0.0335966,monthly,1,0.862439,0,1,7.43897,19,Housing,0,1,rent
+13,364,30,0.0527014,monthly,1,1.24985,0,1,7.59136,24,Housing,0,1,rent
+9,241,30.5,0.0349633,monthly,1,12.2696,0,1,7.97281,27,Housing,0,1,rent
+9,244,31,0.0591074,monthly,1,1.56347,0,1,6.79234,25,Housing,0,1,rent
+12,334,30,0.0403914,monthly,1,13.7497,0,1,7.7878,14,Housing,0,1,rent
+7,183,30.5,0.0675919,monthly,1,1.60357,0,1,6.94794,4,Housing,1,1,rent
+10,274,30,0.0350061,monthly,1,0.943398,0,1,7.77947,4,Housing,0,1,rent
+7,182,30,0.0453089,monthly,1,1.06904,0,1,7.17855,6,Housing,0,1,rent
+19,126,7,0.190476,weekly,0.944444,8.21356,0.357384,0.0526316,4.84953,19,Groceries,0,0,grocery runs
+34,231,7,0.26552,weekly,0.757576,8.9346,0.40148,0.0588235,4.95762,6,Groceries,0,0,grocery runs
+24,159,7,0.455269,weekly,0.565217,8.19171,0.480773,0.0833333,4.65553,22,Groceries,0,0,grocery runs
+38,299,8,0.417297,irregular,0.432432,8.83682,0.338081,0.0263158,4.92718,22,Groceries,1,0,grocery runs
+12,75,7,0.305214,weekly,0.818182,8.14282,0.351767,0.166667,4.9494,29,Groceries,0,0,grocery runs
+33,253,8,0.527561,irregular,0.3125,8.87667,0.434385,0.030303,4.63677,11,Groceries,1,0,grocery runs
+15,129,9.5,0.445922,irregular,0.428571,7.6111,0.37999,0.0666667,4.92906,12,Music,0,0,grocery runs
+15,112,6,0.57087,irregular,0.428571,8.88044,0.385319,0.0666667,4.775,5,Groceries,0,0,grocery runs
+32,216,7,0.237604,weekly,0.806452,8.34036,0.447071,0.03125,4.81758,6,Groceries,0,0,grocery runs
+15,102,7,0.364727,irregular,0.428571,9.30567,0.358818,0.0666667,5.01297,5,Groceries,0,0,grocery runs
+32,235,8,0.557431,irregular,0.322581,8.1934,0.432709,0.03125,4.67944,29,Groceries,0,0,grocery runs
+19,154,8.5,0.391984,irregular,0.388889,9.26704,0.437779,0.0526316,4.85919,1,Groceries,0,0,grocery runs
+18,122,7,0.380066,weekly,0.588235,8.47145,0.59214,0.111111,4.58159,11,Groceries,0,0,grocery runs
+15,96,6,0.245621,weekly,0.928571,8.73664,0.480378,0.133333,4.52797,29,Groceries,1,0,grocery runs
+40,272,6,0.373736,weekly,0.666667,8.72983,0.426489,0.025,4.79913,18,Groceries,0,0,grocery runs
+26,176,8,0.351355,weekly,0.76,9.21738,0.43871,0.0384615,4.69597,8,Cloud Storage,0,0,grocery runs
+8,47,6,0.362327,weekly,0.714286,7.76913,0.444969,0.125,4.48588,11,Groceries,0,0,grocery runs
+11,70,7,0.191663,weekly,0.9,8.28221,0.318074,0.0909091,5.0131,23,Groceries,0,0,grocery runs
+38,257,7,0.543801,irregular,0.378378,8.51543,0.414929,0.0263158,4.78478,21,Groceries,0,0,grocery runs
+17,137,9,0.416954,irregular,0.4375,8.96359,0.403802,0.117647,4.79182,25,Groceries,0,0,grocery runs
+15,103,7,0.196347,weekly,0.857143,9.35379,0.554062,0.0666667,4.62536,14,Groceries,0,0,grocery runs
+15,97,7,0.301094,weekly,0.642857,8.52187,0.468006,0.0666667,4.63773,5,Groceries,0,0,grocery runs
+7,42,6,0.368856,weekly,0.5,8.91914,0.450572,0.142857,4.88075,26,Shopping,0,0,grocery runs
+37,263,7,0.549255,irregular,0.305556,8.52196,0.437849,0.027027,4.86097,13,Groceries,0,0,grocery runs
+38,273,6,0.543361,irregular,0.297297,8.26768,0.556135,0.0263158,4.55335,0,Groceries,0,0,grocery runs
+22,146,7,0.36999,weekly,0.619048,8.8197,0.465141,0.0454545,4.70202,9,Groceries,0,0,grocery runs
+34,232,7,0.289789,weekly,0.727273,8.81156,0.425891,0.0294118,4.79405,6,Groceries,0,0,grocery runs
+36,308,9,0.427611,irregular,0.485714,8.83608,0.54518,0.0555556,4.51776,5,Insurance,0,0,grocery runs
+20,157,10,0.549472,irregular,0.473684,8.57598,0.395494,0.05,4.77424,28,Groceries,1,0,grocery runs
+28,185,7,0.296461,weekly,0.740741,8.61085,0.335999,0.0357143,4.92373,8,Groceries,0,0,grocery runs
+33,222,7,0.41705,weekly,0.5625,8.66932,0.648486,0.030303,4.52915,5,Groceries,0,0,grocery runs
+7,50,8,0.344093,weekly,0.5,9.04637,0.63165,0.142857,4.51776,27,Travel,0,0,grocery runs
+6,34,7,0.235294,weekly,0.8,7.59386,0.300189,0.166667,5.01307,23,Groceries,0,0,grocery runs
+27,184,7,0.300834,weekly,0.653846,8.78613,0.446994,0.037037,4.69153,16,Groceries,0,0,grocery runs
+5,27,6,0.303161,weekly,0.75,7.52064,0.341838,0.2,4.57151,2,Groceries,0,0,grocery runs
+32,297,10,0.365223,irregular,0.483871,8.82684,0.485037,0.0625,4.69084,19,Travel,0,0,grocery runs
+37,251,7,0.291763,weekly,0.666667,8.82978,0.430333,0.027027,4.73961,30,Groceries,0,0,grocery runs
+11,68,7,0.307068,weekly,0.7,8.67027,0.711075,0.0909091,4.34484,25,Groceries,0,0,grocery runs
+18,123,7,0.309157,weekly,0.588235,8.31331,0.374494,0.0555556,4.77689,14,Groceries,1,0,grocery runs
+35,239,7,0.281332,weekly,0.764706,8.46824,0.660799,0.0285714,4.35054,27,Groceries,0,0,grocery runs
+44,139,3,0.498536,irregular,0.27907,9.14608,0.290121,0.0681818,1.96641,21,Education,0,0,coffee
+42,142,3,0.49846,irregular,0.341463,8.85663,0.331921,0.047619,1.85786,28,Shopping,0,0,coffee
+78,270,3,0.523285,irregular,0.402597,8.52097,0.295198,0.0512821,1.9409,30,Dining,0,0,coffee
+37,135,4,0.450514,irregular,0.388889,9.09571,0.271353,0.0540541,1.94162,8,Dining,0,0,coffee
+19,55,3,0.592236,irregular,0.277778,8.5678,0.271593,0.105263,1.94876,13,Dining,0,0,coffee
+40,149,4,0.435053,irregular,0.384615,8.52932,0.293449,0.05,1.95869,8,Dining,0,0,coffee
+28,100,4,0.491935,irregular,0.37037,8.87807,0.266692,0.107143,1.981,30,Dining,0,0,coffee
+28,85,3,0.438304,irregular,0.148148,8.61655,0.230738,0.0714286,1.9373,29,Dining,0,0,coffee
+23,71,3.5,0.493762,irregular,0.272727,9.15669,0.296163,0.130435,1.99061,8,Dining,1,0,coffee
+72,226,3,0.556292,irregular,0.295775,8.97784,0.298603,0.0555556,2.00821,0,Dining,0,0,coffee
+65,233,4,0.464135,irregular,0.34375,8.4586,0.369346,0.0307692,1.75613,5,Dining,0,0,coffee
+50,162,3,0.533442,irregular,0.285714,8.51155,0.240674,0.02,1.96501,13,Dining,0,0,coffee
+65,219,3,0.518682,irregular,0.375,8.398,0.302198,0.0615385,1.96991,1,Dining,0,0,coffee
+47,166,4,0.460361,irregular,0.347826,8.06543,0.313828,0.0212766,1.9036,22,Fees,1,0,coffee
+29,88,3,0.45568,irregular,0.214286,9.71215,0.285997,0.0344828,2.01223,13,Dining,0,0,coffee
+67,224,4,0.510024,irregular,0.333333,9.16987,0.334536,0.0298507,1.86718,11,Dining,1,0,coffee
+23,68,3,0.568036,irregular,0.227273,9.03762,0.275293,0.0434783,1.93007,12,Dining,0,0,coffee
+35,126,4,0.411476,irregular,0.352941,8.63907,0.248175,0.0571429,2.04381,4,Dining,1,0,coffee
+61,210,4,0.512431,irregular,0.383333,8.60785,0.290165,0.0327869,1.92716,26,Dining,0,0,coffee
+76,257,3,0.528897,irregular,0.333333,8.90939,0.30155,0.0526316,1.91986,25,Dining,0,0,coffee
+23,68,3,0.542326,irregular,0.227273,7.84587,0.344575,0.0434783,1.86408,2,Dining,0,0,coffee
+60,211,4,0.520465,irregular,0.372881,8.23077,0.254482,0.0333333,1.92571,29,Dining,0,0,coffee
+61,187,3,0.546685,irregular,0.25,8.78242,0.274496,0.0327869,2.00013,20,Dining,0,0,coffee
+35,112,3,0.518165,irregular,0.235294,8.20433,0.288526,0.0285714,1.94591,21,Dining,0,0,coffee
+55,197,4,0.444996,irregular,0.388889,8.44576,0.319184,0.0545455,1.93297,26,Dining,1,0,coffee
+75,267,4,0.462012,irregular,0.351351,8.79903,0.347103,0.0533333,1.79675,4,Dining,0,0,coffee
+18,78,4,0.270145,irregular,0.470588,9.26763,0.269655,0.0555556,1.92789,26,Dining,0,0,coffee
+50,177,3,0.45374,irregular,0.346939,8.31483,0.33732,0.04,1.82777,14,Dining,0,0,coffee
+13,44,4,0.502062,irregular,0.416667,7.46907,0.241438,0.0769231,2.02022,24,Dining,0,0,coffee
+50,183,4,0.473995,irregular,0.44898,8.48566,0.28959,0.04,1.93225,13,Dining,0,0,coffee
+21,68,3.5,0.495656,irregular,0.3,9.10209,0.356779,0.0952381,1.90806,28,Dining,0,0,coffee
+16,56,4,0.493581,irregular,0.4,8.84502,0.311513,0.0625,1.87564,22,Dining,0,0,coffee
+47,164,4,0.50193,irregular,0.369565,9.61043,0.275888,0.0425532,1.98513,0,Dining,0,0,coffee
+57,186,3,0.546063,irregular,0.321429,8.91242,0.270198,0.0350877,1.92571,3,Dining,0,0,coffee
+19,72,4,0.399653,irregular,0.333333,7.56431,0.317681,0.105263,1.77665,0,Dining,1,0,coffee
+50,167,3,0.470203,irregular,0.326531,8.82136,0.332894,0.08,1.82294,20,Software,1,0,coffee
+35,121,4,0.463179,irregular,0.323529,8.71246,0.304348,0.0571429,1.96851,0,Dining,0,0,coffee
+69,251,4,0.443843,irregular,0.382353,9.00496,0.2582,0.0289855,1.96851,24,Dining,0,0,coffee
+16,55,4,0.43026,irregular,0.333333,8.9434,0.276135,0.0625,2.19333,22,Dining,0,0,coffee
+15,47,3,0.458806,irregular,0.214286,9.27506,0.288358,0.133333,1.86872,6,Dining,0,0,coffee
+2,10,10,,irregular,0,5,0.0678419,0.5,4.60792,21,Dining,0,0,dining out
+10,207,26,0.182171,irregular,0.111111,8.17313,0.48858,0.1,4.0588,26,Dining,0,0,dining out
+9,117,12,0.58614,irregular,0.25,8.46489,0.372813,0.111111,4.32307,12,Dining,0,0,dining out
+12,182,18,0.441411,irregular,0.181818,8.3479,0.471719,0.0833333,4.37273,6,Dining,1,0,dining out
+7,92,14.5,0.218476,biweekly,0.666667,7.61041,0.705894,0.285714,3.55506,14,Shopping,0,0,dining out
+5,61,14.5,0.610532,weekly,0.5,3.49857,0.388329,0.2,4.48571,14,Dining,0,0,dining out
+10,102,10,0.568796,irregular,0.333333,9.1236,0.406865,0.1,4.14329,15,Dining,1,0,dining out
+13,245,23,0.348329,irregular,0.25,7.57917,0.23015,0.0769231,4.33244,24,Dining,0,0,dining out
+8,117,19,0.482584,irregular,0.142857,8.42244,0.625503,0.125,4.11407,13,Dining,1,0,dining out
+8,115,15,0.354714,irregular,0.428571,9.33324,0.609691,0.125,4.08109,0,Dining,0,0,dining out
+10,149,16,0.391569,irregular,0.333333,9.80867,0.320161,0.2,4.17608,0,Dining,0,0,dining out
+13,215,20.5,0.544703,irregular,0.333333,8.21386,0.595658,0.0769231,3.9718,16,Dining,0,0,dining out
+4,51,13,0.463177,irregular,0.333333,8.13557,0.133616,0.25,4.18586,7,Dining,0,0,dining out
+13,204,18,0.406833,irregular,0.25,6.54976,0.435442,0.0769231,4.37147,4,Dining,0,0,dining out
+6,71,14,0.245572,biweekly,0.6,8.47873,0.341236,0.166667,4.31254,13,Dining,0,0,dining out
+10,148,19,0.460551,irregular,0.222222,9.15642,0.644467,0.1,3.97123,8,Dining,0,0,dining out
+14,229,19,0.488615,irregular,0.230769,6.87089,0.274986,0.0714286,4.42371,18,Education,0,0,dining out
+4,76,25,0.0811107,irregular,0.333333,10.3199,0.45911,0.25,4.14599,7,Dining,0,0,dining out
+2,12,12,,biweekly,1,9.5,0.0752043,0.5,4.58159,26,Dining,0,0,dining out
+14,223,18,0.431939,irregular,0.230769,8.16663,0.450084,0.142857,4.12058,13,Dining,0,0,dining out
+4,53,12,0.453616,biweekly,0.666667,6.89202,0.281913,0.25,4.41407,18,Dining,0,0,dining out
+14,215,18,0.510103,irregular,0.153846,6.90164,0.354357,0.0714286,4.18006,23,Dining,0,0,dining out
+2,18,18,,irregular,0,6,0.332828,0.5,4.20395,16,Dining,0,0,dining out
+2,7,7,,weekly,1,3.5,0.335898,0.5,4.04121,19,Dining,0,0,dining out
+11,206,21.5,0.365338,irregular,0.4,10.3341,0.334204,0.0909091,4.30447,21,Dining,0,0,dining out
+13,191,13.5,0.426469,irregular,0.25,9.37137,0.333545,0.0769231,4.43474,5,News & Media,0,0,dining out
+8,78,13,0.537239,irregular,0.428571,8.19966,0.483502,0.125,4.23374,9,Dining,0,0,dining out
+3,27,13.5,0.62963,weekly,0.5,3.68179,0.00906897,0.333333,4.75892,2,Dining,0,0,dining out
+15,224,17,0.432368,irregular,0.214286,7.11306,0.544339,0.0666667,4.08866,1,Dining,0,0,dining out
+6,98,22,0.43723,irregular,0.2,7.64671,0.482632,0.166667,3.82994,24,Dining,0,0,dining out
+9,107,12.5,0.448501,irregular,0.375,10.3076,0.752921,0.111111,3.78077,21,Dining,0,0,dining out
+10,154,17,0.442893,irregular,0.444444,7.57628,0.37209,0.1,4.44512,0,Dining,0,0,dining out
+12,133,12,0.464465,irregular,0.363636,8.38484,0.430494,0.0833333,4.11496,6,Dining,0,0,dining out
+13,167,16,0.549954,irregular,0.25,8.11311,0.387687,0.0769231,4.35208,24,Dining,0,0,dining out
+10,114,11,0.571725,irregular,0.333333,8.47644,0.411908,0.1,4.38028,12,Dining,0,0,dining out
+13,188,12.5,0.554826,irregular,0.25,8.592,0.77808,0.0769231,3.67681,30,Dining,0,0,dining out
+8,96,11,0.489473,irregular,0.285714,8.038,0.298621,0.125,4.58599,26,Dining,0,0,dining out
+7,67,9,0.658918,irregular,0.333333,7.31786,0.053597,0.428571,4.69281,11,Dining,0,0,dining out
+13,187,16,0.588988,irregular,0.166667,7.44844,0.544972,0.0769231,3.84503,27,Dining,0,0,dining out
+13,244,20,0.308005,irregular,0.25,9.73191,0.571841,0.0769231,3.95527,16,Telecom,0,0,dining out
+12,135,12,0.292944,biweekly,0.545455,9.30464,0.239996,0.166667,4.09167,27,Fees,0,0,fuel
+3,20,10,0.2,weekly,0.5,7.36357,0.29966,0.333333,3.97237,23,Transport,0,0,fuel
+7,96,16,0.144338,biweekly,0.833333,7.27871,0.269883,0.142857,3.79391,23,Transport,0,0,fuel
+5,49,13.5,0.25408,biweekly,0.75,7.81281,0.269734,0.2,4.19705,17,Transport,0,0,fuel
+9,101,11.5,0.220283,biweekly,0.75,7.84573,0.237494,0.111111,3.99065,3,Transport,0,0,fuel
+17,197,13.5,0.347818,biweekly,0.5625,7.53768,0.259064,0.0588235,3.90076,22,Fees,0,0,fuel
+14,163,11,0.347805,biweekly,0.615385,8.506,0.219707,0.0714286,4.12407,0,Transport,0,0,fuel
+19,232,14,0.409642,irregular,0.333333,7.92451,0.241909,0.105263,4.089,19,Transport,0,0,fuel
+5,49,13,0.36678,biweekly,0.5,9.58332,0.175097,0.2,4.12762,5,Transport,0,0,fuel
+20,210,10,0.435864,irregular,0.473684,8.99041,0.350143,0.05,3.80711,14,Transport,0,0,fuel
+8,83,12,0.303844,irregular,0.428571,8.14613,0.230119,0.125,3.83924,10,Transport,0,0,fuel
+17,190,12,0.35086,biweekly,0.625,7.85553,0.343307,0.117647,3.92316,26,Transport,0,0,fuel
+11,110,9.5,0.349734,weekly,0.5,7.84456,0.247307,0.0909091,3.97612,29,Transport,0,0,fuel
+19,216,10.5,0.454742,irregular,0.388889,9.43824,0.211148,0.0526316,4.06954,14,Transport,0,0,fuel
+7,78,12,0.397229,irregular,0.333333,7.51054,0.172876,0.142857,4.02731,5,Transport,0,0,fuel
+17,179,13,0.286555,biweekly,0.6875,8.08947,0.251354,0.0588235,4.10578,3,Transport,0,0,fuel
+4,34,11,0.396786,biweekly,0.666667,8.67468,0.136427,0.25,3.80499,30,Transport,0,0,fuel
+14,172,13,0.364475,irregular,0.461538,7.64019,0.277633,0.0714286,4.11782,13,Transport,0,0,fuel
+9,97,13,0.292863,biweekly,0.625,9.63917,0.208799,0.111111,4.05526,28,Transport,0,0,fuel
+13,183,16,0.267871,biweekly,0.5,7.16666,0.268904,0.0769231,4.00551,12,Transport,0,0,fuel
+15,197,13.5,0.251205,biweekly,0.642857,9.07598,0.217021,0.0666667,4.21302,15,Transport,0,0,fuel
+14,140,8,0.420277,weekly,0.538462,8.33758,0.201172,0.0714286,4.0715,17,Transport,0,0,fuel
+4,42,18,0.404061,irregular,0.333333,6.7082,0.180175,0.25,3.90187,24,Transport,1,0,fuel
+16,182,12,0.391076,irregular,0.466667,8.20799,0.301136,0.0625,3.87515,19,Transport,0,0,fuel
+20,225,11,0.36167,irregular,0.421053,8.20427,0.271683,0.1,4.0087,7,Transport,0,0,fuel
+12,135,15,0.443703,irregular,0.454545,6.63901,0.269668,0.0833333,4.16744,4,Transport,0,0,fuel
+7,70,11.5,0.295545,weekly,0.5,7.82722,0.252487,0.285714,3.86304,4,Fitness,0,0,fuel
+18,222,13,0.346935,irregular,0.470588,8.1959,0.186489,0.0555556,4.0864,22,Transport,0,0,fuel
+15,216,16.5,0.255428,irregular,0.285714,7.78032,0.233928,0.0666667,3.99194,0,Transport,1,0,fuel
+3,24,12,0.166667,biweekly,0.5,9.84322,0.227493,0.333333,3.81176,11,Transport,0,0,fuel
+18,236,16,0.336858,irregular,0.411765,9.02551,0.250979,0.0555556,3.96717,5,Transport,0,0,fuel
+12,135,11,0.322371,biweekly,0.545455,8.67428,0.253101,0.0833333,4.03954,18,Transport,0,0,fuel
+3,29,14.5,0.37931,weekly,0.5,9.42809,0.228733,0.333333,4.19253,14,Transport,0,0,fuel
+6,70,16,0.328882,biweekly,0.6,8.51306,0.168272,0.166667,4.27847,2,Transport,0,0,fuel
+12,146,13,0.350589,irregular,0.454545,8.60071,0.204808,0.0833333,4.12309,3,Transport,0,0,fuel
+5,32,8,0.318689,weekly,0.5,8.32827,0.163176,0.2,3.99783,17,Dining,0,0,fuel
+14,172,13,0.257,biweekly,0.692308,9.55142,0.253516,0.0714286,4.03362,5,Transport,1,0,fuel
+15,165,11,0.360237,irregular,0.428571,9.43375,0.28433,0.0666667,4.03105,27,Transport,0,0,fuel
+19,249,14,0.282298,biweekly,0.611111,8.79625,0.214844,0.0526316,4.03883,21,Transport,0,0,fuel
+19,198,11.5,0.350783,biweekly,0.5,8.91387,0.241155,0.105263,4.15528,27,Transport,0,0,fuel
+24,193,8,0.648683,irregular,0.347826,9.54776,0.349679,0.0833333,3.28429,23,Transport,0,0,rides
+23,251,12.5,0.466544,irregular,0.409091,8.94152,0.346173,0.0434783,3.34392,7,Transport,0,0,rides
+17,163,11,0.52313,irregular,0.375,7.77272,0.403889,0.117647,3.27941,12,Transport,0,0,rides
+15,165,11,0.524199,irregular,0.357143,8.54686,0.362631,0.0666667,3.24025,27,Transport,1,0,rides
+10,88,9,0.51876,irregular,0.333333,8.743,0.365382,0.2,2.95152,29,Transport,0,0,rides
+24,212,8,0.6366,irregular,0.347826,9.20107,0.413604,0.0416667,3.0488,12,Transport,0,0,rides
+12,103,7,0.636348,irregular,0.363636,7.2782,0.432976,0.0833333,3.29417,29,Transport,0,0,rides
+15,130,10,0.580553,irregular,0.428571,7.95711,0.487314,0.0666667,2.98163,2,Transport,0,0,rides
+23,221,11,0.527164,irregular,0.454545,8.29307,0.432824,0.0434783,3.09241,27,Transport,0,0,rides
+20,187,10,0.431402,irregular,0.368421,9.17864,0.546015,0.05,2.96502,24,Transport,1,0,rides
+6,47,8,0.53234,weekly,0.8,9.82203,0.161927,0.166667,3.36315,25,Transport,0,0,rides
+16,173,13,0.555515,irregular,0.333333,8.20442,0.406893,0.125,3.13701,17,Transport,0,0,rides
+11,119,11.5,0.365232,irregular,0.4,7.6763,0.562878,0.0909091,3.0311,2,Transport,0,0,rides
+14,173,15,0.365032,biweekly,0.615385,8.44309,0.337689,0.142857,3.26595,29,Transport,1,0,rides
+17,182,13,0.558497,irregular,0.3125,8.83998,0.353531,0.0588235,3.22843,5,Transport,0,0,rides
+4,58,20,0.048766,irregular,0,7.08431,0.322916,0.25,2.82376,5,Transport,0,0,rides
+5,35,8,0.633101,irregular,0.25,8.43801,0.428459,0.2,3.10638,24,Transport,0,0,rides
+12,143,16,0.400376,irregular,0.363636,8.3778,0.419715,0.0833333,3.14264,13,Transport,0,0,rides
+4,26,9,0.424822,irregular,0.333333,6.59545,0.358729,0.25,2.86818,13,Transport,0,0,rides
+16,146,12,0.64812,irregular,0.466667,9.75781,0.339319,0.0625,3.25328,30,Transport,0,0,rides
+17,183,10.5,0.45742,irregular,0.3125,8.88411,0.295348,0.0588235,3.2581,9,Transport,0,0,rides
+23,253,13.5,0.486102,biweekly,0.545455,9.28584,0.366883,0.0434783,3.25386,19,Transport,1,0,rides
+22,193,8,0.634117,irregular,0.333333,7.9409,0.359389,0.0454545,3.32179,16,Transport,0,0,rides
+9,74,9,0.652578,irregular,0.25,7.02377,0.188754,0.111111,3.42816,2,Transport,0,0,rides
+20,160,7,0.70445,irregular,0.421053,8.58487,0.487616,0.05,3.07846,3,Transport,0,0,rides
+7,36,5.5,0.569275,weekly,0.5,11.1465,0.15917,0.142857,3.50706,22,Transport,0,0,rides
+9,100,14.5,0.461303,irregular,0.375,8.00617,0.315222,0.111111,3.19335,27,Transport,0,0,rides
+24,251,12,0.532197,irregular,0.434783,7.60482,0.25601,0.0416667,3.4254,25,Transport,0,0,rides
+11,91,9.5,0.45162,biweekly,0.5,8.53287,0.330966,0.0909091,3.29324,0,Software,0,0,rides
+14,155,12,0.452809,irregular,0.307692,9.34814,0.30835,0.0714286,3.20539,0,Groceries,0,0,rides
+7,21,3.5,0.48795,irregular,0.333333,8.61418,0.324766,0.142857,3.2554,14,Transport,0,0,rides
+12,108,9,0.585607,irregular,0.363636,8.52895,0.284345,0.0833333,3.2999,6,Transport,0,0,rides
+20,182,8,0.600487,irregular,0.368421,8.06148,0.38448,0.05,3.31237,17,Transport,0,0,rides
+16,116,7,0.535178,irregular,0.466667,8.46223,0.40869,0.125,3.05282,1,Transport,0,0,rides
+10,88,9,0.315328,irregular,0.444444,9.07138,0.258316,0.1,3.37844,17,Transport,0,0,rides
+18,170,11,0.567761,irregular,0.411765,8.27237,0.387011,0.0555556,3.18034,23,Transport,0,0,rides
+19,151,7,0.653082,irregular,0.333333,9.04283,0.406047,0.0526316,3.09422,3,Transport,0,0,rides
+14,134,9,0.469734,irregular,0.384615,7.45086,0.341691,0.0714286,3.52489,11,Transport,0,0,rides
+4,38,15,0.500692,irregular,0.333333,9.91211,0.166019,0.25,3.40768,9,Transport,0,0,rides
+2,10,10,,irregular,0,10.5,0.215583,0.5,3.503,27,Transport,0,0,rides
+16,301,20,0.484686,irregular,0.266667,9.84251,0.517227,0.0625,5.16559,4,Shopping,0,0,marketplace shopping
+8,177,28,0.596306,irregular,0.285714,10.1666,0.635214,0.125,4.66927,28,Shopping,0,0,marketplace shopping
+7,75,3.5,1.11307,irregular,0.166667,9.63412,0.553804,0.142857,5.06399,24,Shopping,0,0,marketplace shopping
+15,239,16,0.593036,irregular,0.285714,9.55545,0.843959,0.0666667,4.63841,6,Shopping,0,0,marketplace shopping
+11,217,25,0.534264,irregular,0.2,10.9318,0.54759,0.0909091,4.9943,10,Shopping,0,0,marketplace shopping
+8,138,14,0.571132,irregular,0.285714,7.44039,0.658275,0.125,4.98788,28,Shopping,0,0,marketplace shopping
+11,205,20.5,0.469536,irregular,0.3,7.30334,0.752374,0.0909091,4.82591,13,Shopping,1,0,marketplace shopping
+12,210,20,0.605305,irregular,0.272727,7.78175,0.631301,0.0833333,4.98774,24,Shopping,0,0,marketplace shopping
+4,48,14,0.517908,irregular,0.333333,9.86154,0.30665,0.25,5.19476,20,Shopping,0,0,marketplace shopping
+10,198,23,0.439133,irregular,0.333333,8.84534,1.27225,0.1,4.33198,9,Shopping,0,0,marketplace shopping
+4,92,34,0.226442,irregular,0.333333,11.2999,0.198659,0.25,5.36476,12,Shopping,0,0,marketplace shopping
+14,213,13,0.568792,irregular,0.307692,9.39388,0.607387,0.0714286,5.13577,20,Shopping,1,0,marketplace shopping
+4,103,37,0.175296,irregular,0,8.61322,0.296349,0.25,5.21186,27,Shopping,0,0,marketplace shopping
+4,95,32,0.0393859,monthly,1,1.58114,0.312476,0.25,5.6423,22,Shopping,0,0,marketplace shopping
+6,62,14,0.485481,irregular,0.4,9.14239,0.489966,0.166667,4.84725,24,Shopping,0,0,marketplace shopping
+10,176,17,0.655801,irregular,0.333333,8.00999,0.40165,0.1,5.27282,1,Shopping,0,0,marketplace shopping
+17,405,25.5,0.334265,irregular,0.375,7.87049,0.671445,0.0588235,4.88764,21,Shopping,0,0,marketplace shopping
+7,96,11.5,0.74039,irregular,0.333333,8.32993,2.13422,0.142857,3.83449,25,Shopping,0,0,marketplace shopping
+2,4,4,,irregular,0,2,0.135631,0.5,4.69989,19,Shopping,0,0,marketplace shopping
+14,272,23,0.51046,irregular,0.230769,6.28612,0.374377,0.142857,5.3744,28,Shopping,0,0,marketplace shopping
+14,312,23,0.407594,irregular,0.384615,8.32901,0.421431,0.0714286,5.27587,23,Shopping,0,0,marketplace shopping
+9,137,14.5,0.738887,irregular,0.25,10.7163,0.262673,0.111111,5.26925,6,Telecom,0,0,marketplace shopping
+18,371,25,0.622997,irregular,0.176471,9.9009,0.505529,0.0555556,5.13533,13,Shopping,0,0,marketplace shopping
+3,42,21,0.619048,weekly,0.5,5.73488,0.886388,0.333333,4.65767,26,Shopping,0,0,marketplace shopping
+7,132,22.5,0.503432,irregular,0.333333,8.79703,0.373876,0.142857,5.37782,27,Fitness,0,0,marketplace shopping
+12,273,27,0.496117,irregular,0.272727,9.84427,0.725436,0.0833333,4.9362,18,Shopping,0,0,marketplace shopping
+16,290,21,0.60399,irregular,0.266667,5.20179,0.639335,0.0625,5.02808,1,Health,0,0,marketplace shopping
+12,236,21,0.341569,irregular,0.454545,9.60035,0.628488,0.0833333,4.69542,25,Shopping,0,0,marketplace shopping
+6,125,32,0.45817,irregular,0.4,9.63789,0.800809,0.166667,4.61576,11,Shopping,0,0,marketplace shopping
+6,98,19,0.484667,irregular,0.2,7.67391,0.689563,0.166667,5.02802,28,Shopping,0,0,marketplace shopping
+7,139,22.5,0.422505,irregular,0.166667,5.09101,0.755419,0.142857,4.33362,5,Shopping,1,0,marketplace shopping
+7,109,21,0.481367,irregular,0.166667,8.209,0.480259,0.142857,4.85562,18,Shopping,0,0,marketplace shopping
+7,117,19.5,0.494325,irregular,0.166667,10.3707,0.971483,0.142857,4.26451,10,Shopping,0,0,marketplace shopping
+2,18,18,,irregular,0,5,0.2697,0.5,4.95889,19,Shopping,0,0,marketplace shopping
+19,399,22.5,0.433816,irregular,0.166667,10.2611,0.412798,0.0526316,5.29872,22,Shopping,0,0,marketplace shopping
+11,237,23.5,0.426995,irregular,0.1,9.18497,0.408967,0.0909091,5.43743,13,Shopping,0,0,marketplace shopping
+10,159,18,0.466003,irregular,0.222222,9.41276,0.18696,0.1,5.45931,4,Shopping,0,0,marketplace shopping
+18,321,17,0.645274,irregular,0.294118,9.06288,0.6342,0.0555556,4.82723,12,Shopping,0,0,marketplace shopping
+3,71,35.5,0.0422535,monthly,0.5,10.198,0.217315,0.333333,5.45797,30,Shopping,0,0,marketplace shopping
+18,422,32,0.502817,irregular,0.294118,9.87405,0.532266,0.0555556,4.99981,7,Shopping,0,0,marketplace shopping
+3,218,109,0.229358,quarterly,0.5,4.98888,0.27322,0.333333,6.55716,1,Travel,1,0,one-off travel
+2,165,165,,irregular,0,8,0.420041,0.5,6.09275,6,Housing,0,0,one-off travel
+3,138,69,0.246377,quarterly,0.5,5.31246,0.380727,0.333333,6.6712,19,Travel,0,0,one-off travel
+2,191,191,,irregular,0,11.5,0.319733,0.5,6.41713,15,Travel,0,0,one-off travel
+2,163,163,,irregular,0,5,0.258468,0.5,6.54109,19,Travel,0,0,one-off travel
+2,138,138,,irregular,0,8,0.375893,0.5,5.95205,3,Travel,0,0,one-off travel
+3,268,134,0.246269,irregular,0,6.94422,0.274722,0.333333,6.46558,0,Travel,0,0,one-off travel
+2,67,67,,irregular,0,3,0.634781,0.5,6.26858,13,Travel,0,0,one-off travel
+2,166,166,,irregular,0,6.5,0.537633,0.5,6.35776,28,Travel,0,0,one-off travel
+3,332,166,0.0120482,irregular,0,8.52447,0.133032,0.333333,6.49097,18,Travel,0,0,one-off travel
+3,214,107,0.635514,irregular,0,4.78423,0.234732,0.333333,6.24193,9,Travel,0,0,one-off travel
+3,205,102.5,0.15122,quarterly,0.5,3.29983,0.324593,0.333333,6.64061,6,Travel,0,0,one-off travel
+2,102,102,,irregular,0,10,0.191545,0.5,5.06301,20,Travel,0,0,one-off travel
+2,42,42,,irregular,0,6,0.0194961,0.5,6.61097,7,Travel,0,0,one-off travel
+2,149,149,,irregular,0,2,0.110606,0.5,6.48696,10,Travel,0,0,one-off travel
+3,223,111.5,0.246637,quarterly,0.5,8.98146,0.0739134,0.333333,6.28064,15,Travel,0,0,one-off travel
+3,160,80,0.075,quarterly,0.5,9.87702,0.464914,0.333333,6.49474,7,Travel,0,0,one-off travel
+2,139,139,,irregular,0,7,0.0784865,0.5,6.60335,16,Telecom,0,0,one-off travel
+3,291,145.5,0.120275,irregular,0,6.97615,0.114262,0.333333,6.74321,5,Travel,1,0,one-off travel
+3,256,128,0.257812,quarterly,0.5,5.09902,0.217312,0.333333,6.58555,15,Travel,1,0,one-off travel
+2,154,154,,irregular,0,0.5,0.150195,0.5,5.55887,10,Travel,1,0,one-off travel
+3,263,131.5,0.38403,irregular,0,4.96655,0.399981,0.333333,6.29781,23,Travel,0,0,one-off travel
+3,195,97.5,0.548718,irregular,0,11.9536,0.341726,0.333333,5.98162,28,Travel,0,0,one-off travel
+3,184,92,0.467391,irregular,0,6.18241,0.464546,0.333333,6.34763,10,Travel,0,0,one-off travel
+3,149,74.5,0.583893,monthly,0.5,12.4989,0.754831,0.333333,5.73117,16,Travel,0,0,one-off travel
+2,119,119,,irregular,0,1.5,0.312826,0.5,6.33139,7,Travel,0,0,one-off travel
+3,294,147,0.333333,quarterly,0.5,8.73053,0.264404,0.333333,6.17993,27,Travel,0,0,one-off travel
+3,162,81,0.17284,quarterly,0.5,3.74166,0.665524,0.333333,5.91634,30,Travel,0,0,one-off travel
+2,135,135,,irregular,0,6,0.0426922,0.5,6.75044,16,Travel,0,0,one-off travel
+2,76,76,,irregular,0,7.5,0.327434,0.5,6.36723,23,Travel,0,0,one-off travel
+2,198,198,,irregular,0,7,0.379044,0.5,6.33214,16,Telecom,0,0,one-off travel
+2,155,155,,irregular,0,1,0.120063,0.5,6.2378,23,Travel,0,0,one-off travel
+2,155,155,,irregular,0,1,0.55306,0.5,6.11472,23,Travel,0,0,one-off travel
+3,302,151,0.13245,irregular,0,4.32049,0.228909,0.333333,6.30487,27,Travel,0,0,one-off travel
+3,226,113,0.123894,quarterly,0.5,5.31246,1.17182,0.333333,5.30554,28,Travel,0,0,one-off travel
+2,64,64,,irregular,0,2.5,0.109921,0.5,6.62466,19,Other,0,0,one-off travel
+2,116,116,,irregular,0,3,0.375396,0.5,6.26893,24,Travel,0,0,one-off travel
+3,235,117.5,0.33617,irregular,0,5.73488,0.37329,0.333333,6.07496,16,Travel,0,0,one-off travel
+3,266,133,0.421053,irregular,0,6.2361,0.434574,0.333333,6.2899,0,Travel,0,0,one-off travel
+3,196,98,0.326531,irregular,0,9.4163,0.374627,0.333333,6.04519,30,Travel,0,0,one-off travel

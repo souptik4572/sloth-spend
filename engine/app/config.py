@@ -25,8 +25,10 @@ class Settings:
 
     @property
     def preferred_model(self) -> str | None:
-        # M3 adds the Settings-table override (IMPL M1.1); until then the env var, if set.
-        return self.env_chat_model or None
+        """An explicit chat model: Settings first, then SLOTH_CHAT_MODEL; None = best installed Gemma."""
+        from . import user_settings  # local import: user_settings → db → config
+
+        return user_settings.load().chat_model or self.env_chat_model or None
 
 
 settings = Settings()

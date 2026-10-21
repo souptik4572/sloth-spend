@@ -1,0 +1,127 @@
+{
+  "info": {
+    "name": "SlothSpend engine",
+    "description": "Smoke tests for the local engine API (IMPL M3). Run against a dev engine:\n  SLOTH_PORT=8765 SLOTH_TOKEN=dev SLOTH_DATA_DIR=/tmp/sloth SLOTH_NO_WATCHDOG=1 .venv/bin/python -m app.main\n  postman collection run postman/slothspend.postman_collection.json --working-dir . --env-var base=http://127.0.0.1:8765 --env-var token=dev\n(run from engine/; uploads read files relative to it).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base", "value": "http://127.0.0.1:8765" },
+    { "key": "token", "value": "dev" }
+  ],
+  "item": [
+    {
+      "name": "Health without token is rejected",
+      "request": { "method": "GET", "url": "{{base}}/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('401 without X-Sloth-Token', () => pm.response.to.have.status(401));"
+      ] } }]
+    },
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{base}}/health", "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }] },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "const b = pm.response.json();",
+        "pm.test('engine ok', () => pm.expect(b.engine).to.eql('ok'));",
+        "pm.test('ollama status is known', () => pm.expect(['ready','unreachable','outdated','missing_model']).to.include(b.ollama.status));",
+        "pm.test('tabpfn reports its upgrade state', () => pm.expect(b.tabpfn.upgrade).to.have.property('state'));"
+      ] } }]
+    },
+    {
+      "name": "Settings: read",
+      "request": { "method": "GET", "url": "{{base}}/settings", "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }] },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "pm.test('has every setting', () => pm.expect(pm.response.json()).to.have.all.keys('currency','chat_model','days_before','demo_compress_seconds'));"
+      ] } }]
+    },
+    {
+      "name": "Settings: partial update",
+      "request": {
+        "method": "PUT", "url": "{{base}}/settings",
+        "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"days_before\": 4}" }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "pm.test('saved', () => pm.expect(pm.response.json().days_before).to.eql(4));"
+      ] } }]
+    },
+    {
+      "name": "Settings: invalid value is rejected",
+      "request": {
+        "method": "PUT", "url": "{{base}}/settings",
+        "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"days_before\": 0}" }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('422', () => pm.response.to.have.status(422));"
+      ] } }]
+    },
+    {
+      "name": "Settings: restore default",
+      "request": {
+        "method": "PUT", "url": "{{base}}/settings",
+        "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"days_before\": 3}" }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));"
+      ] } }]
+    },
+    {
+      "name": "Import: layout that needs the mapper",
+      "request": {
+        "method": "POST", "url": "{{base}}/import",
+        "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }],
+        "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "tests/fixtures/statement_oct26.csv" }] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "const b = pm.response.json();",
+        "pm.test('needs mapping: amount column unknown', () => { pm.expect(b.needs_mapping).to.eql(true); pm.expect(b.missing).to.eql(['amount']); });",
+        "pm.test('preamble skipped', () => pm.expect(b.header_row).to.eql(13));",
+        "pm.test('INR and day-first detected', () => { pm.expect(b.currency).to.eql('INR'); pm.expect(b.dayfirst).to.eql(true); });",
+        "pm.collectionVariables.set('pending_id', b.import_id);"
+      ] } }]
+    },
+    {
+      "name": "Import: cancel the pending upload",
+      "request": { "method": "DELETE", "url": "{{base}}/import/{{pending_id}}", "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }] },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "pm.test('ok', () => pm.expect(pm.response.json().ok).to.eql(true));"
+      ] } }]
+    },
+    {
+      "name": "Import: sample statement maps itself",
+      "request": {
+        "method": "POST", "url": "{{base}}/import",
+        "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }],
+        "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "app/data/sample_bank_12m.csv" }] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "const b = pm.response.json();",
+        "pm.test('no mapper needed', () => pm.expect(b.needs_mapping).to.eql(false));",
+        "pm.test('412 rows', () => pm.expect(b.row_count).to.eql(412));",
+        "pm.test('10-row preview', () => pm.expect(b.preview.length).to.eql(10));",
+        "pm.collectionVariables.set('sample_id', b.import_id);"
+      ] } }]
+    },
+    {
+      "name": "Import: clean up the sample upload",
+      "request": { "method": "DELETE", "url": "{{base}}/import/{{sample_id}}", "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }] },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));"
+      ] } }]
+    },
+    {
+      "name": "Import: unknown id",
+      "request": { "method": "DELETE", "url": "{{base}}/import/999999", "header": [{ "key": "X-Sloth-Token", "value": "{{token}}" }] },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('404', () => pm.response.to.have.status(404));"
+      ] } }]
+    }
+  ]
+}

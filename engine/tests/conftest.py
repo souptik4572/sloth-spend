@@ -28,6 +28,24 @@ os.environ["OLLAMA_HOST"] = f"http://127.0.0.1:{_closed_port()}"
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 
+ENGINE = Path(__file__).resolve().parent.parent
+FIXTURES = ENGINE / "tests" / "fixtures"
+DATA = ENGINE / "app" / "data"
+
+
+@pytest.fixture(autouse=True)
+def fresh_db():
+    """Every test starts with an empty database and no pending uploads."""
+    from app import db
+    from app.state import runtime
+
+    for suffix in ("", "-wal", "-shm"):
+        Path(f"{db.DB_PATH}{suffix}").unlink(missing_ok=True)
+    db.init()
+    runtime.pending.clear()
+    yield
+
+
 @pytest.fixture()
 def client():
     from fastapi.testclient import TestClient
