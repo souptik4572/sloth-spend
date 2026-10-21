@@ -4,7 +4,7 @@ import path from 'node:path'
 import type { ChildProcess } from 'node:child_process'
 import { optimizer } from '@electron-toolkit/utils'
 import { freePort, startEngine, stopEngine, type RuntimeConfig } from './sidecars'
-import { secretsEnv } from './secrets'
+import { KeyError, clearPriorKey, hasPriorKey, secretsEnv, setPriorKey } from './secrets'
 import { LogBuffer } from './logbuffer'
 // Runtime icons (resources/ is shipped and asar-unpacked). Packaged builds take the app icon from
 // build/icon.icns / build/icon.ico instead — see design/icons/README.md.
@@ -96,12 +96,34 @@ app.whenReady().then(() => {
       return shell.openExternal(url)
     return undefined
   })
-  ipcMain.handle('engine:restart', async () => {
+  const restartEngine = async (): Promise<void> => {
     await booting
     const old = engine
     engine = null // its exit must not reach the renderer as a crash
     await stopEngine(old, cfg)
     launchEngine()
+  }
+  ipcMain.handle('engine:restart', restartEngine)
+
+  // Prior Labs key (IMPL M4.12). The renderer can save, replace or remove it, and ask whether one is
+  // saved — never read it back. Each change restarts the engine so TabPFN picks it up.
+  ipcMain.handle('secrets:has', () => hasPriorKey())
+  ipcMain.handle('secrets:set', async (_e, key: unknown) => {
+    try {
+      setPriorKey(key)
+    } catch (err) {
+      return {
+        ok: false,
+        error: err instanceof KeyError ? err.message : 'The key couldn’t be saved.'
+      }
+    }
+    await restartEngine()
+    return { ok: true }
+  })
+  ipcMain.handle('secrets:clear', async () => {
+    clearPriorKey()
+    await restartEngine()
+    return { ok: true }
   })
   ipcMain.handle('engine:logs', () => logs.tail(20))
   ipcMain.handle('window:focus', () => {

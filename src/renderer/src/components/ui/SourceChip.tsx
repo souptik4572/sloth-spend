@@ -3,9 +3,11 @@ import { gemmaLabel } from '../../lib/status'
 import { useApp } from '../../store'
 
 /** Which model (or fallback) produced a number or a piece of text. Every model output shows one (spec §9.1). */
-export type Source = 'gemma' | 'tabpfn-3.5' | 'tabpfn-3.5-fast' | 'heuristic' | 'template'
+export type Source =
+  'gemma' | 'tabpfn-v2' | 'tabpfn-3.5' | 'tabpfn-3.5-fast' | 'heuristic' | 'template'
 
 const LABELS: Record<Exclude<Source, 'gemma'>, string> = {
+  'tabpfn-v2': 'TabPFN v2',
   'tabpfn-3.5': 'TabPFN-3.5',
   'tabpfn-3.5-fast': 'TabPFN-3.5 Fast',
   heuristic: 'Heuristic',
@@ -14,7 +16,7 @@ const LABELS: Record<Exclude<Source, 'gemma'>, string> = {
 
 const HINTS: Partial<Record<Source, string>> = {
   heuristic:
-    'TabPFN-3.5 isn’t set up, so a simple rule scored this. Finish setup for model scores.',
+    'TabPFN wasn’t available, so a simple rule scored this. Finish setup for model scores.',
   template: 'Gemma wasn’t available, so this text comes from a fixed template.'
 }
 

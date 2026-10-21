@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { engineView, firstActionable, gemmaLabel, gemmaView, tabpfnView } from './status'
+import {
+  engineView,
+  firstActionable,
+  gemmaLabel,
+  gemmaView,
+  limitedSummary,
+  tabpfnLabel,
+  tabpfnView
+} from './status'
 import type { Health } from './types'
 
 const health = (
@@ -16,7 +24,13 @@ const health = (
     loopback: true,
     ...over
   },
-  tabpfn: { status: 'ready', model: 'tabpfn-3.5', error: null, ...tab },
+  tabpfn: {
+    status: 'ready',
+    model: 'tabpfn-v2',
+    error: null,
+    upgrade: { state: 'none', error: null },
+    ...tab
+  },
   telemetry: false
 })
 
@@ -48,13 +62,54 @@ describe('gemmaView', () => {
 })
 
 describe('tabpfnView', () => {
-  it('maps every TabPFN status', () => {
-    expect(tabpfnView(health({}, { status: 'missing_weights' }), 'ok').status).toBe(
-      'Needs your key'
+  it('defaults to TabPFN v2 and offers the 3.5 upgrade without blocking', () => {
+    const v = tabpfnView(health(), 'ok')
+    expect(v.tone).toBe('ready')
+    expect(v.detail).toContain('TabPFN v2 scores')
+    expect(v.detail).toContain('Optional')
+  })
+  it('names TabPFN-3.5 once the key upgrade is active', () => {
+    const v = tabpfnView(
+      health({}, { model: 'tabpfn-3.5', upgrade: { state: 'active', error: null } }),
+      'ok'
     )
+    expect(v.detail).toBe('TabPFN-3.5 scores your charges on this computer.')
+    expect(tabpfnView(health({}, { model: 'tabpfn-3.5-fast' }), 'ok').detail).toContain('CPU')
+  })
+  it('explains a failed upgrade while staying on v2', () => {
+    const v = tabpfnView(
+      health({}, { upgrade: { state: 'failed', error: 'license not accepted' } }),
+      'ok'
+    )
+    expect(v.tone).toBe('ready')
+    expect(v.detail).toContain('Still using TabPFN v2')
+    expect(v.detail).toContain('license not accepted')
+  })
+  it('covers download, warm-up, unavailable and error', () => {
+    expect(tabpfnView(health({}, { status: 'downloading' }), 'ok').detail).toContain('70 MB')
     expect(tabpfnView(health({}, { status: 'warming' }), 'ok').tone).toBe('working')
+    expect(tabpfnView(health({}, { status: 'unavailable', error: null }), 'ok').tone).toBe('action')
     expect(tabpfnView(health({}, { status: 'error', error: 'boom' }), 'ok').detail).toBe('boom')
-    expect(tabpfnView(health({}, { model: 'tabpfn-3.5-fast' }), 'ok').detail).toContain('Fast')
+  })
+})
+
+describe('tabpfnLabel', () => {
+  it('names the version in use', () => {
+    expect(tabpfnLabel(health())).toBe('TabPFN v2')
+    expect(tabpfnLabel(health({}, { model: 'tabpfn-3.5' }))).toBe('TabPFN-3.5')
+    expect(tabpfnLabel(health({}, { model: null }))).toBe('TabPFN')
+  })
+})
+
+describe('limitedSummary', () => {
+  it('names only what is limited', () => {
+    expect(limitedSummary(health())).toBeNull()
+    expect(limitedSummary(health({}, { status: 'unavailable' }))).toBe(
+      'a simple rule instead of TabPFN'
+    )
+    expect(limitedSummary(health({ status: 'unreachable' }))).toBe(
+      'rule-based merchant names and template text'
+    )
   })
 })
 
@@ -63,7 +118,7 @@ describe('firstActionable', () => {
     const rows = [
       engineView('ok', null),
       gemmaView(health({ status: 'missing_model' }), 'ok'),
-      tabpfnView(health({}, { status: 'missing_weights' }), 'ok')
+      tabpfnView(health({}, { status: 'unavailable' }), 'ok')
     ]
     expect(firstActionable(rows)).toBe(1)
     expect(firstActionable([engineView('ok', null)])).toBe(-1)

@@ -1,5 +1,5 @@
 // Maps engine state + /health into what the Boot rows and header pills show (D-Boot, D-Main header).
-import type { Health } from './types'
+import type { Health, Scorer } from './types'
 
 export type EngineState = 'starting' | 'ok' | 'stopped'
 
@@ -89,41 +89,77 @@ export function gemmaLabel(h: Health | null): string {
   return m ? `Gemma ${m[1]}` : 'Gemma'
 }
 
+const TABPFN_NAMES: Record<Exclude<Scorer, 'heuristic'>, string> = {
+  'tabpfn-v2': 'TabPFN v2',
+  'tabpfn-3.5': 'TabPFN-3.5',
+  'tabpfn-3.5-fast': 'TabPFN-3.5 Fast'
+}
+
+/** Display name of the TabPFN version in use ("TabPFN v2", "TabPFN-3.5"), or plain "TabPFN" before one loads. */
+export function tabpfnLabel(h: Health | null): string {
+  const model = h?.tabpfn.model
+  return model ? TABPFN_NAMES[model] : 'TabPFN'
+}
+
 export function tabpfnView(h: Health | null, engine: EngineState): RowView {
   if (engine !== 'ok' || !h) return WAITING
   const t = h.tabpfn
   switch (t.status) {
     case 'cold':
-      return { tone: 'working', status: 'Starting', detail: 'Loading the model in the background.' }
+      return { tone: 'working', status: 'Starting', detail: 'Loading TabPFN in the background.' }
+    case 'downloading':
+      return {
+        tone: 'working',
+        status: 'Downloading',
+        detail:
+          t.upgrade.state === 'downloading'
+            ? 'Downloading TabPFN-3.5 with your Prior Labs key — one time only.'
+            : 'Downloading TabPFN v2 — about 70 MB, one time, no account needed.'
+      }
     case 'warming':
       return {
         tone: 'working',
         status: 'Warming up',
-        detail: 'Downloading weights and warming up — first time only.'
+        detail: 'Loading the model — first time only.'
       }
-    case 'missing_weights':
+    case 'unavailable':
       return {
         tone: 'action',
-        status: 'Needs your key',
+        status: 'Not available yet',
         detail:
-          'Paste your free Prior Labs key (non-commercial license). It’s stored encrypted on this computer and used once to download the model weights. This is a model license, not an app login.'
+          t.error ??
+          'Couldn’t download TabPFN v2 (about 70 MB, one time). Connect to the internet, then retry. Until then, a simple rule scores charges.'
       }
     case 'error':
-      return {
-        tone: 'error',
-        status: 'Couldn’t load',
-        detail: t.error ?? 'TabPFN-3.5 failed to load.'
-      }
-    case 'ready':
+      return { tone: 'error', status: 'Couldn’t load', detail: t.error ?? 'TabPFN failed to load.' }
+    case 'ready': {
+      const name = tabpfnLabel(h)
+      const where = t.model === 'tabpfn-3.5-fast' ? 'this computer’s CPU' : 'this computer'
+      const upgrade =
+        t.upgrade.state === 'failed'
+          ? ` Still using TabPFN v2: the TabPFN-3.5 upgrade didn’t work (${t.upgrade.error ?? 'unknown error'}).`
+          : t.model === 'tabpfn-v2'
+            ? ' Optional: add a free Prior Labs key to upgrade to TabPFN-3.5.'
+            : ''
       return {
         tone: 'ready',
         status: 'Ready',
-        detail:
-          t.model === 'tabpfn-3.5-fast'
-            ? 'TabPFN-3.5 Fast scores your charges on this computer’s CPU.'
-            : 'TabPFN-3.5 scores your charges on this computer.'
+        detail: `${name} scores your charges on ${where}.${upgrade}`
       }
+    }
   }
+}
+
+/**
+ * What limited mode means right now, or null when Gemma and TabPFN are both ready.
+ * e.g. "rule-based merchant names" (Gemma missing) and/or "a simple rule instead of TabPFN".
+ */
+export function limitedSummary(h: Health | null): string | null {
+  if (!h) return null
+  const parts: string[] = []
+  if (h.ollama.status !== 'ready') parts.push('rule-based merchant names and template text')
+  if (h.tabpfn.status !== 'ready') parts.push('a simple rule instead of TabPFN')
+  return parts.length ? parts.join(', and ') : null
 }
 
 /** Index of the first row the user can act on (it gets the ink ring), or -1. */

@@ -7,8 +7,16 @@ export interface RendererConfig {
   platform: string
 }
 
-// The whole renderer ⇄ main surface. M4 adds the Prior Labs key, M8 telemetry (IMPL M1.6).
+export type KeyResult = { ok: true } | { ok: false; error: string }
+
+// The whole renderer ⇄ main surface (IMPL M1.6). M8 adds telemetry.
 const api = {
+  /** Prior Labs key for the optional TabPFN-3.5 upgrade. Write-only: the renderer can't read it back. */
+  priorKey: {
+    present: (): Promise<boolean> => ipcRenderer.invoke('secrets:has'),
+    save: (key: string): Promise<KeyResult> => ipcRenderer.invoke('secrets:set', key),
+    remove: (): Promise<KeyResult> => ipcRenderer.invoke('secrets:clear')
+  },
   getConfig: (): Promise<RendererConfig> => ipcRenderer.invoke('config:get'),
   openExternal: (url: string): Promise<void> => ipcRenderer.invoke('shell:open', url),
   restartEngine: (): Promise<void> => ipcRenderer.invoke('engine:restart'),

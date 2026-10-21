@@ -70,6 +70,8 @@ export function startEngine(
       SLOTH_DATA_DIR: cfg.dataDir,
       SLOTH_VERSION: app.getVersion(),
       TABPFN_MODEL_CACHE_DIR: path.join(cfg.dataDir, 'tabpfn-weights'),
+      // A GUI app's sidecar must never pop a browser for TabPFN's license step (IMPL M4.3).
+      TABPFN_NO_BROWSER: '1',
       PYTHONUNBUFFERED: '1'
     },
     stdio: ['pipe', 'pipe', 'pipe'], // stdin stays open: EOF tells the engine its parent is gone

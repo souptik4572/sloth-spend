@@ -199,9 +199,10 @@ export function KitchenSink(): React.JSX.Element {
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
             <SourceChip source="gemma" />
+            <SourceChip source="tabpfn-v2" />
             <SourceChip source="tabpfn-3.5" />
             <SourceChip source="tabpfn-3.5-fast" />
-            <SourceChip source="tabpfn-3.5" live />
+            <SourceChip source="tabpfn-v2" live />
             <SourceChip source="heuristic" />
             <SourceChip source="template" />
           </div>

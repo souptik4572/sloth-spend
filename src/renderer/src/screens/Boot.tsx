@@ -4,6 +4,7 @@ import { Wordmark } from '../components/brand/Logo'
 import { SlothHanging } from '../components/brand/SlothHanging'
 import { ThemeToggle } from '../components/shell/ThemeToggle'
 import { StatusIcon } from '../components/shell/StatusIcon'
+import { PriorKeyForm } from '../components/shell/PriorKeyForm'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { cn } from '../lib/cn'
@@ -12,6 +13,8 @@ import {
   firstActionable,
   gemmaLabel,
   gemmaView,
+  limitedSummary,
+  tabpfnLabel,
   tabpfnView,
   type RowView
 } from '../lib/status'
@@ -56,7 +59,7 @@ function CheckRow({ title, view, actionIcon, ringed, children }: RowProps): Reac
   )
 }
 
-/** First run and setup (D-Boot): live status for Engine, Gemma (whichever is installed) and TabPFN-3.5. */
+/** First run and setup (D-Boot): live status for Engine, Gemma (whichever is installed) and TabPFN (v2, or 3.5 with a key). */
 export function Boot(): React.JSX.Element {
   const { version, engine, exitCode, health, setScreen, engineRestarting } = useApp()
   const [logs, setLogs] = useState<string[]>([])
@@ -155,7 +158,14 @@ export function Boot(): React.JSX.Element {
               actionIcon={Download}
               ringed={ring === 1}
             />
-            <CheckRow title="TabPFN-3.5" view={rows[2]} actionIcon={Key} ringed={ring === 2} />
+            <CheckRow
+              title={tabpfnLabel(health)}
+              view={rows[2]}
+              actionIcon={Key}
+              ringed={ring === 2}
+            >
+              <PriorKeyForm />
+            </CheckRow>
           </ol>
 
           {engine === 'ok' && !ready && (
@@ -164,8 +174,7 @@ export function Boot(): React.JSX.Element {
                 Continue in limited mode
               </Button>
               <p className="m-0 flex-[1_1_240px] text-xs leading-[1.65] text-muted">
-                Limited mode uses rule-based merchant names and a heuristic scorer. Every result is
-                labelled so you know.
+                Limited mode uses {limitedSummary(health)}. Every result is labelled so you know.
               </p>
             </div>
           )}

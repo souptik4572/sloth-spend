@@ -19,7 +19,8 @@ def test_health_shape_with_ollama_unreachable(client, auth):
     assert body["ollama"]["model"] == DOWNLOAD_MODEL
     assert body["ollama"]["available_models"] == []
     assert body["ollama"]["loopback"] is True
-    assert body["tabpfn"]["status"] in {"cold", "missing_weights"}
+    assert body["tabpfn"]["status"] in {"cold", "unavailable"}
+    assert body["tabpfn"]["upgrade"] == {"state": "none", "error": None}
     assert body["telemetry"] is False
 
 

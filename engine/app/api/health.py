@@ -13,6 +13,6 @@ async def health() -> dict:
     return {
         "engine": "ok",
         "ollama": await ollama_setup.status(settings.ollama_host, settings.preferred_model),
-        "tabpfn": {"status": tabular.status, "model": tabular.model_name, "error": tabular.error},
+        "tabpfn": tabular.health(),
         "telemetry": settings.telemetry,
     }

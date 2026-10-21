@@ -1,7 +1,14 @@
 import { CircleAlert, CircleCheck } from 'lucide-react'
 import { Spinner } from '../ui/Spinner'
 import { cn } from '../../lib/cn'
-import { engineView, gemmaLabel, gemmaView, tabpfnView, type RowView } from '../../lib/status'
+import {
+  engineView,
+  gemmaLabel,
+  gemmaView,
+  tabpfnLabel,
+  tabpfnView,
+  type RowView
+} from '../../lib/status'
 import { useApp } from '../../store'
 
 const pill =
@@ -14,13 +21,13 @@ function PillIcon({ view }: { view: RowView }): React.JSX.Element {
   return <CircleAlert aria-hidden size={16} strokeWidth={2.4} className="text-muted" />
 }
 
-/** Engine / Gemma · local / TabPFN-3.5 pills. A pill that isn't green opens setup (Boot). */
+/** Engine / Gemma · local / TabPFN pills (each names the model in use). A pill that isn't green opens setup (Boot). */
 export function StatusPills(): React.JSX.Element {
   const { engine, exitCode, health, setScreen } = useApp()
   const items: Array<[string, RowView]> = [
     ['Engine', engineView(engine, exitCode)],
     [`${gemmaLabel(health)} · local`, gemmaView(health, engine)],
-    ['TabPFN-3.5', tabpfnView(health, engine)]
+    [tabpfnLabel(health), tabpfnView(health, engine)]
   ]
   return (
     <ul aria-label="Local models" className="m-0 flex list-none flex-wrap gap-2 p-0">
