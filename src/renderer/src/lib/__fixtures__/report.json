@@ -1,0 +1,432 @@
+{
+  "meta": {
+    "generated_at": "2026-10-21T17:40:53+00:00",
+    "report_date": "2026-10-15",
+    "currency": "USD",
+    "scorer": "heuristic",
+    "monthly_recurring": 1979.86,
+    "monthly_subscriptions": 87.46,
+    "monthly_bills": 1892.4,
+    "fc30": {
+      "q10": 1979.86,
+      "q50": 1979.86,
+      "q90": 1979.86
+    },
+    "potential_savings": 87.46,
+    "zombie_count": 4,
+    "dispute_total": 49.99,
+    "flag_counts": {
+      "duplicate_charge": 1,
+      "price_creep": 2,
+      "overlap": 2,
+      "possible_annual": 1,
+      "zombie_suspect": 4
+    },
+    "flagged_merchants": 5,
+    "executive_summary": "You pay $1,979.86 a month in recurring charges, and $87.46 of that is subscriptions. IronTrap Fitness went from $39.99 to $49.99 in July and charged you twice that month. StreamFlix UHD and WatchNest are both streaming services, so you may only need one. Nothing has been cancelled — that’s your call.",
+    "summary_source": "template",
+    "imports": [
+      {
+        "id": 1,
+        "file_name": "sample_bank_12m.csv",
+        "row_count": 412,
+        "skipped_rows": 2,
+        "period_start": "2025-11-01",
+        "period_end": "2026-10-15",
+        "imported_at": "2026-10-21T17:40:53+00:00",
+        "verified_count": 0
+      }
+    ]
+  },
+  "series": [
+    {
+      "id": 5,
+      "merchant": "Rent transfer",
+      "category": "Housing",
+      "kind": "bill",
+      "n_charges": 12,
+      "first_date": "2025-11-01",
+      "last_date": "2026-10-01",
+      "cadence": "monthly",
+      "cadence_days": 31.0,
+      "dom_median": 1.0,
+      "last_amount": 1800.0,
+      "monthly_equiv": 1800.0,
+      "amount_varies": false,
+      "recurring_prob": 0.9,
+      "scorer": "heuristic",
+      "next_due_date": "2026-11-01",
+      "fc_q10": 1800.0,
+      "fc_q50": 1800.0,
+      "fc_q90": 1800.0,
+      "hike_prob": 0.0,
+      "flags": [],
+      "flag_details": {},
+      "priority": 1800.0,
+      "cancellable": false,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "merchant": "IronTrap Fitness",
+      "category": "Fitness",
+      "kind": "subscription",
+      "n_charges": 13,
+      "first_date": "2025-11-05",
+      "last_date": "2026-10-05",
+      "cadence": "monthly",
+      "cadence_days": 30.0,
+      "dom_median": 5.0,
+      "last_amount": 49.99,
+      "monthly_equiv": 49.99,
+      "amount_varies": true,
+      "recurring_prob": 0.9167,
+      "scorer": "heuristic",
+      "next_due_date": "2026-11-05",
+      "fc_q10": 49.99,
+      "fc_q50": 49.99,
+      "fc_q90": 49.99,
+      "hike_prob": 0.0,
+      "flags": ["duplicate_charge", "price_creep", "zombie_suspect"],
+      "flag_details": {
+        "duplicate_charge": [
+          {
+            "first": "2026-07-05",
+            "second": "2026-07-06",
+            "amount": 49.99,
+            "tx_ids": [286, 288]
+          }
+        ],
+        "price_creep": {
+          "from": 39.99,
+          "to": 49.99,
+          "pct": 25.0,
+          "since": "2026-07-05"
+        },
+        "zombie_suspect": {
+          "because": ["price_creep", "duplicate_charge", "long_running"]
+        }
+      },
+      "priority": 124.975,
+      "cancellable": true,
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "merchant": "Metro Electric",
+      "category": "Utilities",
+      "kind": "bill",
+      "n_charges": 11,
+      "first_date": "2025-11-28",
+      "last_date": "2026-09-28",
+      "cadence": "monthly",
+      "cadence_days": 31.0,
+      "dom_median": 28.0,
+      "last_amount": 92.4,
+      "monthly_equiv": 92.4,
+      "amount_varies": true,
+      "recurring_prob": 0.7727,
+      "scorer": "heuristic",
+      "next_due_date": "2026-10-28",
+      "fc_q10": 92.4,
+      "fc_q50": 92.4,
+      "fc_q90": 92.4,
+      "hike_prob": 0.0,
+      "flags": [],
+      "flag_details": {},
+      "priority": 92.4,
+      "cancellable": false,
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "merchant": "StreamFlix UHD",
+      "category": "Streaming",
+      "kind": "subscription",
+      "n_charges": 12,
+      "first_date": "2025-11-11",
+      "last_date": "2026-10-12",
+      "cadence": "monthly",
+      "cadence_days": 30.0,
+      "dom_median": 12.0,
+      "last_amount": 15.49,
+      "monthly_equiv": 15.49,
+      "amount_varies": false,
+      "recurring_prob": 1.0,
+      "scorer": "heuristic",
+      "next_due_date": "2026-11-12",
+      "fc_q10": 15.49,
+      "fc_q50": 15.49,
+      "fc_q90": 15.49,
+      "hike_prob": 0.0,
+      "flags": ["overlap", "zombie_suspect"],
+      "flag_details": {
+        "overlap": {
+          "category": "Streaming",
+          "merchants": ["StreamFlix UHD", "WatchNest"]
+        },
+        "zombie_suspect": {
+          "because": ["overlap", "long_running"]
+        }
+      },
+      "priority": 23.235,
+      "cancellable": true,
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "merchant": "TuneTide",
+      "category": "Music",
+      "kind": "subscription",
+      "n_charges": 11,
+      "first_date": "2025-11-19",
+      "last_date": "2026-09-19",
+      "cadence": "monthly",
+      "cadence_days": 30.5,
+      "dom_median": 19.0,
+      "last_amount": 11.99,
+      "monthly_equiv": 11.99,
+      "amount_varies": false,
+      "recurring_prob": 0.9091,
+      "scorer": "heuristic",
+      "next_due_date": "2026-10-19",
+      "fc_q10": 11.99,
+      "fc_q50": 11.99,
+      "fc_q90": 11.99,
+      "hike_prob": 0.0,
+      "flags": ["price_creep", "zombie_suspect"],
+      "flag_details": {
+        "price_creep": {
+          "from": 10.99,
+          "to": 11.99,
+          "pct": 9.1,
+          "since": "2026-03-19"
+        },
+        "zombie_suspect": {
+          "because": ["price_creep", "long_running"]
+        }
+      },
+      "priority": 17.985,
+      "cancellable": true,
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "merchant": "WatchNest",
+      "category": "Streaming",
+      "kind": "subscription",
+      "n_charges": 11,
+      "first_date": "2025-11-20",
+      "last_date": "2026-09-20",
+      "cadence": "monthly",
+      "cadence_days": 30.5,
+      "dom_median": 20.0,
+      "last_amount": 9.99,
+      "monthly_equiv": 9.99,
+      "amount_varies": false,
+      "recurring_prob": 1.0,
+      "scorer": "heuristic",
+      "next_due_date": "2026-10-20",
+      "fc_q10": 9.99,
+      "fc_q50": 9.99,
+      "fc_q90": 9.99,
+      "hike_prob": 0.0,
+      "flags": ["overlap", "zombie_suspect"],
+      "flag_details": {
+        "overlap": {
+          "category": "Streaming",
+          "merchants": ["StreamFlix UHD", "WatchNest"]
+        },
+        "zombie_suspect": {
+          "because": ["overlap", "long_running"]
+        }
+      },
+      "priority": 14.985,
+      "cancellable": true,
+      "status": "active"
+    },
+    {
+      "id": 9,
+      "merchant": "CloudBox Pro",
+      "category": "Cloud Storage",
+      "kind": "subscription",
+      "n_charges": 1,
+      "first_date": "2026-01-14",
+      "last_date": "2026-01-14",
+      "cadence": "single",
+      "cadence_days": null,
+      "dom_median": 14.0,
+      "last_amount": 119.88,
+      "monthly_equiv": 9.99,
+      "amount_varies": false,
+      "recurring_prob": null,
+      "scorer": "heuristic",
+      "next_due_date": "2027-01-14",
+      "fc_q10": null,
+      "fc_q50": null,
+      "fc_q90": null,
+      "hike_prob": null,
+      "flags": ["possible_annual"],
+      "flag_details": {
+        "possible_annual": {
+          "next_due": "2027-01-14"
+        }
+      },
+      "priority": 9.99,
+      "cancellable": true,
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "merchant": "FreshCart",
+      "category": "Groceries",
+      "kind": "other",
+      "n_charges": 31,
+      "first_date": "2025-11-02",
+      "last_date": "2026-10-15",
+      "cadence": "irregular",
+      "cadence_days": 13.0,
+      "dom_median": 17.0,
+      "last_amount": 92.41,
+      "monthly_equiv": 0.0,
+      "amount_varies": true,
+      "recurring_prob": 0.3647,
+      "scorer": "heuristic",
+      "next_due_date": null,
+      "fc_q10": null,
+      "fc_q50": null,
+      "fc_q90": null,
+      "hike_prob": null,
+      "flags": [],
+      "flag_details": {},
+      "priority": 0.0,
+      "cancellable": false,
+      "status": "active"
+    },
+    {
+      "id": 1,
+      "merchant": "BeanThere Coffee",
+      "category": "Dining",
+      "kind": "other",
+      "n_charges": 115,
+      "first_date": "2025-11-01",
+      "last_date": "2026-10-15",
+      "cadence": "irregular",
+      "cadence_days": 3.0,
+      "dom_median": 17.0,
+      "last_amount": 5.96,
+      "monthly_equiv": 0.0,
+      "amount_varies": true,
+      "recurring_prob": 0.2394,
+      "scorer": "heuristic",
+      "next_due_date": null,
+      "fc_q10": null,
+      "fc_q50": null,
+      "fc_q90": null,
+      "hike_prob": null,
+      "flags": [],
+      "flag_details": {},
+      "priority": 0.0,
+      "cancellable": false,
+      "status": "active"
+    }
+  ],
+  "monthly": [
+    {
+      "month": "2025-11",
+      "subscriptions": 76.46,
+      "all": 1964.56,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2025-12",
+      "subscriptions": 76.46,
+      "all": 1998.21,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-01",
+      "subscriptions": 196.34,
+      "all": 2136.14,
+      "partial": false,
+      "highlights": ["CloudBox Pro’s $119.88 annual charge"]
+    },
+    {
+      "month": "2026-02",
+      "subscriptions": 76.46,
+      "all": 2002.76,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-03",
+      "subscriptions": 77.46,
+      "all": 1982.01,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-04",
+      "subscriptions": 77.46,
+      "all": 1960.36,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-05",
+      "subscriptions": 77.46,
+      "all": 1948.71,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-06",
+      "subscriptions": 77.46,
+      "all": 1964.06,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-07",
+      "subscriptions": 137.45,
+      "all": 2055.9,
+      "partial": false,
+      "highlights": ["IronTrap Fitness’s price rise", "IronTrap Fitness charged twice"]
+    },
+    {
+      "month": "2026-08",
+      "subscriptions": 87.46,
+      "all": 2011.56,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-09",
+      "subscriptions": 87.46,
+      "all": 1979.86,
+      "partial": false,
+      "highlights": []
+    },
+    {
+      "month": "2026-10",
+      "subscriptions": 65.48,
+      "all": 1865.48,
+      "partial": true,
+      "highlights": []
+    }
+  ],
+  "forecast_next": {
+    "subscriptions": {
+      "q10": 87.46,
+      "q50": 87.46,
+      "q90": 87.46
+    },
+    "all": {
+      "q10": 1979.86,
+      "q50": 1979.86,
+      "q90": 1979.86
+    }
+  }
+}

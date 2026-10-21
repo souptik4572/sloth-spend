@@ -5,6 +5,7 @@ import { useApp } from './store'
 import { Boot } from './screens/Boot'
 import { Workspace } from './screens/Workspace'
 import { KitchenSink } from './screens/KitchenSink'
+import { Toaster } from './components/ui/Toast'
 
 function useHash(): string {
   const [hash, setHash] = useState(window.location.hash)
@@ -27,7 +28,12 @@ function App(): React.JSX.Element {
   useHealthPolling()
 
   if (import.meta.env.DEV && hash === '#/kitchen-sink') return <KitchenSink />
-  return screen === 'boot' ? <Boot /> : <Workspace />
+  return (
+    <>
+      {screen === 'boot' ? <Boot /> : <Workspace />}
+      <Toaster />
+    </>
+  )
 }
 
 export default App

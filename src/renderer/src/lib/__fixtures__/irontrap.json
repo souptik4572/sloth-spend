@@ -1,0 +1,223 @@
+{
+  "series": {
+    "id": 3,
+    "merchant": "IronTrap Fitness",
+    "category": "Fitness",
+    "kind": "subscription",
+    "n_charges": 13,
+    "first_date": "2025-11-05",
+    "last_date": "2026-10-05",
+    "cadence": "monthly",
+    "cadence_days": 30.0,
+    "dom_median": 5.0,
+    "last_amount": 49.99,
+    "monthly_equiv": 49.99,
+    "amount_varies": true,
+    "recurring_prob": 0.9167,
+    "scorer": "heuristic",
+    "next_due_date": "2026-11-05",
+    "fc_q10": 49.99,
+    "fc_q50": 49.99,
+    "fc_q90": 49.99,
+    "hike_prob": 0.0,
+    "flags": ["duplicate_charge", "price_creep", "zombie_suspect"],
+    "flag_details": {
+      "duplicate_charge": [
+        {
+          "first": "2026-07-05",
+          "second": "2026-07-06",
+          "amount": 49.99,
+          "tx_ids": [286, 288]
+        }
+      ],
+      "price_creep": {
+        "from": 39.99,
+        "to": 49.99,
+        "pct": 25.0,
+        "since": "2026-07-05"
+      },
+      "zombie_suspect": {
+        "because": ["price_creep", "duplicate_charge", "long_running"]
+      }
+    },
+    "priority": 124.975,
+    "cancellable": true,
+    "status": "active"
+  },
+  "transactions": [
+    {
+      "id": 6,
+      "date": "2025-11-05",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 34,
+      "date": "2025-12-05",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 67,
+      "date": "2026-01-05",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 102,
+      "date": "2026-02-04",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 128,
+      "date": "2026-03-04",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 171,
+      "date": "2026-04-04",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 205,
+      "date": "2026-05-05",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 242,
+      "date": "2026-06-06",
+      "amount": 39.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 286,
+      "date": "2026-07-05",
+      "amount": 49.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 288,
+      "date": "2026-07-06",
+      "amount": 49.99,
+      "is_duplicate": true
+    },
+    {
+      "id": 318,
+      "date": "2026-08-04",
+      "amount": 49.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 359,
+      "date": "2026-09-05",
+      "amount": 49.99,
+      "is_duplicate": false
+    },
+    {
+      "id": 397,
+      "date": "2026-10-05",
+      "amount": 49.99,
+      "is_duplicate": false
+    }
+  ],
+  "quantiles": [
+    {
+      "q": 0.05,
+      "amount": 49.99
+    },
+    {
+      "q": 0.1,
+      "amount": 49.99
+    },
+    {
+      "q": 0.15,
+      "amount": 49.99
+    },
+    {
+      "q": 0.2,
+      "amount": 49.99
+    },
+    {
+      "q": 0.25,
+      "amount": 49.99
+    },
+    {
+      "q": 0.3,
+      "amount": 49.99
+    },
+    {
+      "q": 0.35,
+      "amount": 49.99
+    },
+    {
+      "q": 0.4,
+      "amount": 49.99
+    },
+    {
+      "q": 0.45,
+      "amount": 49.99
+    },
+    {
+      "q": 0.5,
+      "amount": 49.99
+    },
+    {
+      "q": 0.55,
+      "amount": 49.99
+    },
+    {
+      "q": 0.6,
+      "amount": 49.99
+    },
+    {
+      "q": 0.65,
+      "amount": 49.99
+    },
+    {
+      "q": 0.7,
+      "amount": 49.99
+    },
+    {
+      "q": 0.75,
+      "amount": 49.99
+    },
+    {
+      "q": 0.8,
+      "amount": 49.99
+    },
+    {
+      "q": 0.85,
+      "amount": 49.99
+    },
+    {
+      "q": 0.9,
+      "amount": 49.99
+    },
+    {
+      "q": 0.95,
+      "amount": 49.99
+    }
+  ],
+  "similar": {
+    "archetype": "monthly subscription with a price rise",
+    "count": 5,
+    "k": 5,
+    "runner_up": null
+  },
+  "reasons": [
+    "Billed every ~30 days, ±1 day, near the 5th of the month.",
+    "The same $39.99 eight times in a row, then $49.99 for the last four.",
+    "Gemma tagged it as a kind of merchant that usually bills a plan."
+  ],
+  "raw_descriptions": [
+    "ACH DEBIT IRONTRAP FITNESS MEMB 7731",
+    "ACH DEBIT IRONTRAP FITNESS MEMB 7731 REF#A1",
+    "ACH DEBIT IRONTRAP FITNESS MEMB 7731 REF#A11"
+  ],
+  "desc_keys": ["IRONTRAP FITNESS MEMB"],
+  "reminder": null
+}

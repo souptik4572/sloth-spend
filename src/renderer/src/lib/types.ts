@@ -30,3 +30,160 @@ export interface Health {
   }
   telemetry: boolean
 }
+
+// ── audit (IMPL §3.2–3.4) ───────────────────────────────────────────────────
+
+export type Currency = 'USD' | 'INR' | 'EUR' | 'GBP'
+export type Cadence =
+  'weekly' | 'biweekly' | 'monthly' | 'quarterly' | 'annual' | 'irregular' | 'single'
+export type FlagId =
+  'duplicate_charge' | 'price_creep' | 'overlap' | 'possible_annual' | 'zombie_suspect'
+export type SeriesStatus = 'active' | 'keep' | 'not_subscription' | 'user_cancelled'
+export type Kind = 'subscription' | 'bill' | 'other'
+export type LabelKind = 'subscription' | 'not_subscription' | 'keep'
+export type ColumnRole = 'date' | 'description' | 'amount' | 'debit' | 'credit' | 'type' | 'ignore'
+
+export interface Q {
+  q10: number
+  q50: number
+  q90: number
+}
+
+export interface DuplicatePair {
+  first: string
+  second: string
+  amount: number
+  tx_ids: number[]
+}
+
+export interface FlagDetails {
+  duplicate_charge?: DuplicatePair[]
+  price_creep?: { from: number; to: number; pct: number; since: string }
+  overlap?: { category: string; merchants: string[] }
+  possible_annual?: { next_due: string }
+  zombie_suspect?: { because: string[] }
+}
+
+export interface Series {
+  id: number
+  merchant: string
+  category: string
+  kind: Kind
+  n_charges: number
+  first_date: string
+  last_date: string
+  cadence: Cadence
+  cadence_days: number | null
+  dom_median: number | null
+  last_amount: number
+  monthly_equiv: number
+  amount_varies: boolean
+  recurring_prob: number | null
+  scorer: Scorer
+  next_due_date: string | null
+  fc_q10: number | null
+  fc_q50: number | null
+  fc_q90: number | null
+  hike_prob: number | null
+  flags: FlagId[]
+  flag_details: FlagDetails
+  priority: number
+  cancellable: boolean
+  status: SeriesStatus
+}
+
+export interface ImportInfo {
+  id: number
+  file_name: string
+  row_count: number
+  skipped_rows: number
+  period_start: string
+  period_end: string
+  imported_at: string
+  verified_count: number
+}
+
+export interface ReportMeta {
+  generated_at: string
+  report_date: string
+  currency: Currency
+  scorer: Scorer
+  monthly_recurring: number
+  monthly_subscriptions: number
+  monthly_bills: number
+  fc30: Q
+  potential_savings: number
+  zombie_count: number
+  dispute_total: number
+  flag_counts: Record<FlagId, number>
+  flagged_merchants: number
+  executive_summary: string
+  summary_source: 'gemma' | 'template'
+  imports: ImportInfo[]
+}
+
+export interface MonthPoint {
+  month: string
+  subscriptions: number
+  all: number
+  partial: boolean
+  highlights: string[]
+}
+
+export interface Report {
+  meta: ReportMeta
+  series: Series[]
+  monthly: MonthPoint[]
+  forecast_next: { subscriptions: Q; all: Q }
+}
+
+export interface SeriesDetail {
+  series: Series
+  transactions: { id: number; date: string; amount: number; is_duplicate: boolean }[]
+  quantiles: { q: number; amount: number }[]
+  similar: { archetype: string; count: number; k: number; runner_up: string | null } | null
+  reasons: string[]
+  raw_descriptions: string[]
+  desc_keys: string[]
+  reminder: null
+}
+
+export interface ImportPayload {
+  import_id: number
+  duplicate: boolean
+  file_name: string
+  needs_mapping: boolean
+  // Only on a fresh upload (absent when duplicate):
+  header_row?: number
+  header?: string[]
+  mapping?: Partial<Record<Exclude<ColumnRole, 'ignore'>, number>>
+  missing?: string[]
+  columns?: { index: number; name: string; role: ColumnRole }[]
+  preview?: string[][]
+  currency?: Currency
+  currency_detected?: boolean
+  dayfirst?: boolean
+  debits_positive?: boolean | null
+  sign_ambiguous?: boolean
+  row_count?: number
+  remembered?: boolean
+}
+
+export type StageId =
+  | 'parse'
+  | 'normalize'
+  | 'detect'
+  | 'features'
+  | 'score'
+  | 'forecast'
+  | 'flags'
+  | 'summary'
+  | 'done'
+
+export interface StageEvent {
+  stage: StageId
+  done: number
+  total: number
+  note?: string
+  source?: string | null
+}

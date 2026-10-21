@@ -3,7 +3,8 @@
 1. Pre-clean each description into a `desc_key` (done at import).
 2. Skip keys already in the merchant_map cache (Gemma or user entries; rule entries are retried).
 3. Gemma names the rest in batches of 25 with structured output, **most important keys first**:
-   repeating keys (possible subscriptions), then one-off charges by amount. Gemma writes ~70 tokens/s
+   repeating keys and plan-worded keys like "CLOUDBOX PRO ANNUAL" (possible subscriptions), then one-off
+   charges by amount. Gemma writes ~70 tokens/s
    and Ollama serves one request at a time, so the audit gives Gemma a time budget; keys left over get
    the rule fallback now and are finished by Gemma in the background (the cache keeps them).
 4. User edits (source='user') always win; Gemma never overwrites them.
@@ -153,10 +154,15 @@ class KeyStat:
     largest: float
 
 
+# Words that mark a charge as a plan. A single annual charge only becomes a "possible annual" finding if
+# Gemma names it, so these keys go first even though they appear once.
+PLAN_WORDS = re.compile(r"\b(ANNUAL\w*|YEARLY|SUBSCR\w*|MEMB\w*|RENEW\w*)\b")
+
+
 def prioritise(stats: list[KeyStat]) -> list[str]:
-    """Repeating keys first (they can be subscriptions), then one-offs by size, then the rest."""
+    """Repeating or plan-worded keys first (they can be subscriptions), then one-offs by size, then the rest."""
     def rank(s: KeyStat) -> tuple:
-        tier = 0 if s.count >= 2 else 1 if s.largest >= 20 else 2
+        tier = 0 if s.count >= 2 or PLAN_WORDS.search(s.key) else 1 if s.largest >= 20 else 2
         return (tier, -s.total, s.key)
     return [s.key for s in sorted(stats, key=rank)]
 

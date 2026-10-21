@@ -4,20 +4,22 @@ import { useApp } from '../../store'
 
 /** Which model (or fallback) produced a number or a piece of text. Every model output shows one (spec §9.1). */
 export type Source =
-  'gemma' | 'tabpfn-v2' | 'tabpfn-3.5' | 'tabpfn-3.5-fast' | 'heuristic' | 'template'
+  'gemma' | 'tabpfn-v2' | 'tabpfn-3.5' | 'tabpfn-3.5-fast' | 'heuristic' | 'template' | 'rules'
 
 const LABELS: Record<Exclude<Source, 'gemma'>, string> = {
   'tabpfn-v2': 'TabPFN v2',
   'tabpfn-3.5': 'TabPFN-3.5',
   'tabpfn-3.5-fast': 'TabPFN-3.5 Fast',
   heuristic: 'Heuristic',
-  template: 'Template'
+  template: 'Template',
+  rules: 'Rule-based'
 }
 
 const HINTS: Partial<Record<Source, string>> = {
   heuristic:
     'TabPFN wasn’t available, so a simple rule scored this. Finish setup for model scores.',
-  template: 'Gemma wasn’t available, so this text comes from a fixed template.'
+  template: 'Gemma wasn’t available, so this text comes from a fixed template.',
+  rules: 'Gemma wasn’t available, so merchant names come from a simple rule.'
 }
 
 export interface SourceChipProps {
@@ -38,7 +40,7 @@ export function SourceChip({
   // Gemma chips name whichever Gemma model Ollama is actually running ("Gemma 4 · local", "Gemma 3 · local").
   const gemma = useApp((s) => gemmaLabel(s.health))
   const model = useApp((s) => (s.health?.ollama.model_present ? s.health.ollama.model : undefined))
-  const fallback = source === 'heuristic' || source === 'template'
+  const fallback = source === 'heuristic' || source === 'template' || source === 'rules'
   const base = source === 'gemma' ? `${gemma} · local` : LABELS[source]
   const label = base + (live ? ' · live' : '')
   const hint = source === 'gemma' ? model : HINTS[source]

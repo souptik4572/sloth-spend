@@ -38,6 +38,13 @@ def test_prioritise_repeating_then_large_one_offs():
     assert normalize.prioritise(stats) == ["RENT", "NETFLIX", "BIG ONE OFF", "MID", "COFFEE ONCE"]
 
 
+def test_prioritise_puts_plan_words_with_the_repeating_keys():
+    stats = [KeyStat("BIG ONE OFF", 1, 300, 300), KeyStat("CLOUDBOX PRO ANNUAL", 1, 119.88, 119.88),
+             KeyStat("BEANTHERE COFFEE", 40, 220, 6.5), KeyStat("GYM MEMBERSHIP 7731", 1, 49, 49)]
+    assert normalize.prioritise(stats) == ["BEANTHERE COFFEE", "CLOUDBOX PRO ANNUAL", "GYM MEMBERSHIP 7731",
+                                           "BIG ONE OFF"]
+
+
 def test_batch_fills_gaps_with_the_rule():
     keys = ["STREAMFLIX UHD SUBSCR", "SQ *COPPER KITCHEN"]
     out = asyncio.run(normalize.normalize_batch(FakeClient(drop={1}), "m", keys))
