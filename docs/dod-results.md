@@ -51,7 +51,7 @@ accepted yet, so the engine correctly fell back to v2.
 
 | | |
 |---|---|
-| ![Report](screenshots/m5-sample-dark.png) | ![Merchant drawer](screenshots/m5-drawer.png) |
-| ![What-if with a live TabPFN forecast](screenshots/m6-chat-whatif.png) | ![Cancel IronTrap for me](screenshots/m6-chat-cancel.png) |
-| ![Still charged](screenshots/m7-still-charged.png) | ![Verified](screenshots/m7-reminders-verified.png) |
-| ![Settings](screenshots/m8-settings-top.png) | ![Engine stopped](screenshots/m9-engine-stopped.png) |
+| ![Report](screenshots/05-report.jpg) | ![Merchant drawer](screenshots/07-merchant-drawer.jpg) |
+| ![What-if with a live TabPFN forecast](screenshots/09-what-if-forecast.jpg) | ![Cancel IronTrap for me](screenshots/10-cancel-for-me.jpg) |
+| ![Still charged](screenshots/16-still-charged.jpg) | ![Verified](screenshots/15-verified.jpg) |
+| ![Settings](screenshots/17-settings.jpg) | ![Engine stopped](screenshots/19-engine-stopped.jpg) |
