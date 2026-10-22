@@ -2,8 +2,9 @@
 import type { LucideIcon } from 'lucide-react'
 import { Calendar, Copy, Ghost, Layers, TrendingUp } from 'lucide-react'
 import type { ChipVariant } from '../components/ui/Chip'
-import { dateShort, monthShort, pctChange, pctChip } from './format'
-import type { FlagId, Series, StageId } from './types'
+import type { Step } from '../components/ui/Stepper'
+import { dateLong, dateShort, money, monthShort, pctChange, pctChip } from './format'
+import type { FlagId, Reminder, Series, StageId } from './types'
 
 export const RECURRING = 0.7
 
@@ -184,3 +185,194 @@ export const STAGE_ORDER: StageId[] = [
   'summary',
   'done'
 ]
+
+// ── Reminders (IMPL M7.8): phase → card ─────────────────────────────────────
+
+const PER: Record<string, string> = {
+  weekly: 'a week',
+  biweekly: 'every two weeks',
+  monthly: 'a month',
+  quarterly: 'every three months',
+  annual: 'a year',
+  single: 'a year'
+}
+
+export type ReminderActionId =
+  'cancelled' | 'keep' | 'snooze1' | 'snooze3' | 'howto' | 'stop' | 'import' | 'refund' | 'again'
+
+export interface PhaseBadge {
+  label: string
+  variant: ChipVariant
+  icon?: 'alert' | 'check'
+}
+
+export interface PhaseView {
+  /** Full card with the stepper, or a one-row compact card. */
+  layout: 'card' | 'compact'
+  tone: 'default' | 'accent' | 'outlined'
+  subline: string
+  badges: PhaseBadge[]
+  steps: Step[] | null
+  /** Bold lead-in, then the rest of the sentence. */
+  message: { strong?: string; text: string; saving?: string } | null
+  actions: ReminderActionId[]
+}
+
+function daysLeftLabel(n: number): string {
+  return n === 0 ? 'Due today' : `${n} day${n === 1 ? '' : 's'} left`
+}
+
+function eventDay(r: Reminder, phase: Reminder['phase']): string | null {
+  const ev = [...r.events].reverse().find((e) => e.phase === phase)
+  return ev ? ev.at.slice(0, 10) : null
+}
+
+/** "Today" for today's date, else "Nov 9". */
+function stepDate(iso: string | null, today: string): string {
+  if (!iso) return ''
+  return iso === today ? 'Today' : dateShort(iso)
+}
+
+export function phaseView(r: Reminder, currency: string, today: string): PhaseView {
+  const due = dateShort(r.next_due_date)
+  const amount =
+    r.amount !== null ? `${money(r.amount, currency)} ${PER[r.cadence ?? ''] ?? ''}`.trim() : ''
+  const left = r.days_left
+  const watchedOn = eventDay(r, 'WATCHING')
+  const remindedOn = eventDay(r, 'REMINDED')
+  const watched: Step = { label: 'Watching', sub: stepDate(watchedOn, today), state: 'done' }
+  const reminded: Step = remindedOn
+    ? { label: 'Reminded', sub: stepDate(remindedOn, today), state: 'done' }
+    : { label: 'Reminded', sub: 'Skipped', state: 'skip' }
+  const cancelledStep: Step = {
+    label: 'You cancelled',
+    sub: r.cancelled_on ? dateShort(r.cancelled_on) : '',
+    state: 'done'
+  }
+  const howto: ReminderActionId[] = r.cancellable ? ['howto'] : []
+  const sentOf = `${r.reminders_sent} of ${r.max_reminders}`
+
+  switch (r.phase) {
+    case 'WATCHING':
+    case 'SNOOZED': {
+      const badges: PhaseBadge[] = []
+      if (r.phase === 'SNOOZED') badges.push({ label: `Snoozed · ${sentOf}`, variant: 'outline' })
+      else if (left !== null && left >= 0 && left <= 7)
+        badges.push({ label: daysLeftLabel(left), variant: 'accent' })
+      if (r.low_confidence) badges.push({ label: 'Low confidence', variant: 'dashed' })
+      const renews = r.low_confidence
+        ? `likely renews ${dateLong(r.next_due_date)}`
+        : `renews ${due}`
+      const leftText =
+        !r.low_confidence && left !== null && left >= 0
+          ? ` · ${daysLeftLabel(left).toLowerCase()}`
+          : ''
+      return {
+        layout: 'compact',
+        tone: 'default',
+        subline: `${amount} · ${renews}${leftText}`,
+        badges,
+        steps: null,
+        message: null,
+        actions: ['keep', 'cancelled', 'stop']
+      }
+    }
+    case 'REMINDED': {
+      const badges: PhaseBadge[] = []
+      if (left !== null && left >= 0) badges.push({ label: daysLeftLabel(left), variant: 'accent' })
+      badges.push({ label: `Reminded · ${sentOf}`, variant: 'outline' })
+      const snooze: ReminderActionId[] =
+        r.reminders_sent < r.max_reminders ? ['snooze1', 'snooze3'] : []
+      return {
+        layout: 'card',
+        tone: 'default',
+        subline: `${amount} · renews ${due}`,
+        badges,
+        steps: [
+          watched,
+          { label: 'Reminded', sub: stepDate(remindedOn, today), state: 'current' },
+          { label: 'Kept / You cancelled', sub: '', state: 'todo' },
+          { label: 'Verified', sub: '', state: 'todo' }
+        ],
+        message: { text: r.detail ?? `Renews ${due}. Keep it, or cancel it yourself?` },
+        actions: ['cancelled', 'keep', ...snooze, ...howto, 'stop']
+      }
+    }
+    case 'AWAITING_STATEMENT':
+      return {
+        layout: 'card',
+        tone: 'default',
+        subline: `${amount} · renews ${due}`,
+        badges: [{ label: 'Waiting for your next statement', variant: 'tint' }],
+        steps: [watched, reminded, cancelledStep, { label: 'Verified', sub: '', state: 'todo' }],
+        message: {
+          text:
+            r.detail && r.detail.startsWith('That statement')
+              ? r.detail
+              : `Import a statement that covers ${due} and SlothSpend will check the charge stopped.`
+        },
+        actions: ['import', 'stop']
+      }
+    case 'STILL_CHARGED': {
+      const charge = r.checked
+      const chargeAmount = charge?.amount ?? r.amount
+      return {
+        layout: 'card',
+        tone: 'accent',
+        subline: `${amount} · renewed ${due}`,
+        badges: [{ label: 'Still charged', variant: 'solid', icon: 'alert' }],
+        steps: [
+          watched,
+          reminded,
+          cancelledStep,
+          { label: 'Still charged', sub: charge ? dateShort(charge.date) : '', state: 'alert' }
+        ],
+        message: {
+          strong: charge
+            ? `Charged again on ${dateLong(charge.date)}${chargeAmount !== null ? ` — ${money(chargeAmount, currency)}` : ''}`
+            : 'Charged again',
+          text: `${r.cancelled_on ? `, after you cancelled on ${dateShort(r.cancelled_on)}` : ''}. Ask ${r.merchant} for a refund; the draft is ready in Ask Sloth.`
+        },
+        actions: ['refund', ...howto, 'stop']
+      }
+    }
+    case 'VERIFIED_STOPPED': {
+      const through = r.checked?.date
+      const saving = r.monthly_equiv || r.amount
+      return {
+        layout: 'card',
+        tone: 'outlined',
+        subline: `${amount} · was due ${due}`,
+        badges: [{ label: 'Verified', variant: 'success', icon: 'check' }],
+        steps: [
+          watched,
+          reminded,
+          cancelledStep,
+          { label: 'Verified', sub: through ? dateShort(through) : '', state: 'ok' }
+        ],
+        message: {
+          text: `No ${r.merchant} charge through ${through ? dateShort(through) : 'your latest statement'}, after its ${due} renewal. `,
+          saving: saving ? `You’re saving ${money(saving, currency)} a month.` : undefined
+        },
+        actions: []
+      }
+    }
+    default: {
+      const label = { KEPT: 'Kept', EXPIRED: 'Expired', STOPPED: 'Stopped' }[r.phase]
+      return {
+        layout: 'compact',
+        tone: 'default',
+        subline: `${amount} · ${r.phase === 'KEPT' ? 'renews' : 'was due'} ${due}`,
+        badges: [{ label, variant: r.phase === 'KEPT' ? 'tint' : 'outline' }],
+        steps: null,
+        message: r.detail ? { text: r.detail } : null,
+        actions: ['again']
+      }
+    }
+  }
+}
+
+/** How many reminders need the user (the tab's "{n} need you" pill). */
+export function needsYou(reminders: Reminder[]): number {
+  return reminders.filter((r) => r.group === 'needs_you').length
+}

@@ -145,7 +145,7 @@ export interface SeriesDetail {
   reasons: string[]
   raw_descriptions: string[]
   desc_keys: string[]
-  reminder: null
+  reminder: Reminder | null
 }
 
 export interface ImportPayload {
@@ -227,4 +227,66 @@ export interface DraftDone {
   text: string
   source: 'gemma' | 'template'
   title: string
+}
+
+// ── Reminders and notifications (IMPL M7, §3.2) ─────────────────────────────
+
+export type Phase =
+  | 'WATCHING'
+  | 'REMINDED'
+  | 'SNOOZED'
+  | 'AWAITING_STATEMENT'
+  | 'STILL_CHARGED'
+  | 'KEPT'
+  | 'EXPIRED'
+  | 'STOPPED'
+  | 'VERIFIED_STOPPED'
+
+export interface Reminder {
+  series_id: number
+  merchant: string
+  amount: number | null
+  cadence: Cadence | null
+  monthly_equiv: number | null
+  low_confidence: boolean
+  cancellable: boolean
+  next_due_date: string
+  days_left: number | null
+  phase: Phase
+  group: 'needs_you' | 'watching' | 'done'
+  detail: string | null
+  days_before: number
+  remind_at: string | null
+  remind_on: string | null
+  reminders_sent: number
+  max_reminders: number
+  cancelled_on: string | null
+  events: { phase: Phase; at: string }[]
+  /** STILL_CHARGED: the charge after cancelling; VERIFIED_STOPPED: how far the statements reach. */
+  checked: { date: string; amount: number | null } | null
+}
+
+export interface ReminderResult {
+  series_id: number
+  phase: Phase
+  remind_at: string | null
+  reminder: Reminder | null
+  report?: Report
+}
+
+export interface Notice {
+  id: number
+  series_id: number
+  kind: 'reminder' | 'verified' | 'still_charged'
+  title: string
+  body: string
+  created_at: string
+  read_at: string | null
+}
+
+export interface EngineSettings {
+  currency: Currency
+  chat_model: string | null
+  days_before: number
+  demo_compress_seconds: number
 }

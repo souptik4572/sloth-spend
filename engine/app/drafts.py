@@ -53,9 +53,19 @@ def facts(series_id: int) -> dict:
         "n_charges": s["n_charges"], "min_amount": min(amounts), "max_amount": max(amounts),
         "amount_varies": bool(s["amount_varies"]),
         "duplicates": (s["flag_details_json"] or {}).get("duplicate_charge", []),
-        # M7: a reminder in STILL_CHARGED adds {"cancelled_on", "date", "amount"} here.
-        "still_charged": None,
+        "still_charged": _still_charged(series_id),
     }
+
+
+def _still_charged(series_id: int) -> dict | None:
+    """The charge that arrived after the user cancelled (a STILL_CHARGED reminder), for the refund request."""
+    row = db.get_reminder(series_id)
+    if not row or row["phase"] != "STILL_CHARGED" or not row["cancelled_on"]:
+        return None
+    later = db.charges_after(series_id, row["cancelled_on"])["charges_after"]
+    if not later:
+        return None
+    return {"cancelled_on": row["cancelled_on"], "date": later[0]["date"], "amount": later[0]["amount"]}
 
 
 def _money(f: dict, amount: float) -> str:

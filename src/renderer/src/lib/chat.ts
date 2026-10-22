@@ -1,5 +1,5 @@
 // Pure helpers for Ask Sloth (IMPL M6.5–M6.9): tool badges, draft cards, follow-ups and prompt chips.
-import type { ChatTurn, Report, Series, StoredMessage, ToolArgs } from './types'
+import type { ChatTurn, Reminder, Report, Series, StoredMessage, ToolArgs, ToolCall } from './types'
 
 /** Spec §7.9's suggested prompts, in order. */
 export const SUGGESTED_PROMPTS = [
@@ -151,7 +151,12 @@ export interface FollowUp {
  * Buttons under a finished answer (IMPL M6.8), from the merchants its tools looked at: a refund draft for
  * a double charge, a reminder for a cancellable subscription, a negotiation email for a bill.
  */
-export function followUps(turn: ChatTurn, report: Report | null, max = 3): FollowUp[] {
+export function followUps(
+  turn: ChatTurn,
+  report: Report | null,
+  reminders: Reminder[] = [],
+  max = 3
+): FollowUp[] {
   if (!report || turn.streaming || turn.error) return []
   const merchants: Series[] = []
   for (const call of turn.tools) {
@@ -174,7 +179,14 @@ export function followUps(turn: ChatTurn, report: Report | null, max = 3): Follo
         prompt: `Draft a refund request for the duplicate ${m} charge.`
       })
     }
-    if (s.cancellable && s.next_due_date && s.status !== 'user_cancelled' && !reminded) {
+    const watched = reminders.some((r) => r.series_id === s.id && r.group !== 'done')
+    if (
+      s.cancellable &&
+      s.next_due_date &&
+      s.status !== 'user_cancelled' &&
+      !reminded &&
+      !watched
+    ) {
       out.push({
         label: named('Remind me 3 days before', m),
         prompt: `Remind me 3 days before ${m} renews.`
@@ -202,4 +214,11 @@ function parseDraftsIn(text: string): Set<string> {
 /** The findings table's Ask Sloth (IMPL M5.7): what to pre-fill for a row. */
 export function askAbout(s: Series): string {
   return s.flags.length ? `Why was ${s.merchant} flagged?` : `Tell me about ${s.merchant}.`
+}
+
+/** A set_renewal_reminder call that worked → its reminder date ("Nov 2, 2026"), for the link-chip. */
+export function reminderSetOn(call: ToolCall): string | null {
+  if (call.name !== 'set_renewal_reminder' || !call.preview) return null
+  if (!/"reminder_set":\s*true/.test(call.preview)) return null
+  return /"remind_on":\s*"([^"]+)"/.exec(call.preview)?.[1] ?? 'your chosen day'
 }

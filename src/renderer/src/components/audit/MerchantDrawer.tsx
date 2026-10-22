@@ -28,11 +28,19 @@ import { errorMessage, getSeries } from '../../lib/api'
 import { applyLabel, applyRename } from '../../lib/audit'
 import { CATEGORIES } from '../../lib/categories'
 import { cn } from '../../lib/cn'
-import { approxPct, dateLong, dateRange, money, pctChange, score } from '../../lib/format'
-import type { LabelKind, Series, SeriesDetail } from '../../lib/types'
+import {
+  approxPct,
+  dateLong,
+  dateRange,
+  dateShort,
+  money,
+  pctChange,
+  score
+} from '../../lib/format'
+import { cancelledIt, defaultCancelledOn, localDay, remindMe } from '../../lib/reminders'
+import type { LabelKind, Reminder, Series, SeriesDetail } from '../../lib/types'
 import { cadenceDetail, flagChips } from '../../lib/ui-derive'
 
-const COMING_SOON = 'Coming in the next update'
 const HIKE_HINT =
   'Share of the 19 predicted prices that are more than 2% above today’s price. An approximation.'
 
@@ -191,7 +199,27 @@ function MerchantEdit({ s, raw }: { s: Series; raw: string | undefined }): React
   )
 }
 
-function HowToCancel({ seriesId }: { seriesId: number }): React.JSX.Element {
+const PHASE_TEXT: Record<Reminder['phase'], string> = {
+  WATCHING: 'Reminder set',
+  SNOOZED: 'Reminder snoozed',
+  REMINDED: 'Reminded — waiting for your answer',
+  AWAITING_STATEMENT: 'You cancelled it — waiting for your next statement',
+  STILL_CHARGED: 'Still charged after you cancelled',
+  VERIFIED_STOPPED: 'Verified: the charge stopped',
+  KEPT: 'You’re keeping it',
+  EXPIRED: 'The last reminder expired',
+  STOPPED: 'Reminder stopped'
+}
+
+function HowToCancel({ s, reminder }: { s: Series; reminder: Reminder | null }): React.JSX.Element {
+  const [cancelledOn, setCancelledOn] = useState(defaultCancelledOn)
+  const [busy, setBusy] = useState(false)
+  const run = (fn: () => Promise<unknown>): void => {
+    setBusy(true)
+    void fn().finally(() => setBusy(false))
+  }
+  const ended = !reminder || reminder.group === 'done'
+  const canRemind = !!s.next_due_date && (ended || reminder?.phase === 'WATCHING')
   return (
     <section
       id="how-to-cancel"
@@ -219,18 +247,49 @@ function HowToCancel({ seriesId }: { seriesId: number }): React.JSX.Element {
           </li>
         ))}
       </ol>
-      <DraftSection seriesId={seriesId} kind="cancel_request" label="Draft cancellation request" />
-      <div className="flex flex-wrap items-center gap-3">
-        <Button variant="solid" icon={CalendarCheck} disabled title={COMING_SOON}>
+      <DraftSection seriesId={s.id} kind="cancel_request" label="Draft cancellation request" />
+      <div className="flex flex-wrap items-end gap-3">
+        <Field label="Cancelled on">
+          {(id) => (
+            <TextInput
+              id={id}
+              type="date"
+              surface="raised"
+              value={cancelledOn}
+              max={localDay()}
+              onChange={(e) => setCancelledOn(e.target.value)}
+              className="w-auto"
+            />
+          )}
+        </Field>
+        <Button
+          variant="solid"
+          size="lg"
+          icon={CalendarCheck}
+          disabled={busy || !cancelledOn}
+          onClick={() => run(() => cancelledIt(s.id, cancelledOn))}
+        >
           I cancelled it
         </Button>
-        <Button variant="outline" icon={Bell} disabled title={COMING_SOON}>
-          Remind me before renewal
+        <Button
+          variant="outline"
+          size="lg"
+          icon={Bell}
+          disabled={busy || !canRemind}
+          title={s.next_due_date ? undefined : 'SlothSpend can’t predict when this renews.'}
+          onClick={() => run(() => remindMe(s.id))}
+        >
+          {reminder?.phase === 'WATCHING' && reminder.remind_on
+            ? `Reminder set for ${dateShort(reminder.remind_on)}`
+            : 'Remind me before renewal'}
         </Button>
       </div>
-      <p className="m-0 text-xs text-muted">
-        “I cancelled it” and reminders arrive in the next update.
-      </p>
+      {reminder && (
+        <p className="m-0 text-sm text-text-2">
+          {PHASE_TEXT[reminder.phase]}
+          {reminder.detail ? ` · ${reminder.detail}` : ''}
+        </p>
+      )}
       <p className="m-0 flex items-center gap-2 text-sm font-medium">
         <Lock aria-hidden size={16} strokeWidth={2.2} />
         SlothSpend never cancels or contacts anyone for you.
@@ -453,7 +512,7 @@ function Body({ d, currency }: { d: SeriesDetail; currency: string }): React.JSX
 
       <MerchantEdit key={`${s.id}-${s.merchant}-${s.category}`} s={s} raw={d.raw_descriptions[0]} />
 
-      {s.cancellable && <HowToCancel key={s.id} seriesId={s.id} />}
+      {s.cancellable && <HowToCancel key={s.id} s={s} reminder={d.reminder} />}
       {s.kind === 'bill' && <Negotiate key={s.id} merchant={s.merchant} seriesId={s.id} />}
     </>
   )

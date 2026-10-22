@@ -526,3 +526,151 @@ def chat_history(conversation_id: str) -> list[dict]:
     return [{"id": r["id"], "role": r["role"], "content": r["content"], "tool_name": r["tool_name"],
              "tool_args": json.loads(r["tool_args_json"]) if r["tool_args_json"] else None,
              "created_at": r["created_at"]} for r in rows]
+
+
+# ── reminders (spec §7.10, IMPL M7.2) ───────────────────────────────────────
+
+ACTIVE_PHASES = ("WATCHING", "REMINDED", "SNOOZED", "AWAITING_STATEMENT", "STILL_CHARGED")
+FINAL_PHASES = ("KEPT", "EXPIRED", "STOPPED", "VERIFIED_STOPPED")
+REMINDER_FIELDS = {"merchant", "next_due_date", "days_before", "remind_at", "reminders_sent", "detail", "cancelled_on"}
+
+
+def _reminder(r: sqlite3.Row | None) -> dict | None:
+    if r is None:
+        return None
+    d = dict(r)
+    d["events"] = json.loads(d.pop("events_json") or "[]")
+    return d
+
+
+def get_reminder(series_id: int) -> dict | None:
+    with connect() as conn:
+        return _reminder(conn.execute("SELECT * FROM reminders WHERE series_id = ?", (series_id,)).fetchone())
+
+
+def put_reminder(series_id: int, phase: str, **fields) -> dict:
+    """Create the row, or reset an ended one to a fresh start (a new history begins)."""
+    now = now_iso()
+    cols = {"merchant": None, "next_due_date": None, "days_before": 3, "remind_at": None, "reminders_sent": 0,
+            "detail": None, "cancelled_on": None, **fields}
+    events = json.dumps([{"phase": phase, "at": now}])
+    with connect() as conn:
+        conn.execute(
+            "INSERT INTO reminders(series_id, merchant, next_due_date, days_before, remind_at, reminders_sent, phase, "
+            "detail, cancelled_on, created_at, updated_at, events_json) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+            "ON CONFLICT(series_id) DO UPDATE SET merchant = excluded.merchant, next_due_date = excluded.next_due_date, "
+            "days_before = excluded.days_before, remind_at = excluded.remind_at, reminders_sent = excluded.reminders_sent, "
+            "phase = excluded.phase, detail = excluded.detail, cancelled_on = excluded.cancelled_on, "
+            "created_at = excluded.created_at, updated_at = excluded.updated_at, events_json = excluded.events_json",
+            (series_id, cols["merchant"], cols["next_due_date"], cols["days_before"], cols["remind_at"],
+             cols["reminders_sent"], phase, cols["detail"], cols["cancelled_on"], now, now, events))
+    return get_reminder(series_id)
+
+
+def transition(series_id: int, expect: str | tuple[str, ...], new_phase: str, **fields) -> bool:
+    """Compare-and-set: only moves the row if it is still in `expect`. Fields not given stay unchanged."""
+    unknown = set(fields) - REMINDER_FIELDS
+    if unknown:
+        raise ValueError(f"unknown reminder fields {sorted(unknown)}")
+    expected = (expect,) if isinstance(expect, str) else expect
+    now = now_iso()
+    sets = ["phase = ?", "updated_at = ?"]
+    args: list = [new_phase, now]
+    for key, value in fields.items():
+        sets.append(f"{key} = ?")
+        args.append(value)
+    # A real phase change is recorded in the row's history.
+    sets.append("events_json = CASE WHEN phase != ? THEN json_insert(events_json, '$[#]', "
+                "json_object('phase', ?, 'at', ?)) ELSE events_json END")
+    args += [new_phase, new_phase, now]
+    marks = ",".join("?" * len(expected))
+    with connect() as conn:
+        cur = conn.execute(f"UPDATE reminders SET {', '.join(sets)} WHERE series_id = ? AND phase IN ({marks})",  # noqa: S608
+                           (*args, series_id, *expected))
+        return cur.rowcount == 1
+
+
+def due_reminders(now: str) -> list[dict]:
+    marks = ",".join("?" * len(ACTIVE_PHASES))
+    with connect() as conn:
+        rows = conn.execute(
+            f"SELECT * FROM reminders WHERE remind_at IS NOT NULL AND remind_at <= ? AND phase IN ({marks}) "  # noqa: S608
+            "ORDER BY remind_at", (now, *ACTIVE_PHASES)).fetchall()
+    return [_reminder(r) for r in rows]
+
+
+def reminders_in_phase(phase: str) -> list[dict]:
+    with connect() as conn:
+        return [_reminder(r) for r in conn.execute("SELECT * FROM reminders WHERE phase = ?", (phase,))]
+
+
+def list_reminders() -> list[dict]:
+    """Every reminder with its series' current facts (the derived UI fields are added by the API)."""
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT r.*, s.last_amount AS amount, s.cadence AS cadence, s.monthly_equiv AS monthly_equiv, "
+            "s.cancellable AS cancellable, s.merchant AS series_merchant, s.status AS series_status "
+            "FROM reminders r LEFT JOIN series s ON s.id = r.series_id ORDER BY r.updated_at DESC").fetchall()
+    return [_reminder(r) for r in rows]
+
+
+def charges_after(series_id: int, after: str) -> dict:
+    """{covers_until: latest stored transaction date, charges_after: [{date, amount}] for this merchant}."""
+    with connect() as conn:
+        covers = conn.execute("SELECT MAX(tx_date) FROM transactions").fetchone()[0]
+        merchant = conn.execute(
+            "SELECT COALESCE(s.merchant, r.merchant) FROM reminders r LEFT JOIN series s ON s.id = r.series_id "
+            "WHERE r.series_id = ?", (series_id,)).fetchone()
+        rows = conn.execute(
+            "SELECT tx_date, amount FROM transactions WHERE direction = 'debit' AND merchant = ? AND tx_date > ? "
+            "ORDER BY tx_date", (merchant[0] if merchant else None, after)).fetchall()
+    return {"covers_until": covers, "charges_after": [{"date": r["tx_date"], "amount": r["amount"]} for r in rows]}
+
+
+def series_facts(series_id: int) -> dict:
+    """What a reminder note may say about a merchant (spec §7.10)."""
+    s = series_by_id(series_id)
+    r = get_reminder(series_id)
+    meta = report_meta() or {}
+    if s is None and r is None:
+        return {}
+    details = (s or {}).get("flag_details_json") or {}
+    return {
+        "merchant": (s or r)["merchant"], "currency": meta.get("currency") or "USD",
+        "amount": (s or {}).get("last_amount"), "cadence": (s or {}).get("cadence"),
+        "monthly_equiv": (s or {}).get("monthly_equiv"),
+        "next_due": (r or {}).get("next_due_date") or (s or {}).get("next_due_date"),
+        "price_creep": details.get("price_creep"), "duplicates": details.get("duplicate_charge", []),
+        "cancelled_on": (r or {}).get("cancelled_on"),
+    }
+
+
+# ── notifications ───────────────────────────────────────────────────────────
+
+def insert_notification(series_id: int, kind: str, title: str, body: str) -> int:
+    with connect() as conn:
+        cur = conn.execute("INSERT INTO notifications(series_id, kind, title, body, created_at) VALUES(?, ?, ?, ?, ?)",
+                           (series_id, kind, title, body, now_iso()))
+        return int(cur.lastrowid)
+
+
+def notifications_since(since_id: int) -> list[dict]:
+    with connect() as conn:
+        return [dict(r) for r in conn.execute("SELECT * FROM notifications WHERE id > ? ORDER BY id", (since_id,))]
+
+
+def notifications_all(limit: int = 50) -> list[dict]:
+    with connect() as conn:
+        return [dict(r) for r in conn.execute("SELECT * FROM notifications ORDER BY id DESC LIMIT ?", (limit,))]
+
+
+def mark_read(notification_id: int) -> bool:
+    with connect() as conn:
+        cur = conn.execute("UPDATE notifications SET read_at = COALESCE(read_at, ?) WHERE id = ?",
+                           (now_iso(), notification_id))
+        return cur.rowcount == 1
+
+
+def mark_all_read() -> None:
+    with connect() as conn:
+        conn.execute("UPDATE notifications SET read_at = ? WHERE read_at IS NULL", (now_iso(),))

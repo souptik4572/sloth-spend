@@ -72,6 +72,16 @@ export function relativeTime(iso: string, now: Date = new Date()): string {
   return `${MONTHS[then.getMonth()]} ${then.getDate()}`
 }
 
+/** "today", "yesterday", "Nov 9" — for "Imported …". */
+export function relativeDay(iso: string, now: Date = new Date()): string {
+  const then = new Date(iso)
+  const day = (d: Date): number => Math.floor(new Date(d.toDateString()).getTime() / 86_400_000)
+  const diff = day(now) - day(then)
+  if (diff <= 0) return 'today'
+  if (diff === 1) return 'yesterday'
+  return `${MONTHS[then.getMonth()]} ${then.getDate()}`
+}
+
 /** "+25.0%" for the findings table. */
 export function pctChange(pct: number): string {
   return `${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%`

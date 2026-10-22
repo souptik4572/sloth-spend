@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import pytest
 from conftest import sse
 
-from app import agent, drafts, guard, ollama_setup, tools
+from app import agent, db, drafts, guard, ollama_setup, tools
 
 
 def run(name: str, **args) -> dict:
@@ -97,10 +97,26 @@ def test_readonly_sql(sample_report):
     assert run("run_readonly_sql", query="SELECT COUNT(*) FROM transactions")["rows"][0][0] > 400
 
 
-def test_reminder_tool_until_m7(sample_report):
+@pytest.fixture()
+def oct16(monkeypatch):
+    """The sample's world: the day after the statement ends."""
+    from datetime import datetime, timezone
+
+    from app import reminders
+
+    monkeypatch.setattr(reminders, "now_utc", lambda: datetime(2026, 10, 16, 12, tzinfo=timezone.utc))
+
+
+def test_reminder_tool(sample_report, oct16):
     out = run("set_renewal_reminder", merchant="IronTrap", days_before=3)
-    assert out["reminder_set"] is False
-    assert out["error"].startswith("No reminder was set") and out["next_charge_due"] == "Nov 5, 2026"
+    assert out["reminder_set"] is True and out["remind_on"] == "Nov 2, 2026" and out["days_before"] == 3
+    again = run("set_renewal_reminder", merchant="IronTrap", days_before=5)  # WATCHING: re-timed
+    assert again["reminder_set"] is True and again["remind_on"] == "Oct 31, 2026"
+    iron = next(s for s in sample_report["series"] if s["merchant"] == "IronTrap Fitness")
+    db.transition(iron["id"], "WATCHING", "REMINDED")
+    busy = run("set_renewal_reminder", merchant="IronTrap")
+    assert busy["reminder_set"] is False and "already has one in progress (reminded)" in busy["error"]
+    assert run("set_renewal_reminder", merchant="FreshCart")["reminder_set"] is False  # no renewal date
 
 
 def test_execute_never_raises(sample_report):
@@ -257,19 +273,25 @@ def test_draft_requests_start_from_the_template(client, sample_report, gemma_rea
     assert "Please refund the Jul 6 charge." in facts
 
 
-def test_remind_me_runs_the_reminder_tool_first(client, sample_report, gemma_ready):
+def test_remind_me_runs_the_reminder_tool_first(client, sample_report, gemma_ready, oct16):
     assert agent.reminder_days("Remind me three days before IronTrap renews.") == 3
     assert agent.reminder_days("remind me a week before") == 7
     assert agent.reminder_days("Remind me 2 days before") == 2
     assert agent.reminder_days("Remind me before it renews") == 3
     ScriptedGemma.reply = ("Done! I've set a reminder for you three days before IronTrap renews.",)
     events = sse(client, "/chat", {"conversation_id": "c4", "message": "Remind me three days before IronTrap renews."})
-    # Gemma claimed a reminder no tool set: the answer is replaced with what actually happened.
-    assert events[-2] == ("replace", {"text": "No reminder was set: reminders arrive in the next update of "
-                                              "SlothSpend. IronTrap Fitness’s next charge is due Nov 5, 2026. "
-                                              "Nothing has been cancelled."})
     starts = [d for e, d in events if e == "tool_start"]
     assert starts[1] == {"name": "set_renewal_reminder", "args": {"merchant": "IronTrap Fitness", "days_before": 3}}
     facts = ScriptedGemma.seen[0][1]["content"]
-    assert "Report this result exactly" in facts and '"reminder_set": false' in facts
+    assert "Report this result exactly" in facts and '"reminder_set": true' in facts
     assert "Ready-made" not in facts  # a reminder request isn't a draft request
+    assert [e for e, _ in events][-1] == "done" and "replace" not in [e for e, _ in events]  # true claim stays
+
+    # Now the reminder is in progress, so asking again sets nothing: the same claim gets replaced.
+    iron = next(s for s in sample_report["series"] if s["merchant"] == "IronTrap Fitness")
+    db.transition(iron["id"], "WATCHING", "REMINDED")
+    ScriptedGemma.seen = []
+    events = sse(client, "/chat", {"conversation_id": "c4", "message": "Remind me three days before IronTrap renews."})
+    assert events[-2] == ("replace", {"text": "No new reminder was set: IronTrap Fitness already has one in progress "
+                                              "(reminded). See the Reminders tab. IronTrap Fitness’s next charge is "
+                                              "due Nov 5, 2026. Nothing has been cancelled."})

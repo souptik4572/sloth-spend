@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   Ban,
   Bell,
+  BellRing,
   CircleCheck,
   Ellipsis,
   ListChecks,
@@ -16,7 +17,9 @@ import { SourceChip, type Source } from '../ui/SourceChip'
 import { Spinner } from '../ui/Spinner'
 import { useAudit } from '../../auditStore'
 import { useChat } from '../../chatStore'
+import { activeReminder, useReminders } from '../../remindersStore'
 import { applyLabel } from '../../lib/audit'
+import { remindMe } from '../../lib/reminders'
 import { askAbout } from '../../lib/chat'
 import { cn } from '../../lib/cn'
 import { dateShort, money, score } from '../../lib/format'
@@ -33,7 +36,6 @@ import {
 
 const GRID =
   'grid grid-cols-[minmax(170px,2.2fr)_minmax(88px,1fr)_72px_100px_minmax(150px,1.7fr)_64px_44px] items-center gap-x-3'
-const COMING_SOON = 'Coming in the next update'
 
 const FILTERS: Array<[Filter, string]> = [
   ['all', 'All'],
@@ -44,7 +46,8 @@ const FILTERS: Array<[Filter, string]> = [
 
 function RowActions({ s }: { s: Series }): React.JSX.Element {
   const openDrawer = useAudit((st) => st.openDrawer)
-  const [busy, setBusy] = useState<LabelKind | null>(null)
+  const [busy, setBusy] = useState<LabelKind | 'remind' | null>(null)
+  const reminder = useReminders((st) => activeReminder(st.reminders, s.id))
   const label = (kind: LabelKind): void => {
     setBusy(kind)
     void applyLabel(s.id, kind).finally(() => setBusy(null))
@@ -63,8 +66,21 @@ function RowActions({ s }: { s: Series }): React.JSX.Element {
         </Button>
       )}
       {s.next_due_date && (
-        <Button variant="soft" icon={Bell} disabled title={COMING_SOON}>
-          Remind me
+        <Button
+          variant="soft"
+          icon={busy === 'remind' ? undefined : reminder ? BellRing : Bell}
+          disabled={busy !== null || (!!reminder && reminder.phase !== 'WATCHING')}
+          onClick={() => {
+            setBusy('remind')
+            void remindMe(s.id).finally(() => setBusy(null))
+          }}
+        >
+          {busy === 'remind' && <Spinner />}
+          {reminder
+            ? reminder.remind_on
+              ? `Reminder · ${dateShort(reminder.remind_on)}`
+              : 'Reminder on'
+            : 'Remind me'}
         </Button>
       )}
       {s.status !== 'keep' && (

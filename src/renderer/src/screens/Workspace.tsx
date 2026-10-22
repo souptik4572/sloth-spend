@@ -3,7 +3,6 @@ import { TopBar } from '../components/shell/TopBar'
 import { WorkspaceTabs } from '../components/shell/WorkspaceTabs'
 import { LimitedBanner } from '../components/shell/LimitedBanner'
 import { ChatPane } from '../components/chat/ChatPane'
-import { Card } from '../components/ui/Card'
 import { Spinner } from '../components/ui/Spinner'
 import { AuditError } from '../components/audit/AuditError'
 import { BurnChart } from '../components/audit/BurnChart'
@@ -15,8 +14,10 @@ import { PipelineProgress } from '../components/audit/PipelineProgress'
 import { RescoreBanner } from '../components/audit/RescoreBanner'
 import { StatementBar } from '../components/audit/StatementBar'
 import { SummaryCards, SummaryNarrative } from '../components/audit/SummaryCards'
+import { RemindersPanel } from '../components/reminders/RemindersPanel'
 import { useAudit } from '../auditStore'
 import { loadReport } from '../lib/audit'
+import { startNotifications } from '../lib/notify'
 import { useApp } from '../store'
 
 function AuditTab(): React.JSX.Element {
@@ -63,6 +64,12 @@ export function Workspace(): React.JSX.Element {
     if (engine === 'ok' && phase === 'loading') void loadReport()
   }, [engine, phase])
 
+  // Reminders and notifications (IMPL M7.5): poll while the engine is up.
+  useEffect(() => {
+    if (engine !== 'ok') return
+    return startNotifications()
+  }, [engine])
+
   // A file dropped outside the drop zone must never navigate the window away.
   useEffect(() => {
     const stop = (e: DragEvent): void => e.preventDefault()
@@ -81,16 +88,7 @@ export function Workspace(): React.JSX.Element {
         <main className="box-border flex min-w-0 flex-[62_1_560px] flex-col gap-6 px-4 pt-1 pb-12">
           <WorkspaceTabs />
           <LimitedBanner />
-          {tab === 'audit' ? (
-            <AuditTab />
-          ) : (
-            <Card radius="section" className="flex flex-col gap-2 p-8">
-              <h1 className="m-0 text-h2">No reminders yet.</h1>
-              <p className="m-0 text-sm text-muted">
-                Reminders arrive in a later update. They fire while SlothSpend is open.
-              </p>
-            </Card>
-          )}
+          {tab === 'audit' ? <AuditTab /> : <RemindersPanel />}
         </main>
         <ChatPane />
       </div>

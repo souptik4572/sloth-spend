@@ -2,11 +2,14 @@ import Markdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { DraftCard } from './DraftCard'
 import { ToolBadge } from './ToolBadge'
+import { BellPlus } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { useAudit } from '../../auditStore'
+import { useReminders } from '../../remindersStore'
+import { useApp } from '../../store'
 import { send } from '../../lib/ask'
 import { cn } from '../../lib/cn'
-import { followUps, splitDrafts } from '../../lib/chat'
+import { followUps, reminderSetOn, splitDrafts } from '../../lib/chat'
 import type { ChatTurn } from '../../lib/types'
 
 // Answers are plain reading: no links (Sloth never points anywhere), compact lists and code.
@@ -36,7 +39,10 @@ const MARKDOWN: Components = {
 function Answer({ turn }: { turn: ChatTurn }): React.JSX.Element {
   const report = useAudit((s) => s.report)
   const segments = splitDrafts(turn.text)
-  const next = followUps(turn, report)
+  const reminders = useReminders((s) => s.reminders)
+  const setTab = useApp((s) => s.setTab)
+  const next = followUps(turn, report, reminders)
+  const setOn = turn.streaming ? [] : turn.tools.map(reminderSetOn).filter((d): d is string => !!d)
   return (
     <li className="flex flex-col gap-2 rounded-[16px_16px_16px_4px] bg-raised px-4 py-3.5 text-sm leading-normal">
       {segments.map((seg, i) =>
@@ -78,6 +84,17 @@ function Answer({ turn }: { turn: ChatTurn }): React.JSX.Element {
           </Button>
         </div>
       )}
+      {setOn.map((day) => (
+        <button
+          key={day}
+          type="button"
+          onClick={() => setTab('reminders')}
+          className="inline-flex min-h-11 cursor-pointer items-center gap-2 self-start rounded-full border border-line-strong bg-transparent px-3.5 text-sm font-medium text-ink hover:border-ink"
+        >
+          <BellPlus aria-hidden size={16} strokeWidth={2.2} />
+          Reminder set for {day}
+        </button>
+      ))}
       {next.length > 0 && (
         <div className="flex flex-wrap gap-1.5 pt-1">
           {next.map((f) => (

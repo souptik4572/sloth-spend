@@ -1,6 +1,17 @@
 import { fetchEventSource } from '@microsoft/fetch-event-source'
 import type { RendererConfig } from '../../../preload'
-import type { Health, ImportPayload, LabelKind, Report, SeriesDetail, StoredMessage } from './types'
+import type {
+  EngineSettings,
+  Health,
+  ImportPayload,
+  LabelKind,
+  Notice,
+  Reminder,
+  ReminderResult,
+  Report,
+  SeriesDetail,
+  StoredMessage
+} from './types'
 
 let cfg: RendererConfig | null = null
 
@@ -126,3 +137,31 @@ export const renameSeries = (
 
 export const getChat = (cid: string): Promise<{ messages: StoredMessage[] }> =>
   req('GET', `/chat/${encodeURIComponent(cid)}`)
+
+// ── Reminders and notifications (IMPL M7) ──────────────────────────────────
+
+export const getSettings = (): Promise<EngineSettings> => req('GET', '/settings')
+
+export const listReminders = (): Promise<Reminder[]> => req('GET', '/reminders')
+
+export const createReminder = (seriesId: number, daysBefore?: number): Promise<ReminderResult> =>
+  req('POST', '/reminders', { series_id: seriesId, days_before: daysBefore })
+
+export type ReminderAction = 'keep' | 'stop' | 'snooze' | 'cancelled'
+
+export const reminderAction = (
+  seriesId: number,
+  action: ReminderAction,
+  body?: { days?: number; cancelled_on?: string }
+): Promise<ReminderResult> => req('POST', `/reminders/${seriesId}/${action}`, body ?? {})
+
+export const notificationsSince = (sinceId: number): Promise<Notice[]> =>
+  req('GET', `/notifications?since_id=${sinceId}`)
+
+export const notificationInbox = (): Promise<Notice[]> => req('GET', '/notifications?all=1')
+
+export const markNoticeRead = (id: number): Promise<{ ok: boolean }> =>
+  req('POST', `/notifications/${id}/read`)
+
+export const markAllNoticesRead = (): Promise<{ ok: boolean }> =>
+  req('POST', '/notifications/read-all')

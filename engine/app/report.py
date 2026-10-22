@@ -331,6 +331,7 @@ def persist(ctx: Context) -> None:
     db.save_series([{k: v for k, v in r.items() if not k.startswith("_")} for r in ctx.rows])
     db.mark_duplicates(ctx.duplicate_ids)
     db.save_report_meta({**ctx.meta, "executive_summary": ctx.summary, "summary_source": ctx.summary_source})
+    reminders.resync_after_report()
 
 
 # ── reading the report ──────────────────────────────────────────────────────

@@ -10,7 +10,7 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import db, telemetry
-from .api import admin, chat, health, imports, reports, series, setup
+from .api import admin, chat, health, imports, notifications, reminders, reports, series, setup
 from .api import settings as settings_api
 from .config import settings
 from .reminders import run_scheduler
@@ -68,6 +68,8 @@ app.include_router(setup.router)
 app.include_router(settings_api.router)
 app.include_router(admin.router)
 app.include_router(chat.router)
+app.include_router(reminders.router)
+app.include_router(notifications.router)
 
 
 # Heavy or lazily imported packages the frozen build must contain (IMPL M2.1). The app only imports

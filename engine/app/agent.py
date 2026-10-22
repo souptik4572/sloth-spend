@@ -82,7 +82,7 @@ def honest_reminder(results: list[str]) -> str:
         last = json.loads(results[-1]) if results else {}
     except ValueError:
         last = {}
-    text = last.get("error") or "No reminder was set: reminders arrive in the next update of SlothSpend."
+    text = last.get("error") or "No reminder was set."
     if last.get("next_charge_due"):
         text += f" {last.get('merchant', 'The')}’s next charge is due {last['next_charge_due']}."
     return text + " Nothing has been cancelled."

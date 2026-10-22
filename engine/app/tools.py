@@ -15,7 +15,7 @@ from collections import defaultdict
 
 import pandas as pd
 
-from . import db, report
+from . import db, reminders, report
 from .db import DB_PATH
 from .features import FEATURES
 from .money import date_long, money
@@ -324,9 +324,19 @@ def set_renewal_reminder(merchant: str, days_before: int = 3) -> dict:
     s = resolve(merchant)
     if s is None:
         return _not_found(merchant)
-    # Reminders arrive in M7 (spec §7.10); until then the result must not read like success.
-    return {"reminder_set": False, "merchant": s["merchant"], "next_charge_due": s["next_due_date"],
-            "error": "No reminder was set: reminders arrive in the next update of SlothSpend."}
+    base = {"merchant": s["merchant"], "next_charge_due": s["next_due_date"]}
+    try:
+        row = reminders.create(s["id"], max(1, min(int(days_before), 14)))
+    except reminders.NoRenewal:
+        return {**base, "reminder_set": False,
+                "error": f"No reminder was set: SlothSpend can't predict when {s['merchant']} renews."}
+    except reminders.Conflict as exc:
+        return {**base, "reminder_set": False, "phase": exc.phase,
+                "error": f"No new reminder was set: {s['merchant']} already has one in progress "
+                         f"({str(exc.phase).replace('_', ' ').lower()}). See the Reminders tab."}
+    return {**base, "reminder_set": True, "days_before": row["days_before"],
+            "remind_on": row["remind_at"][:10] if row["remind_at"] else None,
+            "note": "It only reminds you, here on this computer. Nothing is cancelled."}
 
 
 TOOLS = {"get_report_overview": get_report_overview, "get_merchant": get_merchant,

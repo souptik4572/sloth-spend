@@ -9,6 +9,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from .. import db, drafts, explain, report
 from ..config import settings
+from . import reminders as reminders_api
 from ..normalize import CATEGORIES
 from ..tabular import QUANTILES
 
@@ -68,7 +69,7 @@ async def detail(series_id: int) -> dict:
             "reasons": explain.reasons(s, txs, source=source, subscription_like=sub_like, currency=currency),
             "raw_descriptions": db.raw_descriptions_for_merchant(s["merchant"]),
             "desc_keys": keys,
-            "reminder": None,  # M7
+            "reminder": reminders_api.one(series_id),
         }
     return await asyncio.to_thread(build)
 
