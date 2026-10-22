@@ -31,7 +31,10 @@ a = Analysis(
     binaries=binaries,
     datas=datas,
     hiddenimports=hiddenimports,
-    excludes=["tkinter", "IPython", "pytest"],  # not matplotlib: tabpfn imports it at module level
+    # Not matplotlib: tabpfn imports it at module level. pkg_resources: setuptools 84 no longer ships it, but a
+    # stray empty pkg_resources/ (seen on the macOS CI runner) still pulls in PyInstaller's pkg_resources runtime
+    # hook, which then crashes the frozen engine at startup. Nothing in the engine uses it.
+    excludes=["tkinter", "IPython", "pytest", "pkg_resources"],
     noarchive=False,
 )
 pyz = PYZ(a.pure)
