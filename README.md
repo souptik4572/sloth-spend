@@ -15,7 +15,7 @@ with open models (Gemma + TabPFN) running locally. SlothSpend **informs, never a
 ![Models](https://img.shields.io/badge/models-Gemma%20%2B%20TabPFN%20v2-ffa8cd)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-[Website](https://slothspend.tech) · [Download](https://github.com/souptik4572/sloth-spend/releases/latest) ·
+[Website](https://slothspend.netlify.app/) · [Download](https://github.com/souptik4572/sloth-spend/releases/latest) ·
 [How it works](#how-it-works) · [Privacy](#privacy-where-your-data-goes) · [Develop](#development)
 
 <img src="docs/screenshots/16-still-charged.jpg" alt="SlothSpend: a cancelled subscription that charged again, with a refund request drafted by Ask Sloth" width="900" />

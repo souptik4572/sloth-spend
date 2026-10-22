@@ -6,7 +6,7 @@
   "main": "./out/main/index.js",
   "author": "Souptik Sarkar",
   "license": "MIT",
-  "homepage": "https://slothspend.tech",
+  "homepage": "https://slothspend.netlify.app/",
   "private": true,
   "scripts": {
     "format": "prettier --write .",
