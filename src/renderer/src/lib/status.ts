@@ -71,11 +71,14 @@ export function gemmaView(h: Health | null, engine: EngineState): RowView {
           remote
       }
     case 'ready':
-      return {
-        tone: 'ready',
-        status: 'Ready',
-        detail: `${o.model} runs locally through Ollama.` + remote
-      }
+      // OLLAMA_HOST on another machine: it works, but merchant names leave this computer — say so.
+      return o.loopback
+        ? { tone: 'ready', status: 'Ready', detail: `${o.model} runs locally through Ollama.` }
+        : {
+            tone: 'action',
+            status: 'Not on this computer',
+            detail: `${o.model} is reached through OLLAMA_HOST on another computer, so merchant names, chats and reminder facts leave this one. Unset OLLAMA_HOST to keep everything local.`
+          }
   }
 }
 

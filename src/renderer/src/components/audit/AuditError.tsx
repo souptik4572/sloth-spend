@@ -1,8 +1,8 @@
-import { TriangleAlert } from 'lucide-react'
+import { RotateCcw, TriangleAlert } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { useAudit } from '../../auditStore'
-import { leaveError } from '../../lib/audit'
+import { leaveError, retryLastRun } from '../../lib/audit'
 import { STAGE_LABELS } from '../../lib/ui-derive'
 import type { StageId } from '../../lib/types'
 
@@ -10,6 +10,7 @@ import type { StageId } from '../../lib/types'
 export function AuditError(): React.JSX.Element {
   const error = useAudit((s) => s.error)
   const hasReport = useAudit((s) => s.report !== null)
+  const canRetry = useAudit((s) => s.lastRun !== null)
   const stage =
     error?.stage && error.stage in STAGE_LABELS ? STAGE_LABELS[error.stage as StageId] : null
   return (
@@ -27,9 +28,21 @@ export function AuditError(): React.JSX.Element {
         {stage && <p className="mt-1 mb-0 text-sm text-muted">During: {stage}</p>}
       </div>
       <p className="m-0 max-w-[60ch] text-base">{error?.message}</p>
-      <Button variant="solid" onClick={leaveError}>
-        {hasReport ? 'Back to the report' : 'Back'}
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        {canRetry && (
+          <Button variant="solid" icon={RotateCcw} onClick={() => void retryLastRun()}>
+            Try again
+          </Button>
+        )}
+        <Button variant={canRetry ? 'soft' : 'solid'} onClick={leaveError}>
+          {hasReport ? 'Back to the report' : 'Back'}
+        </Button>
+      </div>
+      {canRetry && (
+        <p className="m-0 text-xs text-muted">
+          The rows SlothSpend already read are kept, so trying again picks up where it stopped.
+        </p>
+      )}
     </Card>
   )
 }

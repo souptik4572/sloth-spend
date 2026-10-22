@@ -68,12 +68,18 @@ export function setTelemetry(on: boolean): void {
   write({ ...read(), telemetry: on })
 }
 
-export function secretsEnv(): Record<string, string> {
+/**
+ * The engine's environment from prefs. Async on purpose (IMPL M9.2): for an ad-hoc-signed build the keychain
+ * re-verifies the whole app bundle — engine included — before it hands over the key, which took 6–8 s and,
+ * done synchronously, froze the window at launch. The async API reads keys stored by encryptString too.
+ */
+export async function secretsEnv(): Promise<Record<string, string>> {
   const p = read()
   const env: Record<string, string> = { SLOTH_TELEMETRY: p.telemetry ? '1' : '0' }
   if (p.priorKey) {
     try {
-      env.TABPFN_TOKEN = safeStorage.decryptString(Buffer.from(p.priorKey, 'base64'))
+      const { result } = await safeStorage.decryptStringAsync(Buffer.from(p.priorKey, 'base64'))
+      env.TABPFN_TOKEN = result
     } catch {
       /* unreadable on this machine: treat as missing */
     }

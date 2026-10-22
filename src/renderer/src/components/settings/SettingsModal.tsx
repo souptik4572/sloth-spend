@@ -216,6 +216,17 @@ export function SettingsModal(): React.JSX.Element {
                 <GemmaSetup />
               </div>
             )}
+            {health?.ollama.loopback === false && (
+              <p
+                role="note"
+                className="m-0 rounded-tile border border-line-strong px-4 py-3 text-sm leading-[1.45]"
+              >
+                <strong>Gemma isn’t on this computer.</strong> OLLAMA_HOST points SlothSpend at
+                Ollama on another computer, so merchant names, chats and reminder facts travel there
+                over your network. Unset OLLAMA_HOST and restart SlothSpend to keep everything on
+                this one.
+              </p>
+            )}
             <div className="flex flex-col gap-3 rounded-tile bg-card p-4">
               <p className="m-0 flex items-center gap-2 text-sm font-medium">
                 {health?.tabpfn.status === 'ready' && (

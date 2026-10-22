@@ -1,4 +1,4 @@
-# Unpinned starting point (spec §5). Pinned via uv after the first green build (IMPL M9.7).
+# Top-level engine dependencies (spec §5). Builds install the exact versions in requirements.lock (IMPL M9.7).
 fastapi
 uvicorn
 sse-starlette

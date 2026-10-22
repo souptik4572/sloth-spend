@@ -48,7 +48,7 @@ async function runPipeline(
   file: string,
   rows: number | null
 ): Promise<void> {
-  store().startRun(file, rows)
+  store().startRun({ path, body, file, rows })
   let finished = false
   try {
     await stream(path, body, {
@@ -67,8 +67,20 @@ async function runPipeline(
     })
     if (!finished) store().fail('The audit stopped before it finished. Please try again.')
   } catch (err) {
+    if (err instanceof ApiError && err.status === 409) {
+      // Another audit (or a re-score) holds the engine: keep what's on screen.
+      toast('An audit is already running.')
+      settle()
+      return
+    }
     store().fail(errorMessage(err, 'The audit couldn’t start.'))
   }
+}
+
+/** The error card's Try again: run the same audit again. Rows already stored are not read twice. */
+export async function retryLastRun(): Promise<void> {
+  const last = store().lastRun
+  if (last) await runPipeline(last.path, last.body, last.file, last.rows)
 }
 
 export async function importFile(file: File): Promise<void> {

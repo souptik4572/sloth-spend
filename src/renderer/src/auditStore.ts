@@ -13,11 +13,20 @@ export interface RunState {
 
 export type DrawerSection = 'top' | 'how-to-cancel' | 'negotiate'
 
+/** The last audit started, so the error card can offer Try again (IMPL M9.1). */
+export interface RunRequest {
+  path: string
+  body: unknown
+  file: string
+  rows: number | null
+}
+
 interface AuditState {
   phase: AuditPhase
   report: Report | null
   pending: ImportPayload | null
   run: RunState | null
+  lastRun: RunRequest | null
   error: { message: string; stage?: string } | null
   drawer: { id: number; section: DrawerSection } | null
   /** Bumped when the drawer should re-fetch its detail (after a label or rename). */
@@ -26,7 +35,7 @@ interface AuditState {
   showReport: (report: Report) => void
   showEmpty: () => void
   startMapping: (pending: ImportPayload) => void
-  startRun: (file: string, rows: number | null) => void
+  startRun: (request: RunRequest) => void
   stageEvent: (ev: StageEvent) => void
   fail: (message: string, stage?: string) => void
   openDrawer: (id: number, section?: DrawerSection) => void
@@ -39,6 +48,7 @@ export const useAudit = create<AuditState>((set) => ({
   report: null,
   pending: null,
   run: null,
+  lastRun: null,
   error: null,
   drawer: null,
   drawerVersion: 0,
@@ -46,8 +56,13 @@ export const useAudit = create<AuditState>((set) => ({
   showReport: (report) => set({ phase: 'report', report, pending: null, run: null, error: null }),
   showEmpty: () => set({ phase: 'empty', report: null, pending: null, run: null, error: null }),
   startMapping: (pending) => set({ phase: 'mapping', pending, error: null }),
-  startRun: (file, rows) =>
-    set({ phase: 'running', run: { file, rows, startedAt: Date.now(), stages: {} }, error: null }),
+  startRun: (request) =>
+    set({
+      phase: 'running',
+      run: { file: request.file, rows: request.rows, startedAt: Date.now(), stages: {} },
+      lastRun: request,
+      error: null
+    }),
   stageEvent: (ev) =>
     set((s) => {
       if (!s.run) return s

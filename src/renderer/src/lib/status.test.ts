@@ -57,7 +57,9 @@ describe('gemmaView', () => {
     expect(gemmaView(health(), 'ok').tone).toBe('ready')
   })
   it('warns when Ollama is not on this computer', () => {
-    expect(gemmaView(health({ loopback: false }), 'ok').detail).toContain('OLLAMA_HOST')
+    const remote = gemmaView(health({ loopback: false }), 'ok')
+    expect(remote.detail).toContain('OLLAMA_HOST')
+    expect([remote.tone, remote.status]).toEqual(['action', 'Not on this computer']) // the pill warns
   })
 })
 

@@ -45,13 +45,14 @@ async def _start(import_id: int, opts: dict) -> EventSourceResponse:
 
 @router.post("/import/{import_id}/confirm")
 async def confirm(import_id: int, opts: ConfirmOpts | None = None) -> EventSourceResponse:
-    """Run the audit on a pending upload. Problems known up front are plain HTTP errors, not stream events."""
+    """Run the audit on a pending upload — or again on one whose audit failed after its rows were stored.
+    Problems known up front are plain HTTP errors, not stream events."""
     imp = await asyncio.to_thread(db.get_import, import_id)
     if imp is None:
         raise HTTPException(404, "That import doesn't exist.")
-    if imp["status"] != "pending":
+    if imp["status"] == "done":
         raise HTTPException(409, "That statement has already been imported.")
-    if import_id not in runtime.pending:
+    if imp["status"] == "pending" and import_id not in runtime.pending:
         raise HTTPException(410, "SlothSpend restarted since you chose this file. Please choose it again.")
     return await _start(import_id, (opts or ConfirmOpts()).model_dump(exclude_none=True))
 
@@ -62,6 +63,8 @@ async def load_sample(req: SampleRequest | None = None) -> EventSourceResponse:
     name = SAMPLES[(req or SampleRequest()).file]
     raw = (DATA / name).read_bytes()
     existing = await asyncio.to_thread(db.find_import_by_sha, ingest.sha256(raw))
+    if existing and existing["status"] == "committed":  # Try again after a failed audit
+        return await _start(existing["id"], {})
     if existing and existing["status"] != "pending":
         # Already imported: nothing to add, just hand back the current report.
         queue: asyncio.Queue = asyncio.Queue()

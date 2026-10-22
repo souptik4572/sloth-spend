@@ -42,7 +42,8 @@ export const useApp = create<AppState>((set) => ({
   // A failed poll before the first success just means "still starting"; after an exit we stay stopped.
   healthFailed: () =>
     set((s) => (s.engine === 'stopped' ? s : { engine: 'starting', health: null })),
-  engineExited: (exitCode) => set({ engine: 'stopped', exitCode, health: null, screen: 'boot' }),
+  // The workspace stays put (IMPL M9.1): its Engine pill and a modal offer the restart.
+  engineExited: (exitCode) => set({ engine: 'stopped', exitCode, health: null }),
   engineRestarting: () => set({ engine: 'starting', exitCode: null, health: null })
 }))
 

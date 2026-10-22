@@ -37,9 +37,9 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: engine/requirements*.txt
+          cache-dependency-path: engine/requirements*
       - name: Install (CPU-only PyTorch)
         run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r engine/requirements.txt -r engine/requirements-dev.txt
+          pip install -r engine/requirements.lock -r engine/requirements-dev.txt
       - run: python -m pytest engine/tests -q

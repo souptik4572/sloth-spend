@@ -451,13 +451,18 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
         async with runtime.pipeline_lock:
             try:
                 await queue.put(_ev("stage", stage="parse", done=0, total=1))
-                default_currency = user_settings.load().currency
-                res = await asyncio.to_thread(ingest.commit, import_id, opts, default_currency)
-                note = f"{res.rows} rows"
-                if res.skipped_dates:
-                    note += f" · {res.skipped_dates} skipped (unreadable dates)"
-                if res.skipped_overlap:
-                    note += f" · {res.skipped_overlap} already imported"
+                imp = await asyncio.to_thread(db.get_import, import_id)
+                if imp and imp["status"] == "committed":
+                    # Try again after a failed audit: the rows are already stored, so carry on from there.
+                    note = f"{imp['row_count']} rows (already read)"
+                else:
+                    default_currency = user_settings.load().currency
+                    res = await asyncio.to_thread(ingest.commit, import_id, opts, default_currency)
+                    note = f"{res.rows} rows"
+                    if res.skipped_dates:
+                        note += f" · {res.skipped_dates} skipped (unreadable dates)"
+                    if res.skipped_overlap:
+                        note += f" · {res.skipped_overlap} already imported"
                 await queue.put(_ev("stage", stage="parse", done=1, total=1, note=note))
 
                 stage = "normalize"

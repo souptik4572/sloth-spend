@@ -19,6 +19,14 @@ import { LogBuffer } from './logbuffer'
 import windowIcon from '../../resources/icon.png?asset'
 import devDockIcon from '../../resources/icon-macos.png?asset'
 
+const started = Date.now()
+/** Startup timing in the log (IMPL M9.2: "Engine green ≤ 20 s" — where the seconds go). */
+const mark = (what: string): void => {
+  const line = `[main] +${Date.now() - started} ms ${what}\n`
+  logs.push(line)
+  process.stdout.write(line)
+}
+
 let cfg: RuntimeConfig
 let engine: ChildProcess | null = null
 let win: BrowserWindow | null = null
@@ -33,8 +41,11 @@ const OPEN_ALLOW = [
 ]
 
 /** Spawns the engine and reports its exit to the renderer — unless it was replaced or we are quitting. */
-function launchEngine(): void {
-  const proc = startEngine(cfg, secretsEnv(), logs)
+async function launchEngine(): Promise<void> {
+  const env = await secretsEnv()
+  mark('read prefs')
+  const proc = startEngine(cfg, env, logs)
+  mark('engine spawned')
   engine = proc
   proc.on('exit', (code) => {
     logs.push(`[main] engine exited with code ${code}\n`)
@@ -47,12 +58,13 @@ function launchEngine(): void {
 }
 
 async function boot(): Promise<void> {
+  mark('ready')
   cfg = {
     enginePort: await freePort(),
     token: randomBytes(32).toString('hex'),
     dataDir: app.getPath('userData')
   }
-  launchEngine()
+  await launchEngine()
 }
 
 function createWindow(): BrowserWindow {
@@ -74,7 +86,10 @@ function createWindow(): BrowserWindow {
       sandbox: true
     }
   })
-  w.once('ready-to-show', () => w.show())
+  w.once('ready-to-show', () => {
+    mark('window shown')
+    w.show()
+  })
   w.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
   w.webContents.on('will-navigate', (e) => e.preventDefault())
   if (process.env.ELECTRON_RENDERER_URL) w.loadURL(process.env.ELECTRON_RENDERER_URL)
@@ -109,7 +124,7 @@ app.whenReady().then(() => {
     const old = engine
     engine = null // its exit must not reach the renderer as a crash
     await stopEngine(old, cfg)
-    launchEngine()
+    await launchEngine()
   }
   ipcMain.handle('engine:restart', restartEngine)
 

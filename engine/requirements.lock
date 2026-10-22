@@ -1,0 +1,323 @@
+# Pinned engine dependencies (IMPL M9.7): the versions the engine was built and tested with on 2026-10-22.
+# Regenerate: uv pip freeze --python engine/.venv > /tmp/freeze.txt
+#             uv pip compile engine/requirements.txt --universal --python-version 3.11 -c /tmp/freeze.txt -o engine/requirements.lock
+annotated-doc==0.0.5
+    # via
+    #   fastapi
+annotated-types==0.8.0
+    # via
+    #   pydantic
+anyio==4.15.1
+    # via
+    #   httpx
+    #   httpx2
+    #   sse-starlette
+    #   starlette
+certifi==2026.10.19
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
+    #   sentry-sdk
+charset-normalizer==3.5.2
+    # via
+    #   requests
+click==8.5.0
+    # via
+    #   huggingface-hub
+    #   uvicorn
+cloudpickle==3.1.2
+    # via
+    #   joblib
+    #   skrub
+colorama==0.4.6 ; sys_platform == 'win32'
+    # via tqdm
+contourpy==1.3.3
+    # via
+    #   matplotlib
+cuda-bindings==13.4.4 ; python_full_version < '3.15' and sys_platform == 'linux'
+    # via torch
+cuda-pathfinder==1.8.3 ; python_full_version < '3.15' and sys_platform == 'linux'
+    # via cuda-bindings
+cuda-toolkit==13.0.3.0 ; sys_platform == 'linux'
+    # via torch
+cycler==0.12.1
+    # via
+    #   matplotlib
+einops==0.8.2
+    # via
+    #   tabpfn
+fastapi==0.157.0
+    # via
+    #   -r engine/requirements.txt
+    #   sentry-sdk
+filelock==4.2.4
+    # via
+    #   huggingface-hub
+    #   tabpfn
+    #   torch
+fonttools==4.67.0
+    # via
+    #   matplotlib
+fsspec==2026.9.0
+    # via
+    #   huggingface-hub
+    #   torch
+h11==0.16.0
+    # via
+    #   httpcore
+    #   httpcore2
+    #   uvicorn
+hf-xet==1.7.0 ; platform_machine == 'AMD64' or platform_machine == 'ARM64' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
+    # via
+    #   huggingface-hub
+httpcore==1.0.9
+    # via
+    #   httpx
+httpcore2==2.16.0 ; sys_platform != 'emscripten'
+    # via
+    #   httpx2
+httpx==0.28.1
+    # via
+    #   -r engine/requirements.txt
+    #   ollama
+httpx2==2.16.0
+    # via
+    #   huggingface-hub
+httpx2-jsfetch==1.0 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
+    # via httpx2
+huggingface-hub==2.2.0
+    # via
+    #   tabpfn
+idna==3.20
+    # via
+    #   anyio
+    #   httpx
+    #   httpx2
+    #   requests
+jinja2==3.1.6
+    # via
+    #   skrub
+    #   torch
+joblib==1.6.0
+    # via
+    #   scikit-learn
+    #   skrub
+    #   tabpfn
+kiwisolver==1.5.1
+    # via
+    #   matplotlib
+lightgbm==4.7.0
+    # via
+    #   tabpfn
+markupsafe==3.0.4
+    # via
+    #   jinja2
+matplotlib==3.11.2
+    # via
+    #   skrub
+    #   tabpfn
+mlx==0.32.4 ; platform_machine == 'arm64' and sys_platform == 'darwin'
+    # via
+    #   tabpfn
+mlx-metal==0.32.4 ; platform_machine == 'arm64' and sys_platform == 'darwin'
+    # via
+    #   mlx
+mpmath==1.3.0
+    # via
+    #   sympy
+narwhals==2.27.1
+    # via
+    #   lightgbm
+    #   scikit-learn
+networkx==3.6.1
+    # via
+    #   torch
+numpy==2.4.6
+    # via
+    #   -r engine/requirements.txt
+    #   contourpy
+    #   lightgbm
+    #   matplotlib
+    #   pandas
+    #   scikit-learn
+    #   scipy
+    #   skrub
+    #   tabpfn
+nvidia-cublas==13.1.1.3 ; sys_platform == 'linux'
+    # via
+    #   cuda-toolkit
+    #   nvidia-cudnn-cu13
+    #   nvidia-cusolver
+nvidia-cuda-cupti==13.0.85 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+nvidia-cuda-nvrtc==13.0.88 ; sys_platform == 'linux'
+    # via
+    #   cuda-toolkit
+    #   nvidia-cublas
+nvidia-cuda-runtime==13.0.96 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+nvidia-cudnn-cu13==9.24.0.43 ; sys_platform == 'linux'
+    # via torch
+nvidia-cufft==12.0.0.61 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+nvidia-cufile==1.15.1.6 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+nvidia-curand==10.4.0.35 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+nvidia-cusolver==12.0.4.66 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+nvidia-cusparse==12.6.3.3 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via
+    #   cuda-toolkit
+    #   nvidia-cusolver
+nvidia-cusparselt-cu13==0.8.1 ; sys_platform == 'linux'
+    # via torch
+nvidia-nccl-cu13==2.30.7 ; sys_platform == 'linux'
+    # via torch
+nvidia-nvjitlink==13.4.92 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via
+    #   cuda-toolkit
+    #   nvidia-cufft
+    #   nvidia-cusolver
+    #   nvidia-cusparse
+nvidia-nvshmem-cu13==3.4.5 ; sys_platform == 'linux'
+    # via torch
+nvidia-nvtx==13.0.85 ; (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')
+    # via cuda-toolkit
+ollama==0.6.3
+    # via
+    #   -r engine/requirements.txt
+opentelemetry-api==1.45.1
+    # via
+    #   fastapi
+packaging==26.3
+    # via
+    #   huggingface-hub
+    #   matplotlib
+pandas==3.0.6
+    # via
+    #   -r engine/requirements.txt
+    #   skrub
+    #   tabpfn
+pillow==13.0.0
+    # via
+    #   matplotlib
+pydantic==2.14.1
+    # via
+    #   -r engine/requirements.txt
+    #   fastapi
+    #   ollama
+    #   pydantic-settings
+    #   tabpfn
+pydantic-core==2.50.1
+    # via
+    #   pydantic
+pydantic-settings==2.16.1
+    # via
+    #   tabpfn
+pydot==4.0.1
+    # via
+    #   skrub
+pyparsing==3.3.3
+    # via
+    #   matplotlib
+    #   pydot
+python-dateutil==2.9.0.post0
+    # via
+    #   matplotlib
+    #   pandas
+python-dotenv==1.2.4
+    # via
+    #   pydantic-settings
+python-multipart==0.0.32
+    # via
+    #   -r engine/requirements.txt
+pyyaml==6.0.3
+    # via
+    #   huggingface-hub
+requests==2.34.2
+    # via
+    #   skrub
+safetensors==0.8.0
+    # via
+    #   tabpfn
+scikit-learn==1.9.1
+    # via
+    #   skrub
+    #   tabpfn
+scipy==1.17.1
+    # via
+    #   lightgbm
+    #   scikit-learn
+    #   skrub
+    #   tabpfn
+sentry-sdk==2.72.0
+    # via
+    #   -r engine/requirements.txt
+setuptools==84.2.1
+    # via
+    #   torch
+six==1.17.0
+    # via
+    #   python-dateutil
+skrub==0.10.1
+    # via
+    #   tabpfn
+sse-starlette==3.5.0
+    # via
+    #   -r engine/requirements.txt
+starlette==1.9.0
+    # via
+    #   fastapi
+    #   sse-starlette
+sympy==1.14.0
+    # via
+    #   torch
+tabpfn==9.2.0
+    # via
+    #   -r engine/requirements.txt
+threadpoolctl==3.7.0
+    # via
+    #   scikit-learn
+torch==2.14.1
+    # via
+    #   tabpfn
+tqdm==4.70.1
+    # via
+    #   huggingface-hub
+    #   tabpfn
+triton==3.8.0 ; python_full_version < '3.15' and sys_platform == 'linux'
+    # via torch
+truststore==0.10.5 ; sys_platform != 'emscripten'
+    # via
+    #   httpcore2
+    #   httpx2
+typing-extensions==4.16.0
+    # via
+    #   anyio
+    #   fastapi
+    #   httpx2
+    #   huggingface-hub
+    #   opentelemetry-api
+    #   pydantic
+    #   pydantic-core
+    #   pydantic-settings
+    #   starlette
+    #   tabpfn
+    #   torch
+    #   typing-inspection
+typing-inspection==0.4.4
+    # via
+    #   fastapi
+    #   pydantic
+    #   pydantic-settings
+tzdata==2026.5 ; sys_platform == 'emscripten' or sys_platform == 'win32'
+    # via pandas
+urllib3==2.8.0
+    # via
+    #   requests
+    #   sentry-sdk
+uvicorn==0.54.0
+    # via
+    #   -r engine/requirements.txt

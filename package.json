@@ -19,7 +19,7 @@
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "install-electron && electron-builder install-app-deps",
-    "engine:venv": "uv venv engine/.venv --python 3.11 && uv pip install --python engine/.venv -r engine/requirements.txt -r engine/requirements-dev.txt",
+    "engine:venv": "uv venv engine/.venv --python 3.11 && uv pip install --python engine/.venv -r engine/requirements.lock -r engine/requirements-dev.txt",
     "engine:test": "engine/.venv/bin/python -m pytest engine/tests -q",
     "engine:build": "cd engine && .venv/bin/pyinstaller slothspend_engine.spec --noconfirm --clean",
     "dist:mac": "npm run build && electron-builder --mac --publish never",

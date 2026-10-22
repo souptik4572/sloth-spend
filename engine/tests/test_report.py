@@ -249,3 +249,44 @@ def test_new_routes_require_the_token(client):
 def test_pull_only_accepts_gemma_models(client, auth):
     assert client.post("/setup/ollama/pull", headers=auth, json={"model": "llama3:8b"}).status_code == 422
     assert client.post("/setup/ollama/pull", headers=auth, json={"model": "gemma4:e4b; rm -rf /"}).status_code == 422
+
+
+# ── failure paths (IMPL M9.1) ───────────────────────────────────────────────
+
+def _break_once(monkeypatch, stage: str) -> None:
+    real = getattr(report, stage)
+    calls = {"n": 0}
+
+    def flaky(ctx):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise RuntimeError("disk on fire")
+        return real(ctx)
+
+    monkeypatch.setattr(report, stage, flaky)
+
+
+def test_a_failed_audit_keeps_its_rows_and_try_again_finishes(client, auth, canned_gemma, monkeypatch):
+    _break_once(monkeypatch, "features")
+    events = sse(client, "/demo/load-sample", {"file": "main"})
+    assert events[-1][0] == "error" and events[-1][1]["stage"] == "features"
+    assert "disk on fire" in events[-1][1]["message"]
+    [imp] = db.list_imports()
+    assert imp["status"] == "committed" and imp["row_count"] == 412
+    assert client.get("/report", headers=auth).status_code == 404
+
+    events = sse(client, "/demo/load-sample", {"file": "main"})  # Try again
+    assert events[-1][0] == "done"
+    parse_note = next(d["note"] for e, d in events if e == "stage" and d["stage"] == "parse" and d["done"])
+    assert parse_note == "412 rows (already read)"
+    assert events[-1][1]["report"]["meta"]["monthly_recurring"] == pytest.approx(1979.86)
+    assert len(db.transactions()) == 410  # stored once (412 read, 2 with unreadable dates skipped)
+
+
+def test_try_again_on_an_upload(client, auth, canned_gemma, monkeypatch):
+    up = client.post("/import", headers=auth, files={"file": ("hdfc.csv", (FIXTURES / "hdfc_style.csv").read_bytes())})
+    import_id = up.json()["import_id"]
+    _break_once(monkeypatch, "score")
+    assert sse(client, f"/import/{import_id}/confirm")[-1][0] == "error"
+    assert sse(client, f"/import/{import_id}/confirm")[-1][0] == "done"
+    assert client.post(f"/import/{import_id}/confirm", headers=auth).status_code == 409  # done now

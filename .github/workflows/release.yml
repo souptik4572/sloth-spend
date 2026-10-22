@@ -34,7 +34,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: engine/requirements*.txt
+          cache-dependency-path: engine/requirements*
 
       - name: CPU-only PyTorch (Windows)
         if: matrix.platform == 'win'
@@ -43,7 +43,7 @@ jobs:
       - name: Build engine
         working-directory: engine
         run: |
-          pip install -r requirements.txt pyinstaller
+          pip install -r requirements.lock pyinstaller
           pyinstaller slothspend_engine.spec --noconfirm --clean
 
       - name: Smoke-test engine binary
