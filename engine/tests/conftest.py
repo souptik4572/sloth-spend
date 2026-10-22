@@ -78,7 +78,7 @@ def canned_gemma(monkeypatch):
         return "gemma-fixture"
 
     monkeypatch.setattr(normalize, "normalize_batch", fake_batch)
-    monkeypatch.setattr(report, "_gemma_model", fake_model)
+    monkeypatch.setattr(report, "gemma_model", fake_model)
     return mapping
 
 

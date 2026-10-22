@@ -187,3 +187,44 @@ export interface StageEvent {
   note?: string
   source?: string | null
 }
+
+// ── Ask Sloth (IMPL M6) ─────────────────────────────────────────────────────
+
+export type ToolArgs = Record<string, unknown>
+
+/** One tool call in a turn, as the badges draw it. `ms`/`preview` arrive with tool_end. */
+export interface ToolCall {
+  name: string
+  args: ToolArgs
+  ms?: number
+  preview?: string
+  /** The scorer for live TabPFN tools (forecast_spend, score_merchant). */
+  live?: string
+}
+
+export interface ChatTurn {
+  id: string
+  user: string
+  tools: ToolCall[]
+  text: string
+  streaming: boolean
+  error?: string
+}
+
+/** GET /chat/{cid}: everything stored, oldest first. */
+export interface StoredMessage {
+  id: number
+  role: 'user' | 'assistant' | 'tool'
+  content: string | null
+  tool_name: string | null
+  tool_args: ToolArgs | null
+  created_at: string
+}
+
+export type DraftKind = 'cancel_request' | 'refund' | 'negotiate'
+
+export interface DraftDone {
+  text: string
+  source: 'gemma' | 'template'
+  title: string
+}

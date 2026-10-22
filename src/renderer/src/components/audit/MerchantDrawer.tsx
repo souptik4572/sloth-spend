@@ -9,7 +9,6 @@ import {
   Ghost,
   Layers,
   Lock,
-  Mail,
   TrendingUp,
   X,
   type LucideIcon
@@ -23,6 +22,7 @@ import { Sheet } from '../ui/Sheet'
 import { SourceChip, type Source } from '../ui/SourceChip'
 import { Spinner } from '../ui/Spinner'
 import { ChargeBars, RangeStrip } from './DrawerCharts'
+import { DraftSection } from './DraftSection'
 import { useAudit } from '../../auditStore'
 import { errorMessage, getSeries } from '../../lib/api'
 import { applyLabel, applyRename } from '../../lib/audit'
@@ -191,7 +191,7 @@ function MerchantEdit({ s, raw }: { s: Series; raw: string | undefined }): React
   )
 }
 
-function HowToCancel(): React.JSX.Element {
+function HowToCancel({ seriesId }: { seriesId: number }): React.JSX.Element {
   return (
     <section
       id="how-to-cancel"
@@ -219,10 +219,8 @@ function HowToCancel(): React.JSX.Element {
           </li>
         ))}
       </ol>
+      <DraftSection seriesId={seriesId} kind="cancel_request" label="Draft cancellation request" />
       <div className="flex flex-wrap items-center gap-3">
-        <Button variant="soft" icon={Mail} disabled title={COMING_SOON}>
-          Draft cancellation request
-        </Button>
         <Button variant="solid" icon={CalendarCheck} disabled title={COMING_SOON}>
           I cancelled it
         </Button>
@@ -231,7 +229,7 @@ function HowToCancel(): React.JSX.Element {
         </Button>
       </div>
       <p className="m-0 text-xs text-muted">
-        Drafting and “I cancelled it” arrive in the next updates.
+        “I cancelled it” and reminders arrive in the next update.
       </p>
       <p className="m-0 flex items-center gap-2 text-sm font-medium">
         <Lock aria-hidden size={16} strokeWidth={2.2} />
@@ -241,7 +239,13 @@ function HowToCancel(): React.JSX.Element {
   )
 }
 
-function Negotiate({ merchant }: { merchant: string }): React.JSX.Element {
+function Negotiate({
+  merchant,
+  seriesId
+}: {
+  merchant: string
+  seriesId: number
+}): React.JSX.Element {
   return (
     <section
       id="negotiate"
@@ -257,11 +261,7 @@ function Negotiate({ merchant }: { merchant: string }): React.JSX.Element {
           charge history. You send it yourself.
         </p>
       </div>
-      <div>
-        <Button variant="soft" icon={Mail} disabled title={COMING_SOON}>
-          Draft negotiation email
-        </Button>
-      </div>
+      <DraftSection seriesId={seriesId} kind="negotiate" label="Draft negotiation email" />
       <p className="m-0 flex items-center gap-2 text-sm font-medium">
         <Lock aria-hidden size={16} strokeWidth={2.2} />
         SlothSpend never cancels or contacts anyone for you.
@@ -401,7 +401,7 @@ function Body({ d, currency }: { d: SeriesDetail; currency: string }): React.JSX
       {s.flags.length > 0 && (
         <Section id="fl-h" title="Why it’s flagged">
           <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
-            {details.duplicate_charge?.map((p) => (
+            {details.duplicate_charge?.map((p, i) => (
               <FlagCard
                 key={p.second}
                 icon={Copy}
@@ -409,11 +409,10 @@ function Body({ d, currency }: { d: SeriesDetail; currency: string }): React.JSX
                 title="Duplicate charge"
                 text={`${money(p.amount, currency)} on ${dateLong(p.first)}, and again on ${dateLong(p.second)}.`}
               >
-                <div>
-                  <Button variant="soft" icon={Mail} disabled title={COMING_SOON}>
-                    Draft refund request
-                  </Button>
-                </div>
+                {/* One refund request covers every double charge of this merchant. */}
+                {i === 0 && (
+                  <DraftSection seriesId={s.id} kind="refund" label="Draft refund request" />
+                )}
               </FlagCard>
             ))}
             {details.price_creep && (
@@ -454,8 +453,8 @@ function Body({ d, currency }: { d: SeriesDetail; currency: string }): React.JSX
 
       <MerchantEdit key={`${s.id}-${s.merchant}-${s.category}`} s={s} raw={d.raw_descriptions[0]} />
 
-      {s.cancellable && <HowToCancel />}
-      {s.kind === 'bill' && <Negotiate merchant={s.merchant} />}
+      {s.cancellable && <HowToCancel key={s.id} seriesId={s.id} />}
+      {s.kind === 'bill' && <Negotiate key={s.id} merchant={s.merchant} seriesId={s.id} />}
     </>
   )
 }

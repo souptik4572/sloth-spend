@@ -494,3 +494,35 @@ def report_meta() -> dict | None:
     d = dict(r)
     d["monthly_json"] = json.loads(d["monthly_json"]) if d["monthly_json"] else []
     return d
+
+
+# ── Ask Sloth conversations ─────────────────────────────────────────────────
+
+def save_chat(conversation_id: str, role: str, content: str, *, tool_name: str | None = None,
+              tool_args: dict | None = None) -> None:
+    with connect() as conn:
+        conn.execute(
+            "INSERT INTO chat_messages(conversation_id, role, content, tool_name, tool_args_json, created_at) "
+            "VALUES(?, ?, ?, ?, ?, ?)",
+            (conversation_id, role, content, tool_name, json.dumps(tool_args) if tool_args is not None else None,
+             now_iso()))
+
+
+def load_chat(conversation_id: str, limit: int = 12) -> list[dict]:
+    """The last `limit` user/assistant turns as Ollama messages (tool records stay out of the prompt)."""
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT role, content FROM chat_messages WHERE conversation_id = ? AND role != 'tool' "
+            "ORDER BY id DESC LIMIT ?", (conversation_id, limit)).fetchall()
+    return [{"role": r["role"], "content": r["content"] or ""} for r in reversed(rows)]
+
+
+def chat_history(conversation_id: str) -> list[dict]:
+    """Everything in a conversation, oldest first, for redrawing the pane."""
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT id, role, content, tool_name, tool_args_json, created_at FROM chat_messages "
+            "WHERE conversation_id = ? ORDER BY id", (conversation_id,)).fetchall()
+    return [{"id": r["id"], "role": r["role"], "content": r["content"], "tool_name": r["tool_name"],
+             "tool_args": json.loads(r["tool_args_json"]) if r["tool_args_json"] else None,
+             "created_at": r["created_at"]} for r in rows]

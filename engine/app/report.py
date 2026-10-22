@@ -383,13 +383,54 @@ def load_report() -> dict | None:
     }
 
 
+def live_forecast(days: int = FORECAST_DAYS) -> dict | None:
+    """Ask Sloth's forecast_spend (spec §7.9): run the regressor *now* on every recurring series.
+
+    Same maths as the pipeline's forecast stage, over a window of `days` from the report date. Each series'
+    q10/q50/q90 is summed over the charges due inside the window. None before the first audit.
+    """
+    meta = db.report_meta()
+    if meta is None:
+        return None
+    report_date = pd.Timestamp(meta["report_date"])
+    window_end = report_date + pd.Timedelta(days=days)
+    history, queries, plans = [], [], []
+    for s in db.list_series():
+        if not _is_recurring(s) or s["cadence"] == "single":
+            continue
+        txs = [t for t in db.merchant_transactions(s["merchant"]) if not t["is_duplicate"]]
+        if len(txs) < 2:
+            continue
+        g = pd.DataFrame(txs)[["tx_date", "amount"]]
+        step = _step(s["cadence"], s["cadence_days"])
+        due = pd.Timestamp(g["tx_date"].iloc[-1]) + step
+        while due <= report_date:
+            due += step
+        history.append(regression_rows(g, s["cadence"], s["category"]))
+        queries.append(next_step_row(g, s["cadence"], s["category"], due.month))
+        plans.append((s, float(g["amount"].iloc[-1]), due, step))
+    ctx_rows = pd.concat(history, ignore_index=True) if history else pd.DataFrame()
+    ratios = tabular.ratio_quantiles(ctx_rows, pd.DataFrame(queries)) if queries else np.ones((0, 19))
+    out = []
+    for (s, last, due, step), row in zip(plans, ratios, strict=True):
+        charges, when = 0, due
+        while when <= window_end:
+            charges += 1
+            when += step
+        out.append({"merchant": s["merchant"], "kind": s["kind"], "next_due": due.date().isoformat(),
+                    "charges": charges, "q10": round(charges * last * row[Q10], 2),
+                    "q50": round(charges * last * row[Q50], 2), "q90": round(charges * last * row[Q90], 2)})
+    return {"report_date": report_date.date().isoformat(), "window_end": window_end.date().isoformat(),
+            "currency": meta["currency"], "scorer": tabular.scorer, "series": out}
+
+
 # ── running it ──────────────────────────────────────────────────────────────
 
 def _ev(name: str, **data) -> dict:
     return {"event": name, "data": json.dumps(_clean(data))}
 
 
-async def _gemma_model() -> str | None:
+async def gemma_model() -> str | None:
     status = await ollama_setup.status(settings.ollama_host, settings.preferred_model)
     return status["model"] if status["status"] == "ready" else None
 
@@ -419,7 +460,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
                 await queue.put(_ev("stage", stage="parse", done=1, total=1, note=note))
 
                 stage = "normalize"
-                model = await _gemma_model()
+                model = await gemma_model()
                 stats = [normalize.KeyStat(r["desc_key"], r["n"], r["total"], r["largest"])
                          for r in await asyncio.to_thread(db.debit_key_stats)]
                 norm = normalize.Normalizer(stats, model, host=settings.ollama_host)

@@ -1,6 +1,6 @@
 import { fetchEventSource } from '@microsoft/fetch-event-source'
 import type { RendererConfig } from '../../../preload'
-import type { Health, ImportPayload, LabelKind, Report, SeriesDetail } from './types'
+import type { Health, ImportPayload, LabelKind, Report, SeriesDetail, StoredMessage } from './types'
 
 let cfg: RendererConfig | null = null
 
@@ -121,3 +121,8 @@ export const renameSeries = (
   category: string
 ): Promise<{ report: Report; series_id: number | null }> =>
   req('PATCH', `/series/${id}/merchant`, { merchant, category })
+
+// ── Ask Sloth and drafts (IMPL M6) ─────────────────────────────────────────
+
+export const getChat = (cid: string): Promise<{ messages: StoredMessage[] }> =>
+  req('GET', `/chat/${encodeURIComponent(cid)}`)

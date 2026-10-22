@@ -15,7 +15,9 @@ import { ScoreBar } from '../ui/ProgressBar'
 import { SourceChip, type Source } from '../ui/SourceChip'
 import { Spinner } from '../ui/Spinner'
 import { useAudit } from '../../auditStore'
+import { useChat } from '../../chatStore'
 import { applyLabel } from '../../lib/audit'
+import { askAbout } from '../../lib/chat'
 import { cn } from '../../lib/cn'
 import { dateShort, money, score } from '../../lib/format'
 import type { LabelKind, Report, Series } from '../../lib/types'
@@ -97,7 +99,11 @@ function RowActions({ s }: { s: Series }): React.JSX.Element {
           It’s a subscription
         </Button>
       )}
-      <Button variant="soft" icon={MessageCircle} disabled title={COMING_SOON}>
+      <Button
+        variant="soft"
+        icon={MessageCircle}
+        onClick={() => useChat.getState().prefill(askAbout(s))}
+      >
         Ask Sloth
       </Button>
     </div>
