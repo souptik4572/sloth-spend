@@ -9,6 +9,7 @@ import { useApp } from '../../store'
 /** Workspace header (D-Main): logo, model pills, theme, bell, settings. */
 export function TopBar(): React.JSX.Element {
   const setTab = useApp((s) => s.setTab)
+  const openSettings = useApp((s) => s.setSettingsOpen)
   return (
     <header className="flex min-h-[72px] flex-wrap items-center gap-x-4 gap-y-3 px-6 py-3.5">
       <button
@@ -22,8 +23,7 @@ export function TopBar(): React.JSX.Element {
       <StatusPills />
       <ThemeToggle />
       <NotificationBell />
-      {/* The Settings modal arrives in M8. */}
-      <IconButton icon={SlidersHorizontal} label="Settings (coming soon)" disabled />
+      <IconButton icon={SlidersHorizontal} label="Settings" onClick={() => openSettings(true)} />
     </header>
   )
 }

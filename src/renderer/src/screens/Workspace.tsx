@@ -15,6 +15,7 @@ import { RescoreBanner } from '../components/audit/RescoreBanner'
 import { StatementBar } from '../components/audit/StatementBar'
 import { SummaryCards, SummaryNarrative } from '../components/audit/SummaryCards'
 import { RemindersPanel } from '../components/reminders/RemindersPanel'
+import { SettingsModal } from '../components/settings/SettingsModal'
 import { useAudit } from '../auditStore'
 import { loadReport } from '../lib/audit'
 import { startNotifications } from '../lib/notify'
@@ -93,6 +94,7 @@ export function Workspace(): React.JSX.Element {
         <ChatPane />
       </div>
       <MerchantDrawer />
+      <SettingsModal />
     </div>
   )
 }

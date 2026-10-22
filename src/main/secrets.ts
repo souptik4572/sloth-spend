@@ -59,6 +59,15 @@ export function clearPriorKey(): void {
   write(prefs)
 }
 
+/** Settings › Share performance traces (IMPL M8.1). Off unless the person turned it on. */
+export function telemetryOn(): boolean {
+  return read().telemetry === true
+}
+
+export function setTelemetry(on: boolean): void {
+  write({ ...read(), telemetry: on })
+}
+
 export function secretsEnv(): Record<string, string> {
   const p = read()
   const env: Record<string, string> = { SLOTH_TELEMETRY: p.telemetry ? '1' : '0' }

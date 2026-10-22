@@ -11,12 +11,14 @@ interface AppState {
   version: string
   screen: Screen
   tab: Tab
+  settingsOpen: boolean
   engine: EngineState
   exitCode: number | null
   health: Health | null
   configure: (version: string) => void
   setScreen: (s: Screen) => void
   setTab: (t: Tab) => void
+  setSettingsOpen: (open: boolean) => void
   healthOk: (h: Health) => void
   healthFailed: () => void
   engineExited: (code: number | null) => void
@@ -28,12 +30,14 @@ export const useApp = create<AppState>((set) => ({
   version: '',
   screen: 'boot',
   tab: 'audit',
+  settingsOpen: false,
   engine: 'starting',
   exitCode: null,
   health: null,
   configure: (version) => set({ configured: true, version }),
   setScreen: (screen) => set({ screen }),
   setTab: (tab) => set({ tab }),
+  setSettingsOpen: (settingsOpen) => set({ settingsOpen }),
   healthOk: (health) => set({ health, engine: 'ok', exitCode: null }),
   // A failed poll before the first success just means "still starting"; after an exit we stay stopped.
   healthFailed: () =>

@@ -30,9 +30,18 @@ function raise(n: Notice): void {
   note.onclick = () => openNotice(n)
 }
 
+// The newest notice already raised. Module-level so "Delete all local data" can reset it.
+let last = readLast()
+
+/** After the data is deleted, notice ids start again from 1. */
+export function resetNotifications(): void {
+  last = 0
+  saveLast(0)
+}
+
 /** Start polling; returns a stop function. */
 export function startNotifications(): () => void {
-  let last = readLast()
+  last = readLast()
   let polls = 0
   let stopped = false
   let timer: ReturnType<typeof setTimeout> | undefined

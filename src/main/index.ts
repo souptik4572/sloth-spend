@@ -4,7 +4,15 @@ import path from 'node:path'
 import type { ChildProcess } from 'node:child_process'
 import { optimizer } from '@electron-toolkit/utils'
 import { freePort, startEngine, stopEngine, type RuntimeConfig } from './sidecars'
-import { KeyError, clearPriorKey, hasPriorKey, secretsEnv, setPriorKey } from './secrets'
+import {
+  KeyError,
+  clearPriorKey,
+  hasPriorKey,
+  secretsEnv,
+  setPriorKey,
+  setTelemetry,
+  telemetryOn
+} from './secrets'
 import { LogBuffer } from './logbuffer'
 // Runtime icons (resources/ is shipped and asar-unpacked). Packaged builds take the app icon from
 // build/icon.icns / build/icon.ico instead — see design/icons/README.md.
@@ -124,6 +132,14 @@ app.whenReady().then(() => {
     clearPriorKey()
     await restartEngine()
     return { ok: true }
+  })
+  // Share performance traces (IMPL M8.1): stored in prefs.json, read by the engine at spawn, so a change
+  // restarts it.
+  ipcMain.handle('telemetry:get', () => telemetryOn())
+  ipcMain.handle('telemetry:set', async (_e, on: unknown) => {
+    setTelemetry(on === true)
+    await restartEngine()
+    return telemetryOn()
   })
   ipcMain.handle('engine:logs', () => logs.tail(20))
   ipcMain.handle('window:focus', () => {

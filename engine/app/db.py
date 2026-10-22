@@ -166,10 +166,14 @@ def init() -> None:
 
 
 def wipe() -> None:
-    """Delete all local data except settings (Settings › Delete all local data)."""
+    """Delete all local data except settings (Settings › Delete all local data).
+
+    Remembered column layouts go too: they are keyed by a hash of a statement's header row.
+    """
     with connect() as conn:
         for table in DATA_TABLES:
             conn.execute(f"DELETE FROM {table}")  # noqa: S608 — fixed table names
+        conn.execute("DELETE FROM settings WHERE key LIKE 'layout:%'")
 
 
 # ── settings ────────────────────────────────────────────────────────────────

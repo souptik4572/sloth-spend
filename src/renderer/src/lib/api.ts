@@ -165,3 +165,10 @@ export const markNoticeRead = (id: number): Promise<{ ok: boolean }> =>
 
 export const markAllNoticesRead = (): Promise<{ ok: boolean }> =>
   req('POST', '/notifications/read-all')
+
+// ── Settings and privacy (IMPL M8) ─────────────────────────────────────────
+
+export const putSettings = (patch: Partial<EngineSettings>): Promise<EngineSettings> =>
+  req('PUT', '/settings', patch)
+
+export const deleteData = (): Promise<{ ok: boolean }> => req('DELETE', '/data')

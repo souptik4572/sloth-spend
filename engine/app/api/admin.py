@@ -1,9 +1,26 @@
+"""Admin routes: delete all local data (IMPL M8.4) and shut down (M1)."""
+
 import asyncio
 import os
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+
+from .. import db, report
+from ..state import runtime
 
 router = APIRouter()
+
+
+@router.delete("/data")
+async def delete_data() -> dict:
+    """Settings › Delete all local data: statements, merchant edits, chats, reminders. Settings and models stay."""
+    if report.busy():
+        raise HTTPException(409, "An audit is running. Try again when it finishes.")
+    if runtime.normalize_task and not runtime.normalize_task.done():
+        runtime.normalize_task.cancel()  # it would write merchant names for deleted rows
+    runtime.pending.clear()
+    await asyncio.to_thread(db.wipe)
+    return {"ok": True}
 
 
 @router.post("/shutdown")
