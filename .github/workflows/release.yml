@@ -47,8 +47,18 @@ jobs:
           pip install -r requirements.lock pyinstaller==6.22.3 pyinstaller-hooks-contrib==2026.9
           pyinstaller slothspend_engine.spec --noconfirm --clean
 
+      # On failure, the output tail becomes an annotation, which is readable without opening the job log.
       - name: Smoke-test engine binary
-        run: python engine/scripts/smoke_test.py
+        shell: bash
+        env:
+          PYTHONUTF8: '1'
+        run: |
+          if ! python engine/scripts/smoke_test.py > smoke.log 2>&1; then
+            cat smoke.log
+            python -c "import sys; t=open('smoke.log', encoding='utf-8', errors='replace').read().splitlines()[-40:]; print('::error title=Engine smoke test failed::' + '%0A'.join(l.replace('%', '%25').replace('\r', '') for l in t))"
+            exit 1
+          fi
+          cat smoke.log
 
       - name: Build and package app
         run: |
