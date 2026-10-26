@@ -12,15 +12,15 @@ import re
 import socket
 
 import pytest
-from conftest import FIXTURES, sse
+from conftest import sse
 from werkzeug import Response
 
 from app import llm, notes
 from app.config import settings
+from scripts.fake_gemini import ANSWER, reply_parts, response, sse_body
 
 KEY = "test-gemini-key"
 MODELS = ("gemma-4-26b-a4b-it", "gemma-4-31b-it")
-NAMES = json.loads((FIXTURES / "sample_merchant_map.json").read_text())
 CALLS: list[dict] = []  # every generate request: {"path", "body", "stream"}
 
 
@@ -34,41 +34,6 @@ def _set(**values) -> dict:
 
 # ── a local Gemini API stand-in ─────────────────────────────────────────────
 
-def _user_texts(body: dict) -> list[str]:
-    return [p["text"] for c in body["contents"] if c["role"] == "user" for p in c["parts"] if "text" in p]
-
-
-def _reply_parts(body: dict) -> list[dict]:
-    """What Gemma would say, by request shape."""
-    texts = _user_texts(body)
-    last = texts[-1] if texts else ""
-    answered = any("functionResponse" in p for c in body["contents"] for p in c["parts"])
-    if "Lines:\n" in last:  # merchant names, wrapped in a fence like a chatty model would
-        items = []
-        for i, k in re.findall(r'^(\d+): (".*")$', last, re.M):
-            key = json.loads(k)
-            known = NAMES.get(key)
-            items.append({"i": int(i), "m": known["merchant"] if known else key.title()[:30],
-                          "c": known["category"] if known else "Other",
-                          "s": known["subscription_like"] if known else False})
-        return [{"text": "```json\n" + json.dumps({"items": items}) + "\n```"}]
-    if "Notification to rephrase" in last:
-        return [{"text": json.dumps({"title": "A reminder from SlothSpend",
-                                     "body": "Open How to cancel in SlothSpend, or tap Keep it."})}]
-    draft = re.search(r"^Subject:.*", last, re.M | re.S)
-    if draft and "[Your name]" in last:  # a draft rewrite: hand the email back unchanged
-        return [{"text": draft.group(0)}]
-    if body.get("tools") and not answered:
-        return [{"functionCall": {"name": "get_report_overview", "args": {}}}]
-    return [{"text": "Weighing the numbers first.", "thought": True},
-            {"text": "Here is what I found. Nothing has been cancelled."}]
-
-
-def _response(parts: list[dict]) -> dict:
-    return {"candidates": [{"content": {"role": "model", "parts": parts}, "finishReason": "STOP"}],
-            "usageMetadata": {"promptTokenCount": 11, "candidatesTokenCount": 7, "totalTokenCount": 18}}
-
-
 def _authorised(request) -> bool:
     return request.headers.get("x-goog-api-key") == KEY
 
@@ -78,7 +43,7 @@ def _generate(request) -> Response:
         return Response(json.dumps({"error": {"code": 403, "message": "API key not valid"}}), status=403)
     body = request.get_json()
     CALLS.append({"path": request.path, "body": body, "stream": False})
-    return Response(json.dumps(_response(_reply_parts(body))), mimetype="application/json")
+    return Response(json.dumps(response(reply_parts(body))), mimetype="application/json")
 
 
 def _stream(request) -> Response:
@@ -86,11 +51,7 @@ def _stream(request) -> Response:
         return Response(json.dumps({"error": {"code": 403, "message": "API key not valid"}}), status=403)
     body = request.get_json()
     CALLS.append({"path": request.path, "body": body, "stream": True})
-    parts = _reply_parts(body)
-    events = [{"candidates": [{"content": {"role": "model", "parts": [p]}}]} for p in parts]
-    events[-1] = _response([parts[-1]])  # the last event carries usage, like the real API
-    text = "".join(f"data: {json.dumps(e)}\r\n\r\n" for e in events)
-    return Response(text, mimetype="text/event-stream")
+    return Response(sse_body(reply_parts(body)), mimetype="text/event-stream")
 
 
 @pytest.fixture()
@@ -260,7 +221,7 @@ def test_json_mode_is_dropped_when_the_model_refuses_it(httpserver, gemini):
         CALLS.append({"path": request.path, "body": body, "stream": False})
         if "responseMimeType" in body["generationConfig"]:
             return Response(json.dumps({"error": {"code": 400, "message": "JSON mode is not enabled"}}), status=400)
-        return Response(json.dumps(_response([{"text": '{"title": "t", "body": "b"}'}])),
+        return Response(json.dumps(response([{"text": '{"title": "t", "body": "b"}'}])),
                         mimetype="application/json")
 
     httpserver.clear_all_handlers()
@@ -279,7 +240,7 @@ def test_rate_limits_are_waited_out(httpserver, gemini):
     replies = iter([
         Response(json.dumps({"error": {"code": 429, "message": "slow down", "details": [
             {"@type": "type.googleapis.com/google.rpc.RetryInfo", "retryDelay": "0.01s"}]}}), status=429),
-        Response(json.dumps(_response([{"text": "ok"}])), mimetype="application/json"),
+        Response(json.dumps(response([{"text": "ok"}])), mimetype="application/json"),
     ])
     httpserver.clear_all_handlers()
     httpserver.expect_request(re.compile(r".*:generateContent$")).respond_with_handler(lambda r: next(replies))
@@ -310,7 +271,7 @@ def test_stream_drops_thoughts_and_reports_tool_calls_and_usage(gemini):
     assert CALLS[-1]["path"].endswith(":streamGenerateContent")
 
     answer = asyncio.run(collect([{"role": "user", "content": "hello"}]))
-    assert "".join(c.text for c in answer) == "Here is what I found. Nothing has been cancelled."  # no thought
+    assert "".join(c.text for c in answer) == ANSWER  # no thought
 
 
 def test_stream_retries_a_rate_limit_before_the_first_token(httpserver, gemini):
@@ -354,14 +315,14 @@ def test_every_gemma_feature_runs_on_the_gemini_api(client, auth, gemini, loopba
     rep = events[-1][1]["report"]
     stages = {d["stage"]: d for e, d in events if e == "stage" and d.get("source")}
     assert stages["normalize"]["source"] == "gemma" and stages["summary"]["source"] == "gemma"
-    assert rep["meta"]["summary_source"] == "gemma"
+    assert rep["meta"]["summary_source"] == "gemma" and rep["meta"]["summary_provider"] == "gemini"
     iron = next(s for s in rep["series"] if s["merchant"] == "IronTrap Fitness")  # names came from "Gemma"
 
     # 2. Ask Sloth: a tool round over function calling, the thought never shown.
     chat = sse(client, "/chat", {"conversation_id": "gemini", "message": "How am I doing?"})
     assert ("tool_start", {"name": "get_report_overview", "args": {}}) in chat and chat[-1][0] == "done"
     answer = "".join(d["text"] for e, d in chat if e == "token")
-    assert answer == "Here is what I found. Nothing has been cancelled." and "Weighing" not in answer
+    assert answer == ANSWER and "Weighing" not in answer
     second = [c for c in CALLS if c["stream"] and c["body"].get("tools")][-1]["body"]
     assert "Everything runs on this computer" not in second["systemInstruction"]["parts"][0]["text"]
     assert second["contents"][-2]["parts"][0]["functionCall"]["name"] == "get_report_overview"

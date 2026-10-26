@@ -1,14 +1,17 @@
 """The audit pipeline (spec §7.8, IMPL M4.6).
 
 parse → normalize → detect → features → score → forecast → flags → summary → done.
-`start_pipeline` runs as a task that writes SSE events into a queue, so an audit finishes and persists
-even if the window reloads mid-way. `rescore` re-runs detect…flags without the LLM (labels, edits, a
+`start_pipeline` runs as a task that records its SSE events in a `Run`, so an audit finishes and persists
+even if the window reloads mid-way — and a reloaded (or second) tab can follow it from the start
+(`Run.follow`, `/audit/follow`). `rescore` re-runs detect…flags without the LLM (labels, edits, a
 TabPFN upgrade) and must stay within ~5 s.
 """
 
 import asyncio
 import json
 import logging
+import time
+from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -33,6 +36,41 @@ STEP = {"weekly": pd.DateOffset(days=7), "biweekly": pd.DateOffset(days=14), "mo
 
 class PipelineBusy(Exception):
     pass
+
+
+class Run:
+    """One audit's events, kept so any number of readers can follow it from the start (a reloaded tab, a second
+    tab). `put(None)` ends it."""
+
+    def __init__(self, file_name: str, rows: int | None = None) -> None:
+        self.file_name, self.rows, self.started_at = file_name, rows, time.time()
+        self.events: list[dict] = []
+        self.finished = False
+        self._changed = asyncio.Condition()
+
+    async def put(self, event: dict | None) -> None:
+        async with self._changed:
+            if event is None:
+                self.finished = True
+            else:
+                self.events.append(event)
+            self._changed.notify_all()
+
+    async def follow(self) -> AsyncIterator[dict]:
+        seen = 0
+        while True:
+            async with self._changed:
+                await self._changed.wait_for(lambda: seen < len(self.events) or self.finished)
+                batch, finished = self.events[seen:], self.finished
+            for event in batch:
+                yield event
+            seen += len(batch)
+            if finished and seen >= len(self.events):
+                return
+
+    def status(self) -> dict:
+        return {"running": not self.finished, "file": self.file_name, "rows": self.rows,
+                "started_at": self.started_at}
 
 
 def _step(cadence: str, median_interval: float | None) -> pd.DateOffset:
@@ -78,6 +116,7 @@ class Context:
     meta: dict = field(default_factory=dict)
     summary: str = ""
     summary_source: str = "template"
+    summary_provider: str | None = None  # who served Gemma for the summary: ollama | gemini
 
     @classmethod
     def load(cls) -> "Context":
@@ -329,7 +368,8 @@ def summary_facts(ctx: Context) -> dict:
 def persist(ctx: Context) -> None:
     db.save_series([{k: v for k, v in r.items() if not k.startswith("_")} for r in ctx.rows])
     db.mark_duplicates(ctx.duplicate_ids)
-    db.save_report_meta({**ctx.meta, "executive_summary": ctx.summary, "summary_source": ctx.summary_source})
+    db.save_report_meta({**ctx.meta, "executive_summary": ctx.summary, "summary_source": ctx.summary_source,
+                         "summary_provider": ctx.summary_provider})
     reminders.resync_after_report()
 
 
@@ -375,6 +415,7 @@ def load_report() -> dict | None:
             "zombie_count": flag_counts["zombie_suspect"], "dispute_total": meta["dispute_total"],
             "flag_counts": flag_counts, "flagged_merchants": sum(bool(s["flags_json"]) for s in series),
             "executive_summary": meta["executive_summary"], "summary_source": meta["summary_source"],
+            "summary_provider": meta.get("summary_provider"),
             "imports": imports,
         },
         "series": [series_out(s) for s in series],
@@ -438,17 +479,23 @@ def busy() -> bool:
     return runtime.pipeline_lock.locked()
 
 
-async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
-    """Start an audit of a pending import; returns the queue its SSE events arrive on (None = end)."""
+WAITING_NOTE = "Waiting for a free moment — other audits are running. Slow and steady."
+
+
+async def start_pipeline(import_id: int, opts: dict, *, file_name: str = "statement",
+                         rows: int | None = None) -> Run:
+    """Start an audit of a pending import; returns the Run its SSE events are recorded in."""
     if busy():
         raise PipelineBusy
-    queue: asyncio.Queue = asyncio.Queue()
+    run = Run(file_name, rows)
 
     async def job() -> None:
         stage = "parse"
+        if audit_slots().locked():  # the server is busy with other people's audits: say why nothing moves yet
+            await run.put(_ev("stage", stage="parse", done=0, total=1, note=WAITING_NOTE))
         async with runtime.pipeline_lock, audit_slots():  # this workspace's lock, then a server-wide slot
             try:
-                await queue.put(_ev("stage", stage="parse", done=0, total=1))
+                await run.put(_ev("stage", stage="parse", done=0, total=1))
                 imp = await asyncio.to_thread(db.get_import, import_id)
                 if imp and imp["status"] == "committed":
                     # Try again after a failed audit: the rows are already stored, so carry on from there.
@@ -461,7 +508,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
                         note += f" · {res.skipped_dates} skipped (unreadable dates)"
                     if res.skipped_overlap:
                         note += f" · {res.skipped_overlap} already imported"
-                await queue.put(_ev("stage", stage="parse", done=1, total=1, note=note))
+                await run.put(_ev("stage", stage="parse", done=1, total=1, note=note))
 
                 stage = "normalize"
                 model = await gemma_model()
@@ -469,44 +516,46 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
                          for r in await asyncio.to_thread(db.debit_key_stats)]
                 norm = normalize.Normalizer(stats, model)
                 async for done, total in norm.run():
-                    await queue.put(_ev("stage", stage="normalize", done=done, total=total,
+                    await run.put(_ev("stage", stage="normalize", done=done, total=total,
                                         source="gemma" if model else "rule"))
                 await asyncio.to_thread(db.apply_merchant_map)
 
                 ctx = await asyncio.to_thread(Context.load)
                 for stage, fn in (("detect", detect), ("features", features), ("score", score),
                                   ("forecast", forecast), ("flags", flags)):
-                    await queue.put(_ev("stage", stage=stage, done=0, total=1))
+                    await run.put(_ev("stage", stage=stage, done=0, total=1))
                     await asyncio.to_thread(fn, ctx)
-                    await queue.put(_ev("stage", stage=stage, done=1, total=1,
+                    await run.put(_ev("stage", stage=stage, done=1, total=1,
                                         source=ctx.scorer if stage in ("score", "forecast") else None))
 
                 stage = "summary"
-                await queue.put(_ev("stage", stage="summary", done=0, total=1))
+                await run.put(_ev("stage", stage="summary", done=0, total=1))
                 ctx.summary, ctx.summary_source = await llm_summary.write(summary_facts(ctx), model)
-                await queue.put(_ev("stage", stage="summary", done=1, total=1, source=ctx.summary_source))
+                ctx.summary_provider = llm.provider().name if ctx.summary_source == "gemma" else None
+                await run.put(_ev("stage", stage="summary", done=1, total=1, source=ctx.summary_source))
 
                 stage = "done"
-                await queue.put(_ev("stage", stage="done", done=0, total=1))
+                await run.put(_ev("stage", stage="done", done=0, total=1))
                 await asyncio.to_thread(persist, ctx)
                 verified = await reminders.verify_after_import()
                 await asyncio.to_thread(db.finish_import, import_id, verified_count=verified)
-                await queue.put(_ev("stage", stage="done", done=1, total=1))
+                await run.put(_ev("stage", stage="done", done=1, total=1))
                 if norm.deferred and model:
                     runtime.normalize_task = asyncio.create_task(
                         normalize.finish_deferred(norm.deferred, model))
-                await queue.put(_ev("done", report=await asyncio.to_thread(load_report)))
+                await run.put(_ev("done", report=await asyncio.to_thread(load_report)))
             except ingest.ImportProblem as exc:
-                await queue.put(_ev("error", stage=stage, message=exc.message, status=exc.status))
+                await run.put(_ev("error", stage=stage, message=exc.message, status=exc.status))
             except Exception as exc:  # noqa: BLE001 — surface it in the UI, keep the engine up
                 log.exception("audit failed at %s", stage)
-                await queue.put(_ev("error", stage=stage,
+                await run.put(_ev("error", stage=stage,
                                     message=f"Something went wrong while auditing ({stage}): {exc}"))
             finally:
-                await queue.put(None)
+                await run.put(None)
 
+    runtime.pipeline_run = run
     runtime.pipeline_task = asyncio.create_task(job())
-    return queue
+    return run
 
 
 async def rescore() -> dict:

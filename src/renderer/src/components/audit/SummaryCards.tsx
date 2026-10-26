@@ -32,6 +32,7 @@ export function SummaryNarrative({ meta }: { meta: ReportMeta }): React.JSX.Elem
         </h2>
         <SourceChip
           source={meta.summary_source === 'gemma' ? 'gemma' : 'template'}
+          provider={meta.summary_provider}
           onPanel
           size={24}
         />

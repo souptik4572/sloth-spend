@@ -1,11 +1,13 @@
 // Audit actions (IMPL M5): upload → (mapper) → stream the pipeline → report; corrections; renames.
 // Components call these; they keep the audit store in step with the engine.
 import { useAudit } from '../auditStore'
+import { byPlatform } from './platform'
 import { toast } from './toast'
 import {
   ApiError,
   discardImport,
   errorMessage,
+  getAuditStatus,
   getReport,
   labelSeries,
   renameSeries,
@@ -32,7 +34,30 @@ function settle(): void {
   else store().showEmpty()
 }
 
+const FOLLOW = '/audit/follow'
+
+/** Uploads above this are refused by the engine (20 MB) or SlothSpend Web's server (10 MB): say so before sending. */
+const MAX_UPLOAD_MB = byPlatform(20, 10)
+
+/**
+ * The report, unless an audit is still running (the tab was reloaded mid-audit, or another tab started one):
+ * then follow that audit from its first stage, and land on its report.
+ */
 export async function loadReport(): Promise<void> {
+  try {
+    const audit = await getAuditStatus()
+    if (audit.running) {
+      const startedAt = audit.started_at ? Math.min(audit.started_at * 1000, Date.now()) : undefined
+      await runPipeline(FOLLOW, {}, audit.file ?? 'your statement', audit.rows, startedAt)
+      return
+    }
+  } catch {
+    /* an engine without /audit, or a blip: show the stored report */
+  }
+  await showStoredReport()
+}
+
+async function showStoredReport(): Promise<void> {
   try {
     store().showReport(await getReport())
   } catch (err) {
@@ -46,9 +71,10 @@ async function runPipeline(
   path: string,
   body: unknown,
   file: string,
-  rows: number | null
+  rows: number | null,
+  startedAt?: number
 ): Promise<void> {
-  store().startRun({ path, body, file, rows })
+  store().startRun({ path, body, file, rows, startedAt })
   let finished = false
   try {
     await stream(path, body, {
@@ -67,6 +93,10 @@ async function runPipeline(
     })
     if (!finished) store().fail('The audit stopped before it finished. Please try again.')
   } catch (err) {
+    if (path === FOLLOW && err instanceof ApiError && err.status === 404) {
+      await showStoredReport() // it finished in the moment between asking and following
+      return
+    }
     if (err instanceof ApiError && err.status === 409) {
       // Another audit (or a re-score) holds the engine: keep what's on screen.
       toast('An audit is already running.')
@@ -86,6 +116,10 @@ export async function retryLastRun(): Promise<void> {
 export async function importFile(file: File): Promise<void> {
   if (!/\.(csv|txt)$/i.test(file.name)) {
     toast('Choose a CSV statement export (a .csv file).')
+    return
+  }
+  if (file.size > MAX_UPLOAD_MB * 1024 * 1024) {
+    toast(`That file is larger than ${MAX_UPLOAD_MB} MB. Export a CSV statement instead.`)
     return
   }
   let payload: ImportPayload

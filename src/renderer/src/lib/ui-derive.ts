@@ -376,3 +376,28 @@ export function phaseView(r: Reminder, currency: string, today: string): PhaseVi
 export function needsYou(reminders: Reminder[]): number {
   return reminders.filter((r) => r.group === 'needs_you').length
 }
+
+/**
+ * The column mapper's "Debits are positive" when the engine couldn't tell (it found no amount column): the same
+ * rule as the engine's `sign_from_amounts`, on the preview rows of the column the person picked. Mostly negative
+ * amounts → debits carry the minus sign; otherwise suggest positive debits.
+ */
+export function guessDebitsPositive(preview: string[][], column: number): boolean {
+  if (column < 0) return true
+  const values = preview
+    .map((row) => signedAmount(row[column] ?? ''))
+    .filter((v): v is number => v !== null && v !== 0)
+  if (!values.length) return true
+  return values.filter((v) => v < 0).length / values.length <= 0.5
+}
+
+/** "-5.96", "$3,200.00", "(12.50)", "−4.00", "12.50-" → a signed number; anything else → null. */
+export function signedAmount(cell: string): number | null {
+  const text = cell.trim().replace(/−/g, '-')
+  if (!text) return null
+  const negative = /^\(.*\)$/.test(text) || /^-|-$/.test(text.replace(/[^\d.,()-]/g, ''))
+  const digits = text.replace(/[^\d.]/g, '')
+  if (!digits || !/\d/.test(digits)) return null
+  const n = Number.parseFloat(digits)
+  return Number.isFinite(n) ? (negative ? -n : n) : null
+}

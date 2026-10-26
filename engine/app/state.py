@@ -21,6 +21,7 @@ def _fresh() -> SimpleNamespace:
         pipeline_lock=asyncio.Lock(),  # one audit / re-score at a time in this workspace (IMPL §3.4)
         pending={},  # import_id -> raw CSV bytes awaiting /confirm
         pipeline_task=None,  # the running audit (report.start_pipeline)
+        pipeline_run=None,  # its report.Run: events any tab can follow (/audit/follow)
         normalize_task=None,  # Gemma finishing deferred merchant names in the background
     )
 

@@ -7,7 +7,8 @@ import {
   limitedSummary,
   tabpfnLabel,
   tabpfnView,
-  gemmaWhere
+  gemmaWhere,
+  providerWhere
 } from './status'
 import type { Health } from './types'
 
@@ -191,6 +192,8 @@ describe('on the web (WEB-IMPL W3)', () => {
     expect(gemmaWhere(gemini('ready'))).toBe('Gemini API')
     expect(gemmaWhere(health())).toBe('Ollama')
     expect(gemmaWhere(null)).toBeNull() // offline: no claim about who runs Gemma
+    expect(providerWhere('gemini')).toBe('Gemini API') // a stored summary keeps who wrote it
+    expect(providerWhere('ollama')).toBe('Ollama')
     expect(gemmaView(health(), 'ok').detail).toBe('gemma4:e4b runs on Ollama on the server.')
   })
 
@@ -207,6 +210,7 @@ describe('on the web (WEB-IMPL W3)', () => {
 describe('on the desktop', () => {
   it('keeps saying local', () => {
     expect(gemmaWhere(health())).toBe('local')
+    expect(providerWhere('ollama')).toBe('local')
     expect(gemmaView(health(), 'ok').detail).toBe('gemma4:e4b runs locally through Ollama.')
   })
 })

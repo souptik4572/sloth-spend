@@ -6,6 +6,7 @@ import { Field, Select } from '../ui/Field'
 import { cancelMapping, confirmMapping } from '../../lib/audit'
 import { cn } from '../../lib/cn'
 import type { ColumnRole, Currency, ImportPayload } from '../../lib/types'
+import { guessDebitsPositive } from '../../lib/ui-derive'
 
 const ROLE_LABELS: Record<ColumnRole, string> = {
   date: 'Date',
@@ -27,13 +28,37 @@ const CURRENCIES: Array<[Currency, string]> = [
 type Requirement = 'found' | 'set' | 'missing'
 
 /** D-Mapper: ask only what the file didn't say, and remember the answer for next time. */
+const MISSING_WHAT: Record<string, string> = {
+  date: 'the date',
+  description: 'the description',
+  amount: 'the money'
+}
+
+/** When more than the money column is missing, say which (a file whose headers SlothSpend can't read at all). */
+function missingIntro(missing: string[]): string | null {
+  const what = missing.map((m) => MISSING_WHAT[m]).filter(Boolean)
+  if (!what.length || (what.length === 1 && missing.includes('amount'))) return null // the money alone: own wording
+  const list =
+    what.length > 1 ? `${what.slice(0, -1).join(', ')} and ${what[what.length - 1]}` : what[0]
+  return `We couldn’t tell which ${what.length > 1 ? 'columns hold' : 'column holds'} ${list}. Pick ${
+    what.length > 1 ? 'them' : 'it'
+  } below — we’ll remember this layout next time.`
+}
+
 export function ColumnMapper({ pending }: { pending: ImportPayload }): React.JSX.Element {
   const columns = useMemo(() => pending.columns ?? [], [pending.columns])
   const detected = useMemo(() => columns.map((c) => c.role), [columns])
   const [roles, setRoles] = useState<ColumnRole[]>(detected)
   const [currency, setCurrency] = useState<Currency>(pending.currency ?? 'USD')
   const [dayfirst, setDayfirst] = useState(pending.dayfirst ?? false)
-  const [debitsPositive, setDebitsPositive] = useState(pending.debits_positive ?? true)
+  // When the engine couldn't tell the sign (no amount column found), follow the amount column the person picks —
+  // until they set the box themselves. Sent explicitly, so the box always says what the audit will assume.
+  const [manualSign, setManualSign] = useState<boolean | null>(null)
+  const guessedSign = useMemo(
+    () => guessDebitsPositive(pending.preview ?? [], roles.indexOf('amount')),
+    [pending.preview, roles]
+  )
+  const debitsPositive = manualSign ?? pending.debits_positive ?? guessedSign
   const [running, setRunning] = useState(false)
 
   const has = (r: ColumnRole): boolean => roles.includes(r)
@@ -65,11 +90,14 @@ export function ColumnMapper({ pending }: { pending: ImportPayload }): React.JSX
   const ready = requirements.every(([, s]) => s !== 'missing') && duplicates.length === 0
   const singleAmount = has('amount') && !has('debit') && !has('credit') && !has('type')
 
-  const intro = (pending.missing ?? []).includes('amount')
-    ? 'We found the dates and descriptions, but not which column holds the money. Pick it below — we’ll remember this layout next time.'
-    : pending.sign_ambiguous
-      ? 'Most amounts in this file have no minus sign, so tell us how money going out is written. We’ll remember this layout next time.'
-      : 'Check which column is which below — we’ll remember this layout next time.'
+  const missing = pending.missing ?? []
+  const intro =
+    missingIntro(missing) ??
+    (missing.includes('amount')
+      ? 'We found the dates and descriptions, but not which column holds the money. Pick it below — we’ll remember this layout next time.'
+      : pending.sign_ambiguous
+        ? 'Most amounts in this file have no minus sign, so tell us how money going out is written. We’ll remember this layout next time.'
+        : 'Check which column is which below — we’ll remember this layout next time.')
 
   const setRole = (index: number, role: ColumnRole): void =>
     setRoles((rs) => rs.map((r, i) => (i === index ? role : r)))
@@ -170,7 +198,7 @@ export function ColumnMapper({ pending }: { pending: ImportPayload }): React.JSX
             type="checkbox"
             checked={debitsPositive}
             disabled={!singleAmount}
-            onChange={(e) => setDebitsPositive(e.target.checked)}
+            onChange={(e) => setManualSign(e.target.checked)}
             className="size-5 accent-[var(--ink)]"
           />
           <span>

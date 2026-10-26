@@ -19,6 +19,8 @@ export interface RunRequest {
   body: unknown
   file: string
   rows: number | null
+  /** When the audit really began (ms) — a reloaded tab following it keeps the true elapsed time. */
+  startedAt?: number
 }
 
 interface AuditState {
@@ -59,7 +61,12 @@ export const useAudit = create<AuditState>((set) => ({
   startRun: (request) =>
     set({
       phase: 'running',
-      run: { file: request.file, rows: request.rows, startedAt: Date.now(), stages: {} },
+      run: {
+        file: request.file,
+        rows: request.rows,
+        startedAt: request.startedAt ?? Date.now(),
+        stages: {}
+      },
       lastRun: request,
       error: null
     }),

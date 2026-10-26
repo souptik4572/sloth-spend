@@ -132,6 +132,8 @@ export interface ReportMeta {
   flagged_merchants: number
   executive_summary: string
   summary_source: 'gemma' | 'template'
+  /** Who served Gemma for this summary (WEB-IMPL W4); null for a template or a report from an older engine. */
+  summary_provider?: LlmProvider | null
   imports: ImportInfo[]
 }
 

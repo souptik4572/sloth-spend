@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import fixture from './__fixtures__/report.json'
 import type { Report, Series } from './types'
 import {
+  guessDebitsPositive,
+  signedAmount,
   cadenceDetail,
   cadenceLabel,
   changeLabel,
@@ -79,5 +81,29 @@ describe('chart', () => {
     expect(highlightLegend([{ month: '2026-10', highlights: ['a', 'b', 'c', 'd'] }])).toBe(
       'Oct: a, b and 2 more'
     )
+  })
+})
+
+describe('column mapper sign guess (same rule as the engine)', () => {
+  it('reads signed amounts the way bank exports write them', () => {
+    expect(signedAmount('-5.96')).toBe(-5.96)
+    expect(signedAmount('$3,200.00')).toBe(3200)
+    expect(signedAmount('(12.50)')).toBe(-12.5)
+    expect(signedAmount('\u221212.50')).toBe(-12.5)
+    expect(signedAmount('12.50-')).toBe(-12.5)
+    expect(signedAmount('IRONTRAP')).toBeNull()
+    expect(signedAmount('')).toBeNull()
+  })
+
+  it('follows the picked column: mostly negative → debits carry the minus sign', () => {
+    const preview = [
+      ['10/15/2026', 'SQ *BEANTHERE COFFEE', '-5.96'],
+      ['10/15/2026', 'FRESHCART #122', '-92.41'],
+      ['10/14/2026', 'PAYROLL DEPOSIT', '3200.00']
+    ]
+    expect(guessDebitsPositive(preview, 2)).toBe(false)
+    expect(guessDebitsPositive([['1/2', 'GYM', '49.99']], 2)).toBe(true)
+    expect(guessDebitsPositive(preview, -1)).toBe(true) // no amount column picked yet
+    expect(guessDebitsPositive(preview, 1)).toBe(true) // a text column: nothing to go on
   })
 })

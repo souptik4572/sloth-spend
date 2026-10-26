@@ -141,6 +141,17 @@ export const discardImport = (id: number): Promise<{ ok: boolean }> =>
 
 export const getReport = (): Promise<Report> => req<Report>('GET', '/report')
 
+export interface AuditStatus {
+  running: boolean
+  file: string | null
+  rows: number | null
+  /** Seconds since the epoch, on the engine's clock. */
+  started_at: number | null
+}
+
+/** Is an audit running? A reloaded or second tab follows it (`/audit/follow`) instead of showing old data. */
+export const getAuditStatus = (): Promise<AuditStatus> => req<AuditStatus>('GET', '/audit')
+
 export const rescoreReport = (): Promise<{ report: Report }> => req('POST', '/report/rescore')
 
 export const getSeries = (id: number): Promise<SeriesDetail> =>

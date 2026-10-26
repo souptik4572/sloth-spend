@@ -232,7 +232,7 @@ WEB-IMPL.md                     # this plan
 | **W0** | Gemma provider seam (Ollama ↔ Gemini API) | Every Gemma feature (names, summary, chat with tools, drafts, notes) runs through `app/llm.py`. Desktop tests unchanged and green; Gemini translation tested against a REST stub; `llm_smoke.py` passes on local Ollama (and on Gemini with a key) |
 | **W1 + W2** | Multi-tenant engine + accounts, web server and auth screens (built together, 2026-10-26) | Two workspaces audit, chat, remind and query SQL concurrently with zero crossover; `python -m app.web` serves `/api` behind sign-in; sign up → confirm → log in / sign-in link / reset work in the browser; desktop untouched |
 | **W3** | Web shell (built 2026-10-26) | Signed in → Boot (Gemma via Gemini/Ollama, TabPFN) → workspace with the logged-in top bar and account menu (artboard 15); offline banner; source chips by provider |
-| **W4** | Audit on the web | Upload → mapper → 9-stage progress → report → drawer → correction re-score ≤ 5 s; sample + follow-ups |
+| **W4** | Audit on the web (built 2026-10-26) | Upload → mapper → 9-stage progress → report → drawer → correction re-score ≤ 5 s; sample + follow-ups |
 | **W5** | Ask Sloth + drafts on Gemini | All 5 suggested prompts give grounded answers with ≥ 1 visible tool call on `gemma-4-26b-a4b-it` and on local `gemma4`; all 3 drafts pass the fact check |
 | **W6** | Reminders, browser notifications, verification | remind → snooze → I cancelled it → follow-up import → Verified / Still charged, with the tab closed in between |
 | **W7** | Settings & privacy (web) | Model picker, currency, reminders, demo mode, traces opt-in, web egress table, delete data, delete account |
@@ -332,5 +332,30 @@ SlothSpend MVP design canvas.
       session ended server-side → next poll's 401 → Log in with the notice.
 - [ ] Manual review in a real browser (user).
 
-W4–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
+### W4 — Audit on the web
+
+| # | Task |
+|---|---|
+| W4.1 | Provenance: `report_meta.summary_provider` (schema v3, migrated in place) records who served Gemma for the stored summary; the summary chip shows it (`SourceChip provider`), so it stays true after a provider change. Re-scores (template summary) clear it |
+| W4.2 | Replayable audits: `report.Run` keeps every SSE event; `GET /audit` (running? file, rows, started) and `POST /audit/follow` (replay from the first stage, then live). The renderer checks before showing a report, so a reloaded or second tab follows a running audit — with its true elapsed time — instead of showing stale data or a 409 |
+| W4.3 | Busy server: when every audit slot is taken, the audit's first event says so ("Waiting for a free moment — other audits are running. Slow and steady.") |
+| W4.4 | Upload size checked in the browser before sending (10 MB on the web, 20 MB on the desktop) |
+| W4.5 | `engine/scripts/fake_gemini.py` (`npm run web:fake-gemini`): canned Gemini API for running the web app in Gemini mode without a key; its prose says it's fake. The Gemini tests use the same replies |
+| W4.6 | Fixes found by the browser run (shared with the desktop): the column mapper sent a default "Debits are positive" when the engine couldn't tell, overriding the engine's inference and inverting every amount — it now follows the picked Amount column's preview (same rule as the engine) until the person sets it; the mapper intro names everything that's missing ("which columns hold the date, the description and the money") |
+
+**Exit checklist**
+- [x] Engine 226 (+5 `test_audit_follow.py`: replay to a second follower, waiting note, provider stored / cleared,
+      v2 → v3 migration, per-person audit status on the web) · renderer 73 · typecheck, lint, both builds.
+- [x] Browser (DevTools protocol, `python -m app.web`), **Gemini mode via the fake API**: drop zone → upload a CSV with
+      unreadable headers → mapper (date / description / amount) → progress → **reload mid-audit: progress followed**
+      → report in 2.5–2.8 s, summary chip `Gemma 4 · Gemini API` → drawer → rename re-scored in 2.2–2.4 s →
+      "Not a subscription" re-scored in 2.3 s (subscriptions $87.46 → $71.97) → follow-up statement appended.
+- [x] Same flow, **Ollama mode with local `gemma4:latest`**: audit 26–32 s (Gemma names under the 30 s budget, the rest
+      finish in the background), chip `Gemma 4 · Ollama`, follow after reload, corrections re-scored in 2.4–4.9 s.
+      Server-side the re-score is 2.4–4.6 s; the spread exists only in Ollama mode, where Gemma and TabPFN share the
+      local GPU (Gemini mode: a steady 2.3 s). Within the 5 s budget in every run.
+- [ ] Gemini mode with a real key (operator).
+- [ ] Manual review in a real browser (user).
+
+W5–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
 previous review changed.

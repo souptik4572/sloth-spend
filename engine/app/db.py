@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     import pandas as pd
 
 DB_PATH = workspace.DESKTOP_DB  # the desktop database; use workspace.db_path() for "the current one"
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 # Spec §7.2 with the IMPL §3.1 additions folded in (a new database, so no ALTERs).
 SCHEMA = """
@@ -163,6 +163,12 @@ def init() -> None:
             cols = {r["name"] for r in conn.execute("PRAGMA table_info(series)")}
             if "quantiles_json" not in cols:
                 conn.execute("ALTER TABLE series ADD COLUMN quantiles_json TEXT")
+        if version < 3:
+            # v3 (WEB-IMPL W4): who served Gemma for the stored summary (ollama | gemini), so its chip stays true
+            # after the provider changes.
+            cols = {r["name"] for r in conn.execute("PRAGMA table_info(report_meta)")}
+            if "summary_provider" not in cols:
+                conn.execute("ALTER TABLE report_meta ADD COLUMN summary_provider TEXT")
         conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
 
 
@@ -483,7 +489,8 @@ def user_labels() -> list[dict]:
 def save_report_meta(meta: dict) -> None:
     cols = ["generated_at", "report_date", "currency", "monthly_recurring", "fc30_q10", "fc30_q50", "fc30_q90",
             "potential_savings", "executive_summary", "scorer", "monthly_subscriptions", "monthly_bills",
-            "fc30_sub_q10", "fc30_sub_q50", "fc30_sub_q90", "dispute_total", "monthly_json", "summary_source"]
+            "fc30_sub_q10", "fc30_sub_q50", "fc30_sub_q90", "dispute_total", "monthly_json", "summary_source",
+            "summary_provider"]
     with connect() as conn:
         conn.execute(
             f"INSERT INTO report_meta(id, {', '.join(cols)}) VALUES(1, {', '.join('?' * len(cols))}) "  # noqa: S608

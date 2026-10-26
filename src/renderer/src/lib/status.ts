@@ -1,7 +1,7 @@
 // Maps engine state + /health into what the Boot rows and header pills show (D-Boot, D-Main header).
 // On the web the "engine" is SlothSpend's server and Gemma may be the Gemini API (WEB-IMPL §1, W3).
 import { isWeb } from './platform'
-import type { Health, Scorer } from './types'
+import type { Health, LlmProvider, Scorer } from './types'
 
 export type EngineState = 'starting' | 'ok' | 'stopped'
 
@@ -163,8 +163,13 @@ export function gemmaLabel(h: Health | null): string {
  */
 export function gemmaWhere(h: Health | null): string | null {
   if (!isWeb()) return 'local'
-  if (!h) return null
-  return h.llm.provider === 'ollama' ? 'Ollama' : 'Gemini API'
+  return h ? providerWhere(h.llm.provider) : null
+}
+
+/** Where a given provider runs Gemma, in chip words: "local" for Ollama on the desktop. */
+export function providerWhere(provider: LlmProvider): string {
+  if (provider === 'gemini') return 'Gemini API'
+  return isWeb() ? 'Ollama' : 'local'
 }
 
 const TABPFN_NAMES: Record<Exclude<Scorer, 'heuristic'>, string> = {
