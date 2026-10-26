@@ -129,6 +129,6 @@ async def stop(series_id: int):
 async def cancelled(series_id: int, req: CancelledRequest):
     """Marks the series user-cancelled too, so the report is re-scored without it (unless an audit is running)."""
     out = await _act(reminders.cancelled, series_id, req.cancelled_on.isoformat())
-    if isinstance(out, dict) and not report.busy():
+    if isinstance(out, dict) and not report.audit_running():
         out["report"] = await report.rescore()
     return out

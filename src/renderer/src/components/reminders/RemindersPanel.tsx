@@ -2,9 +2,11 @@ import { Info, Upload } from 'lucide-react'
 import { FilePicker } from '../audit/FilePicker'
 import { Card } from '../ui/Card'
 import { Spinner } from '../ui/Spinner'
+import { BrowserNotifications } from './BrowserNotifications'
 import { ReminderCard } from './ReminderCard'
 import { useAudit } from '../../auditStore'
 import { dateRange, relativeDay } from '../../lib/format'
+import { byPlatform } from '../../lib/platform'
 import { localDay } from '../../lib/reminders'
 import type { Reminder, ReportMeta } from '../../lib/types'
 import { useReminders } from '../../remindersStore'
@@ -53,10 +55,13 @@ export function RemindersPanel(): React.JSX.Element {
       <p className="m-0 flex items-start gap-2.5 rounded-tile bg-panel px-4 py-3.5 text-sm leading-[1.45]">
         <Info aria-hidden size={18} className="mt-px shrink-0" />
         <span>
-          Reminders fire while SlothSpend is open. If it was closed, you’ll get them the next time
-          you open it.
+          {byPlatform(
+            'Reminders fire while SlothSpend is open. If it was closed, you’ll get them the next time you open it.',
+            'SlothSpend keeps checking your reminders even when this tab is closed. New ones wait in the bell, and pop up while SlothSpend is open in a tab.'
+          )}
         </span>
       </p>
+      {reminders.length > 0 && <BrowserNotifications />}
       {report && <LatestStatement meta={report.meta} />}
       {!loaded ? (
         <p className="m-0 flex items-center gap-2 text-sm text-muted">

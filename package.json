@@ -30,7 +30,8 @@
     "web:build": "npm run typecheck:webapp && vite build --config web/vite.config.ts",
     "web:api": "cd engine && SLOTH_PUBLIC_URL=${SLOTH_PUBLIC_URL:-http://localhost:5173} SLOTH_DATA_DIR=${SLOTH_DATA_DIR:-../.sloth-web} .venv/bin/python -m app.web",
     "web:serve": "npm run web:build && cd engine && SLOTH_PUBLIC_URL=${SLOTH_PUBLIC_URL:-http://localhost:8770} SLOTH_DATA_DIR=${SLOTH_DATA_DIR:-../.sloth-web} .venv/bin/python -m app.web",
-    "web:fake-gemini": "engine/.venv/bin/python engine/scripts/fake_gemini.py"
+    "web:fake-gemini": "engine/.venv/bin/python engine/scripts/fake_gemini.py",
+    "engine:ask-eval": "engine/.venv/bin/python engine/scripts/ask_eval.py"
   },
   "dependencies": {},
   "devDependencies": {

@@ -38,9 +38,9 @@ def _get(series_id: int) -> dict:
 
 
 async def _rescore() -> dict:
-    if report.busy():
+    if report.audit_running():
         raise HTTPException(409, "An audit is already running. Try again in a moment.")
-    return await report.rescore()
+    return await report.rescore()  # another re-score in progress: this one waits its turn (seconds)
 
 
 def _source(keys: list[str]) -> tuple[str, bool]:

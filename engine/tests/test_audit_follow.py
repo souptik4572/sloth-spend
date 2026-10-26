@@ -123,3 +123,56 @@ def test_audit_status_is_per_person_on_the_web(web, canned_gemma, monkeypatch):
     assert done["events"][-1][0] == "done"
     assert workspace.all_ids()  # both workspaces exist; only Asha's has a report
     assert ben.get("/api/report").status_code == 404 and asha.get("/api/report").status_code == 200
+
+
+def test_an_audit_waits_for_a_re_score_instead_of_refusing(canned_gemma):
+    """"I cancelled it" re-scores; importing a statement right after must wait for it, not say an audit is running."""
+    raw = (DATA / "followup_cancelled.csv").read_bytes()
+    parsed = ingest.parse(raw, "followup_cancelled.csv", "USD")
+    import_id = db.create_pending_import("followup_cancelled.csv", parsed.sha256, parsed.mapping, parsed.currency,
+                                         parsed.header_row)
+    runtime.pending[import_id] = raw
+
+    async def scenario():
+        runtime.pipeline_lock = asyncio.Lock()
+        runtime.pipeline_run = None
+        await runtime.pipeline_lock.acquire()  # a re-score holds the lock
+        run = await report.start_pipeline(import_id, {}, file_name="followup_cancelled.csv")  # no PipelineBusy
+        assert report.audit_running()
+        try:
+            await report.start_pipeline(import_id, {}, file_name="again")
+            second = "started"
+        except report.PipelineBusy:
+            second = "refused"
+        await asyncio.sleep(0.05)
+        waited = list(run.events)
+        runtime.pipeline_lock.release()  # the re-score finishes
+        events = [e["event"] async for e in run.follow()]
+        return second, waited, events
+
+    second, waited, events = asyncio.run(scenario())
+    assert second == "refused"  # a second audit is still refused while one runs
+    assert waited == []  # nothing ran while the re-score held the lock
+    assert events[-1] in ("done", "error") and "stage" in events
+
+
+def test_a_statement_being_imported_is_not_missed(client, auth, canned_gemma, monkeypatch):
+    """An awaiting reminder doesn't expire while an audit runs: that import is the statement it waits for."""
+    from datetime import datetime, timedelta, timezone
+
+    from app import reminders
+
+    rep = sse(client, "/demo/load-sample", {"file": "main"})[-1][1]["report"]
+    iron = next(s for s in rep["series"] if s["merchant"] == "IronTrap Fitness")
+    db.set_settings({"demo_compress_seconds": "10"})
+    reminders.create(iron["id"])
+    reminders.cancelled(iron["id"], "2026-10-16")
+    later = datetime.now(timezone.utc) + timedelta(seconds=11)  # the (compressed) 60 days are over
+    monkeypatch.setattr(reminders, "now_utc", lambda: later)
+
+    runtime.pipeline_run = report.Run("followup_cancelled.csv")  # …but a statement is being imported
+    asyncio.run(reminders.tick())
+    assert db.get_reminder(iron["id"])["phase"] == "AWAITING_STATEMENT"
+    runtime.pipeline_run.finished = True  # nothing arrived after all: now it expires
+    asyncio.run(reminders.tick())
+    assert db.get_reminder(iron["id"])["phase"] == "EXPIRED"

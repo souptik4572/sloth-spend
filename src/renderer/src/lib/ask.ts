@@ -3,6 +3,8 @@ import { useChat, isStreaming } from '../chatStore'
 import { errorMessage, getChat, stream } from './api'
 import { turnsFromHistory } from './chat'
 import type { ToolArgs } from './types'
+import { loadReminders } from './reminders'
+import { useAudit } from '../auditStore'
 
 const chat = useChat.getState
 let current: AbortController | null = null
@@ -36,8 +38,15 @@ export async function send(text: string): Promise<void> {
           const { name, args } = d as { name: string; args: ToolArgs }
           chat().addTool(id, { name, args })
         },
-        tool_end: (d) =>
-          chat().endTool(id, d as { name: string; ms: number; preview: string; live?: string }),
+        tool_end: (d) => {
+          const end = d as { name: string; ms: number; preview: string; live?: string }
+          chat().endTool(id, end)
+          // Sloth set a reminder: the Reminders tab and an open drawer show it now, not at the next poll.
+          if (end.name === 'set_renewal_reminder') {
+            void loadReminders()
+            useAudit.getState().refreshDrawer()
+          }
+        },
         replace: (d) => chat().patchTurn(id, () => ({ text: (d as { text: string }).text })),
         done: () => {
           finished = true

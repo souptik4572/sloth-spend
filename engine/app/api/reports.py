@@ -116,6 +116,6 @@ async def rescore() -> dict:
     """Re-score with the current model and labels — e.g. after TabPFN finished loading or got upgraded."""
     if await asyncio.to_thread(db.report_meta) is None:
         raise HTTPException(404, "No report yet. Import a statement first.")
-    if report.busy():
+    if report.audit_running():
         raise HTTPException(409, "An audit is already running.")
     return {"report": await report.rescore()}

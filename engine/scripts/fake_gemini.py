@@ -40,14 +40,20 @@ def reply_parts(body: dict) -> list[dict]:
                           "c": known["category"] if known else "Other",
                           "s": known["subscription_like"] if known else False})
         return [{"text": "```json\n" + json.dumps({"items": items}) + "\n```"}]
-    if "Notification to rephrase" in last:
-        return [{"text": json.dumps({"title": "A reminder from SlothSpend",
-                                     "body": "Open How to cancel in SlothSpend, or tap Keep it."})}]
+    if "Notification to rephrase" in last:  # hand back the note it was given (a faithful "rephrase")
+        title = re.search(r"^Title: (.*)$", last, re.M)
+        body = re.search(r"^Body: (.*)$", last, re.M)
+        return [{"text": json.dumps({"title": title.group(1) if title else "A reminder from SlothSpend",
+                                     "body": body.group(1) if body else "Open How to cancel in SlothSpend."})}]
     draft = re.search(r"^Subject:.*", last, re.M | re.S)
     if draft and "[Your name]" in last:  # a draft rewrite: hand the email back unchanged
         return [{"text": draft.group(0)}]
     if body.get("tools") and not answered:
         return [{"functionCall": {"name": "get_report_overview", "args": {}}}]
+    system = " ".join(p.get("text", "") for p in (body.get("systemInstruction") or {}).get("parts", []))
+    ready_made = re.search(r"^Subject:.*?\[Your name\]", system, re.M | re.S)
+    if ready_made:  # Ask Sloth handed over a ready-made email: use it in a fenced block, as asked
+        return [{"text": f"Here is the email, ready to send yourself. (Fake Gemini.)\n\n```\n{ready_made.group(0)}\n```"}]
     return [{"text": "Weighing the numbers first.", "thought": True}, {"text": ANSWER}]
 
 

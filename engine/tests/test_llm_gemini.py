@@ -337,6 +337,7 @@ def test_every_gemma_feature_runs_on_the_gemini_api(client, auth, gemini, loopba
     # 4. A reminder note, structured JSON.
     note = asyncio.run(notes.gemma_note("reminder", {"merchant": "IronTrap Fitness", "amount": 49.99,
                                                        "next_due": "2026-11-05", "currency": "USD"}))
-    assert note == {"title": "A reminder from SlothSpend", "body": "Open How to cancel in SlothSpend, or tap Keep it."}
+    assert note == notes.template_note("reminder", {"merchant": "IronTrap Fitness", "amount": 49.99,
+                                                    "next_due": "2026-11-05", "currency": "USD"})
 
     assert all(c["path"].startswith("/v1beta/models/gemma-4-") for c in CALLS)

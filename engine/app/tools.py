@@ -338,7 +338,8 @@ def set_renewal_reminder(merchant: str, days_before: int = 3) -> dict:
                          f"({str(exc.phase).replace('_', ' ').lower()}). See the Reminders tab."}
     return {**base, "reminder_set": True, "days_before": row["days_before"],
             "remind_on": row["remind_at"][:10] if row["remind_at"] else None,
-            "note": "It only reminds you, here on this computer. Nothing is cancelled."}
+            "note": "It only reminds you" + ("" if workspace.on_web() else ", here on this computer")
+                    + ". Nothing is cancelled."}
 
 
 TOOLS = {"get_report_overview": get_report_overview, "get_merchant": get_merchant,

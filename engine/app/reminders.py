@@ -13,6 +13,7 @@ from datetime import date, datetime, time, timedelta, timezone
 from . import db, user_settings, workspace
 from .money import date_long
 from .notes import gemma_note, template_note
+from .state import runtime
 
 log = logging.getLogger(__name__)
 
@@ -91,6 +92,12 @@ async def send(row: dict, kind: str, **extra) -> None:
     await asyncio.to_thread(db.insert_notification, row["series_id"], kind, note["title"], note["body"])
 
 
+def _importing() -> bool:
+    """An audit is running in this workspace (with demo compression, a wait can end mid-import)."""
+    run = runtime.pipeline_run
+    return run is not None and not run.finished
+
+
 async def tick() -> None:
     demo = await asyncio.to_thread(_demo)
     for row in await asyncio.to_thread(db.due_reminders, _iso(now_utc())):
@@ -109,6 +116,8 @@ async def tick() -> None:
             await asyncio.to_thread(db.transition, sid, phase, "EXPIRED", remind_at=None,
                                     detail="The renewal passed without an answer. Set a new reminder any time.")
         elif phase == "AWAITING_STATEMENT":
+            if _importing():  # a statement is arriving right now: its audit verifies this one (§7.8)
+                continue
             await asyncio.to_thread(db.transition, sid, phase, "EXPIRED", remind_at=None,
                                     detail="No newer statement arrived within 60 days.")
 

@@ -17,6 +17,8 @@ import {
 import { dateShort } from './format'
 import { toast } from './toast'
 import type { Notice, ReminderResult } from './types'
+import { askForNotifications } from './notify'
+import { isWeb } from './platform'
 
 const store = useReminders.getState
 
@@ -53,6 +55,8 @@ function whenText(result: ReminderResult): string {
 }
 
 export async function remindMe(seriesId: number, daysBefore?: number): Promise<boolean> {
+  // The click that asks to be reminded is the moment to ask for browser notifications (web only, once).
+  if (isWeb()) void askForNotifications()
   try {
     const result = await createReminder(seriesId, daysBefore)
     await settle(result)

@@ -476,7 +476,15 @@ async def gemma_model() -> str | None:
 
 
 def busy() -> bool:
+    """An audit or a re-score holds this workspace's lock right now."""
     return runtime.pipeline_lock.locked()
+
+
+def audit_running() -> bool:
+    """An audit (not just a re-score) is under way. Only that refuses another audit or a correction: a re-score
+    takes seconds, so whoever comes next simply waits for the lock."""
+    run = runtime.pipeline_run
+    return run is not None and not run.finished
 
 
 WAITING_NOTE = "Waiting for a free moment — other audits are running. Slow and steady."
@@ -485,7 +493,7 @@ WAITING_NOTE = "Waiting for a free moment — other audits are running. Slow and
 async def start_pipeline(import_id: int, opts: dict, *, file_name: str = "statement",
                          rows: int | None = None) -> Run:
     """Start an audit of a pending import; returns the Run its SSE events are recorded in."""
-    if busy():
+    if audit_running():
         raise PipelineBusy
     run = Run(file_name, rows)
 

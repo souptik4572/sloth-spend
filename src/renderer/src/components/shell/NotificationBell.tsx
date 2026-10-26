@@ -7,6 +7,7 @@ import { relativeTime } from '../../lib/format'
 import { markAllRead, openNotice } from '../../lib/reminders'
 import type { Notice } from '../../lib/types'
 import { unreadCount, useReminders } from '../../remindersStore'
+import { byPlatform } from '../../lib/platform'
 
 const ICON: Record<Notice['kind'], { icon: LucideIcon; tone: string }> = {
   reminder: { icon: Bell, tone: 'bg-tint text-ink' },
@@ -125,7 +126,10 @@ export function NotificationBell(): React.JSX.Element {
           </p>
         )}
         <p className="m-0 text-center text-xs leading-[1.65] text-muted">
-          Reminders fire while SlothSpend is open.
+          {byPlatform(
+            'Reminders fire while SlothSpend is open.',
+            'SlothSpend checks reminders even while this tab is closed.'
+          )}
         </p>
       </section>
     </Popover>

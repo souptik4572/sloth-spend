@@ -234,7 +234,7 @@ def test_followup_appends_and_reloading_is_a_no_op(client, sample_report):
 
 
 def test_busy_pipeline_is_refused(client, auth, monkeypatch, canned_gemma):
-    monkeypatch.setattr(report, "busy", lambda: True)
+    monkeypatch.setattr(report, "audit_running", lambda: True)  # a re-score alone doesn't refuse (it's waited out)
     r = client.post("/demo/load-sample", headers={"X-Sloth-Token": TOKEN}, json={"file": "main"})
     assert r.status_code == 409
 

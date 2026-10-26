@@ -13,7 +13,7 @@ from collections.abc import AsyncIterator
 
 import sentry_sdk
 
-from . import db, drafts, guard, llm, tools
+from . import db, drafts, guard, llm, tools, workspace
 from .config import settings
 from .tabular import tabular
 
@@ -23,7 +23,7 @@ MAX_TOOL_ROUNDS = 4
 HISTORY = 12
 OPTIONS = {"num_ctx": 16384, "temperature": 0.3}  # num_ctx only matters to Ollama
 
-LOCAL_ONLY = " Everything runs on this computer."  # true on desktop; not said when Gemma is the Gemini API
+LOCAL_ONLY = " Everything runs on this computer."  # true on the desktop with local Ollama only
 SYSTEM_PROMPT = """You are Sloth, the calm assistant inside SlothSpend. Everything runs on this computer.
 Rules:
 - Ground every number in a tool result or the facts provided. Never invent amounts or dates.
@@ -99,7 +99,8 @@ async def run_turn(conversation_id: str, user_text: str) -> AsyncIterator[dict]:
         return
     model = status["model"]
 
-    system = SYSTEM_PROMPT if provider.name == "ollama" else SYSTEM_PROMPT.replace(LOCAL_ONLY, "", 1)
+    local = provider.name == "ollama" and not workspace.on_web()
+    system = SYSTEM_PROMPT if local else SYSTEM_PROMPT.replace(LOCAL_ONLY, "", 1)
     messages = [{"role": "system", "content": system + "\n\n" + await asyncio.to_thread(tools.overview_block)}]
     messages += await asyncio.to_thread(db.load_chat, conversation_id, HISTORY)
     await asyncio.to_thread(db.save_chat, conversation_id, "user", user_text)
@@ -128,7 +129,9 @@ async def run_turn(conversation_id: str, user_text: str) -> AsyncIterator[dict]:
         yield _ev("tool_end", name="set_renewal_reminder", ms=int((time.perf_counter() - started) * 1000),
                   preview=output[:300])
         reminders.append(output)
-        facts.append(f"The reminder the user asked for was already attempted. Report this result exactly:\n{output}")
+        # Just done for this message (not earlier): "already" made a small model say "is already set".
+        facts.append("SlothSpend just tried to set the reminder the user asked for in this message. Tell them what "
+                     f"happened, using only this result:\n{output}")
     kind = None if REMIND.search(user_text) else draft_kind(user_text)
     if kind and merchants:
         s = merchants[0]

@@ -233,8 +233,8 @@ WEB-IMPL.md                     # this plan
 | **W1 + W2** | Multi-tenant engine + accounts, web server and auth screens (built together, 2026-10-26) | Two workspaces audit, chat, remind and query SQL concurrently with zero crossover; `python -m app.web` serves `/api` behind sign-in; sign up → confirm → log in / sign-in link / reset work in the browser; desktop untouched |
 | **W3** | Web shell (built 2026-10-26) | Signed in → Boot (Gemma via Gemini/Ollama, TabPFN) → workspace with the logged-in top bar and account menu (artboard 15); offline banner; source chips by provider |
 | **W4** | Audit on the web (built 2026-10-26) | Upload → mapper → 9-stage progress → report → drawer → correction re-score ≤ 5 s; sample + follow-ups |
-| **W5** | Ask Sloth + drafts on Gemini | All 5 suggested prompts give grounded answers with ≥ 1 visible tool call on `gemma-4-26b-a4b-it` and on local `gemma4`; all 3 drafts pass the fact check |
-| **W6** | Reminders, browser notifications, verification | remind → snooze → I cancelled it → follow-up import → Verified / Still charged, with the tab closed in between |
+| **W5** | Ask Sloth + drafts on Gemini (built 2026-10-26; real-key run pending) | All 5 suggested prompts give grounded answers with ≥ 1 visible tool call on `gemma-4-26b-a4b-it` and on local `gemma4`; all 3 drafts pass the fact check |
+| **W6** | Reminders, browser notifications, verification (built 2026-10-26) | remind → snooze → I cancelled it → follow-up import → Verified / Still charged, with the tab closed in between |
 | **W7** | Settings & privacy (web) | Model picker, currency, reminders, demo mode, traces opt-in, web egress table, delete data, delete account |
 | **W8** | Docker, CI, hardening | `docker compose up` (local Ollama profile and Gemini profile) works from a clean clone; security headers; web egress test green; CI builds the image |
 | **W9** | DoD + docs | Full DoD run on Gemini and on Ollama with timings in `docs/web-dod-results.md`; README "Web" section; landing link |
@@ -357,5 +357,56 @@ SlothSpend MVP design canvas.
 - [ ] Gemini mode with a real key (operator).
 - [ ] Manual review in a real browser (user).
 
-W5–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
+### W5 — Ask Sloth and drafts on the web
+
+| # | Task |
+|---|---|
+| W5.1 | `engine/scripts/ask_eval.py` (`npm run engine:ask-eval`, `--runs N`, `--json`): the five suggested prompts and the three drafts against whichever Gemma is configured. Per prompt: finished, ≥ 1 visible tool call, the tool the question needs, every money amount grounded in a tool result or the facts Gemma had, no links / phones, the category answer names the category its tool found, the reminder really set, the draft shown as a draft card; drafts written by Gemma (not the template) and passing the fact check |
+| W5.2 | Web wording in the agent: "Everything runs on this computer" is said only on the desktop with local Ollama (`workspace.on_web()`), and the reminder tool's note drops "here on this computer" on the web |
+| W5.3 | Reminder fact reworded ("SlothSpend just tried to set the reminder the user asked for in this message…"): the old "already attempted" made Gemma say a new reminder "is already set" |
+| W5.4 | A reminder set by Ask Sloth now shows on the Reminders tab and in an open drawer at once (it waited for the 30 s poll) — desktop too |
+| W5.5 | Copy works without the Clipboard API (plain http on the web, or a refused permission): the select-and-copy fallback, and "Couldn’t copy here. Select the text and copy it yourself." if neither works — it used to fail silently |
+| W5.6 | The fake Gemini API uses the ready-made email Ask Sloth hands over, so drafts in the chat can be exercised in Gemini mode without a key |
+
+**Exit checklist**
+- [x] `ask_eval.py` on local `gemma4:latest`, every prompt twice: **13/13** (after the fixes; 7/8 on the first single
+      run, whose one failure was the check being stricter than the chat pane's draft rule). Answers grounded, right
+      tools (`get_merchant`, `forecast_spend` live, `spend_by_category`, `set_renewal_reminder`), Gemma-written drafts.
+- [x] Browser (DevTools protocol) on `python -m app.web`, both modes (fake Gemini API and local Gemma): a suggested
+      chip shows its tool badge and a streamed answer; a chat draft renders as a draft card whose Copy puts the email
+      on the clipboard (and says so plainly when it can't); "Remind me" lands on the Reminders tab immediately; the
+      drawer streams a refund request; no "this computer" anywhere.
+- [x] Engine 226 · renderer 73 · typecheck, lint, ruff, both builds.
+- [ ] `ask_eval.py` on `gemma-4-26b-a4b-it` / `gemma-4-31b-it` with a real Gemini key (operator) — the Gemini part of
+      this milestone's exit demo can't be run without one.
+- [ ] Manual review in a real browser (user).
+
+### W6 — Reminders, browser notifications and verification
+
+| # | Task |
+|---|---|
+| W6.1 | Browser notification permission (web only): asked by the click on "Remind me" (browsers only allow it from a click); a Reminders-tab card ("Get a pop-up when a reminder is due" · Turn on notifications) for anyone who skipped it; when blocked or unsupported, a plain line that reminders wait in the bell |
+| W6.2 | Pop-ups: tagged per notice (`sloth-notice-<id>`), and the "last shown" mark re-read before raising, so two open tabs don't show one notice twice; after an absence at most 3 pop-ups plus one "N more from SlothSpend"; a tab you're looking at gets a toast instead of a pop-up |
+| W6.3 | Web wording: Reminders tab ("SlothSpend keeps checking your reminders even when this tab is closed…"), the inbox footer, and the note Gemma rephrases ("browser notification", not "desktop") |
+| W6.4 | Fix (desktop too): an audit started while a re-score held the lock (e.g. a statement imported right after "I cancelled it") was refused with "An audit is already running." — only a running audit refuses now; a re-score is waited out |
+| W6.5 | Fix (desktop too): an awaiting reminder no longer expires while a statement is being imported (with demo compression the 60-day wait could end mid-import, so the import that should verify it found it expired) |
+| W6.6 | Fake Gemini hands back the note it was asked to rephrase, so Gemini-mode notes read like real ones |
+
+**Exit checklist**
+- [x] Browser, both modes (fake Gemini API and local `gemma4:latest`), demo mode 10 s, notifications recorded by a stub:
+      Remind me (permission asked once) → **tab closed** → the server fires it (21–43 s) → reopen: catch-up pop-up
+      (tagged) + bell "1 unread" → Snooze → **tab closed** → fires again (sent 2) → I cancelled it → closed → reopen →
+      follow-up statement → **Verified** ("No charge through Nov 15, 2026"), shown as a toast because the tab is in
+      front (0 pop-ups) → a second account: cancelled, charged again → **Still charged** with Draft refund request;
+      the first account untouched. Real Gemma wrote the notes in Ollama mode.
+- [x] Permission card: shown when permission is undecided and a reminder exists; one click asks and the card goes;
+      blocked → the bell explanation.
+- [x] Engine 229 (+ notes say "browser" on the web, audits wait for a re-score, no expiry mid-import) · renderer 75
+      (+ pop-up plan) · typecheck, lint, ruff, both builds.
+- [ ] Manual review in a real browser (user) — real OS notifications, which the automated runs stub.
+
+Not in scope (parity with the desktop, where reminders also fire only while the app is open or on its next launch):
+email reminders for people who don't come back. The mailer from W2 makes them a small, opt-in addition if wanted.
+
+W7–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
 previous review changed.

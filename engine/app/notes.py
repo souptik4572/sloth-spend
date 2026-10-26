@@ -19,7 +19,7 @@ PER = {"weekly": "a week", "biweekly": "every two weeks", "monthly": "a month", 
 SCHEMA = {"type": "object", "properties": {"title": {"type": "string"}, "body": {"type": "string"}},
           "required": ["title", "body"]}
 
-PROMPT = """Rephrase this desktop notification from SlothSpend, a calm money app that never cancels anything for
+PROMPT = """Rephrase this {kind_of} notification from SlothSpend, a calm money app that never cancels anything for
 the user, so it reads naturally. Return JSON with "title" (under 60 characters) and "body" (at most 3 short,
 complete sentences).
 Rules: keep its meaning; use only these facts and write every amount and date exactly as given; no links, phone
@@ -98,7 +98,7 @@ def acceptable(note: dict, facts_text: str) -> bool:
 
 async def gemma_note(kind: Kind, facts: dict) -> dict:
     """Raises when Gemma is unavailable or its note breaks a rule (the caller retries, then uses the template)."""
-    from . import llm
+    from . import llm, workspace
     from .report import gemma_model
 
     model = await gemma_model()
@@ -110,7 +110,7 @@ async def gemma_note(kind: Kind, facts: dict) -> dict:
     # The template's own wording counts as allowed text too.
     reference = facts_text + "\n" + json.dumps(example, ensure_ascii=False)
     reply = await llm.provider().complete(model, [{"role": "user", "content": PROMPT.format(
-        ending=ENDINGS.get(kind, ""), facts=facts_text,
+        kind_of="browser" if workspace.on_web() else "desktop", ending=ENDINGS.get(kind, ""), facts=facts_text,
         example=f"Title: {example['title']}\nBody: {example['body']}")}],
         schema=SCHEMA, temperature=0.4, num_ctx=2048)
     note = json.loads(reply)

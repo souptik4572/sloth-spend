@@ -283,7 +283,7 @@ def test_remind_me_runs_the_reminder_tool_first(client, sample_report, gemma_rea
     starts = [d for e, d in events if e == "tool_start"]
     assert starts[1] == {"name": "set_renewal_reminder", "args": {"merchant": "IronTrap Fitness", "days_before": 3}}
     facts = ScriptedGemma.seen[0][1]["content"]
-    assert "Report this result exactly" in facts and '"reminder_set": true' in facts
+    assert "using only this result" in facts and '"reminder_set": true' in facts
     assert "Ready-made" not in facts  # a reminder request isn't a draft request
     assert [e for e, _ in events][-1] == "done" and "replace" not in [e for e, _ in events]  # true claim stays
 

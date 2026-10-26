@@ -159,3 +159,29 @@ def test_workspace_ids_are_never_paths():
     for bad in ("../accounts", "a/b", "", "ABCDEF" * 6, "0" * 31):
         with pytest.raises(ValueError):
             workspace.folder(bad)
+
+
+def test_reminder_notes_say_browser_on_the_web(two, monkeypatch):
+    """The note Gemma rephrases is a browser notification on the web, a desktop one on the desktop."""
+    from app import llm, notes
+
+    prompts = []
+
+    class Recorder:
+        name = "ollama"
+
+        async def complete(self, model, messages, **kw):
+            prompts.append(messages[-1]["content"])
+            return json.dumps({"title": "IronTrap renews soon", "body": "Keep it, or open How to cancel."})
+
+    async def gemma():
+        return "gemma4:e4b"
+
+    monkeypatch.setattr(llm, "provider", lambda: Recorder())
+    monkeypatch.setattr("app.report.gemma_model", gemma)
+    facts = {"merchant": "IronTrap Fitness", "amount": 49.99, "next_due": "2026-11-05", "currency": "USD"}
+    with workspace.use(two["ids"][0]):
+        asyncio.run(notes.gemma_note("reminder", facts))
+    asyncio.run(notes.gemma_note("reminder", facts))  # no workspace: the desktop
+    assert "Rephrase this browser notification" in prompts[0]
+    assert "Rephrase this desktop notification" in prompts[1]

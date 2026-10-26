@@ -34,6 +34,11 @@ def folder(workspace_id: str) -> Path:
     return root() / workspace_id
 
 
+def on_web() -> bool:
+    """Serving SlothSpend Web (a person's workspace is set), not the desktop app on this computer."""
+    return current.get() is not None
+
+
 def db_path() -> Path:
     """The current workspace's database, or the desktop's."""
     ws = current.get()

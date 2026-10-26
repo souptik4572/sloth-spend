@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest'
 import fixture from './__fixtures__/report.json'
 import { followUps, reminderSetOn } from './chat'
 import { relativeDay } from './format'
-import type { ChatTurn, Phase, Reminder, Report } from './types'
+import { popupPlan } from './notify'
+import type { ChatTurn, Notice, Phase, Reminder, Report } from './types'
 import { needsYou, phaseView } from './ui-derive'
 
 const report = fixture as unknown as Report
@@ -214,5 +215,28 @@ describe('chat and reminders', () => {
     expect(relativeDay('2026-11-16T09:00:00', now)).toBe('today')
     expect(relativeDay('2026-11-15T23:00:00', now)).toBe('yesterday')
     expect(relativeDay('2026-11-09T10:00:00', now)).toBe('Nov 9')
+  })
+})
+
+describe('pop-ups after an absence (WEB-IMPL W6)', () => {
+  const notice = (id: number): Notice => ({
+    id,
+    series_id: 1,
+    kind: 'reminder',
+    title: `n${id}`,
+    body: '',
+    created_at: '2026-10-26T09:00:00Z',
+    read_at: null
+  })
+
+  it('shows the newest three and counts the rest into one summary', () => {
+    const plan = popupPlan([5, 1, 4, 2, 3].map(notice))
+    expect(plan.show.map((n) => n.id)).toEqual([3, 4, 5])
+    expect(plan.more).toBe(2)
+  })
+
+  it('shows a short burst as it is', () => {
+    expect(popupPlan([notice(7)])).toEqual({ show: [notice(7)], more: 0 })
+    expect(popupPlan([])).toEqual({ show: [], more: 0 })
   })
 })
