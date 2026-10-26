@@ -18,7 +18,7 @@ from . import db, detectors, ingest, llm, llm_summary, normalize, reminders, use
 from .detectors import RECURRING, kind_of
 from .features import CADENCES, FEATURES, next_step_row, regression_rows, series_extras, series_features
 from .money import money
-from .state import runtime
+from .state import audit_slots, runtime
 from .tabular import Q10, Q50, Q90, tabular
 
 log = logging.getLogger(__name__)
@@ -446,7 +446,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
 
     async def job() -> None:
         stage = "parse"
-        async with runtime.pipeline_lock:
+        async with runtime.pipeline_lock, audit_slots():  # this workspace's lock, then a server-wide slot
             try:
                 await queue.put(_ev("stage", stage="parse", done=0, total=1))
                 imp = await asyncio.to_thread(db.get_import, import_id)
@@ -511,7 +511,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
 
 async def rescore() -> dict:
     """Re-run detect…flags with the current scorer and labels — no LLM, so the summary becomes the template."""
-    async with runtime.pipeline_lock:
+    async with runtime.pipeline_lock, audit_slots():
         def run() -> dict:
             ctx = Context.load()
             for fn in (detect, features, score, forecast, flags):

@@ -1,0 +1,4 @@
+/* The desktop design system, unchanged: tokens, fonts and type scale come from the renderer. */
+@import '../../src/renderer/src/styles/index.css';
+@source './';
+@source '../../src/renderer/src/components';

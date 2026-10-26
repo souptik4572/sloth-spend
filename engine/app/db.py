@@ -1,4 +1,5 @@
-"""SQLite storage (spec §7.2 + IMPL §3.1). DB file: <SLOTH_DATA_DIR>/slothspend.db.
+"""SQLite storage (spec §7.2 + IMPL §3.1). DB file: <SLOTH_DATA_DIR>/slothspend.db on the desktop, or the
+current workspace's own file on the web (`workspace.db_path`, WEB-IMPL §2.2).
 
 Every helper opens its own short-lived connection, which is safe from asyncio.to_thread workers.
 Later milestones add their helpers here (pipeline M4, chat M6, reminders M7).
@@ -11,12 +12,12 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import datetime, timezone
 
-from .config import settings
+from . import workspace
 
 if TYPE_CHECKING:
     import pandas as pd
 
-DB_PATH = settings.data_dir / "slothspend.db"
+DB_PATH = workspace.DESKTOP_DB  # the desktop database; use workspace.db_path() for "the current one"
 SCHEMA_VERSION = 2
 
 # Spec §7.2 with the IMPL §3.1 additions folded in (a new database, so no ALTERs).
@@ -137,7 +138,7 @@ def now_iso() -> str:
 
 @contextmanager
 def connect() -> Iterator[sqlite3.Connection]:
-    conn = sqlite3.connect(DB_PATH, timeout=5)
+    conn = sqlite3.connect(workspace.db_path(), timeout=5)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys=ON")
     try:
@@ -151,7 +152,7 @@ def connect() -> Iterator[sqlite3.Connection]:
 
 
 def init() -> None:
-    settings.data_dir.mkdir(parents=True, exist_ok=True)
+    workspace.db_path().parent.mkdir(parents=True, exist_ok=True)
     with connect() as conn:
         conn.execute("PRAGMA journal_mode=WAL")
         version = conn.execute("PRAGMA user_version").fetchone()[0]

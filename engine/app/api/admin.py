@@ -9,6 +9,7 @@ from .. import db, report
 from ..state import runtime
 
 router = APIRouter()
+shutdown_router = APIRouter()  # desktop only: the web server never mounts it
 
 
 @router.delete("/data")
@@ -23,7 +24,7 @@ async def delete_data() -> dict:
     return {"ok": True}
 
 
-@router.post("/shutdown")
+@shutdown_router.post("/shutdown")
 async def shutdown() -> dict:
     # Answer first, then exit; Electron main follows up by closing our stdin anyway.
     asyncio.get_running_loop().call_later(0.2, os._exit, 0)

@@ -17,7 +17,7 @@ each followed by a manual review** (same rule as the desktop build).
 
 | # | Decision | Why |
 |---|---|---|
-| W-D1 | **Email + password accounts.** argon2id hashes, opaque session token in an `httpOnly; Secure; SameSite=Lax` cookie (only its SHA-256 is stored), 30-day sliding expiry | Self-contained: no OAuth client per environment; works the same locally and in prod |
+| W-D1 | **Email + password accounts**, shaped by the web designs (artboards 10–15): name, email, password (≥ 12 characters, a number or symbol, not containing the email), Terms checkbox; **email confirmation** before the first session; **"Email me a sign-in link"**; forgot / reset password (reset logs out other devices). Passwords hashed with stdlib **scrypt** (N=2^15, r=8, p=3; parameters stored per hash); opaque session token in an `httpOnly; SameSite=Lax` cookie (`Secure` on https), only its SHA-256 stored. **Keep me logged in** = 30-day sliding cookie; otherwise a browser-session cookie with a 12-hour sliding server expiry | Self-contained: no OAuth client per environment; scrypt adds no dependency to the desktop bundle |
 | W-D2 | **Server Gemini key only** (`GEMINI_API_KEY`). Users never see or manage keys | Chosen by the product owner. The key never reaches the browser |
 | W-D3 | **Gemma via the Gemini API**: `gemma-4-26b-a4b-it` (default, MoE, fast) and `gemma-4-31b-it`. Configurable with `SLOTH_GEMINI_MODELS` | The two Gemma 4 models the Gemini API serves; both support system instructions and function calling |
 | W-D4 | **Local dev and tests use Ollama** (`SLOTH_LLM_PROVIDER=ollama`, any installed Gemma, e.g. `gemma4:latest`). Prod uses `SLOTH_LLM_PROVIDER=gemini` | Same Gemma family both ways; offline development; no quota in CI |
@@ -27,6 +27,7 @@ each followed by a manual review** (same rule as the desktop build).
 | W-D8 | **TabPFN v2 runs on the server CPU** (shared model weights, per-request in-context data). Optional TabPFN-3.5 via the operator's `TABPFN_TOKEN` | Keeps "Live TabPFN" forecasts and re-scores; data is never mixed because TabPFN fits in context per call |
 | W-D9 | **Reuse the desktop renderer.** `web/` is a Vite app whose entry installs a browser implementation of `window.sloth` and an auth gate, then mounts the same `App` | ~9k lines of UI are shared, so web parity is the default and drift is impossible |
 | W-D10 | **Same origin.** FastAPI serves the built SPA and `/api/*`; Vite proxies `/api` in dev. No CORS. CSRF: SameSite cookie **plus** a required `X-Sloth-CSRF` header on every non-GET | Cookies + SSE "just work"; cross-site forms can't set custom headers |
+| W-D12 | **Email**: `SLOTH_SMTP_URL` (`smtp://…:587` STARTTLS required off-localhost, or `smtps://…:465`) in production; without it, a dev **outbox** writes each message to `<data>/outbox/*.eml` and logs its links. Delivery runs in the background so answers take the same time whether or not an account exists | Sign-up works locally with no mail server; no account probing by timing |
 | W-D11 | **Honest privacy copy.** Web copy says "on SlothSpend's server" and lists Google (Gemini API) in the egress table. The operator must use a **paid-tier** key: on the free tier Google may use prompts to improve its products | The desktop promise ("never leaves this computer") is not true on the web and must not be shown there |
 
 ---
@@ -39,12 +40,12 @@ as-is · 🔁 = adapted · 🆕 = web-only.
 | Area | Desktop feature | Web behaviour | Code | Milestone |
 |---|---|---|---|---|
 | **Boot / health (US-1)** | Engine · Gemma · TabPFN status rows with one-click fixes | Server · Gemma (Gemini API or local Ollama) · TabPFN rows. No download/install fixes in Gemini mode; "Try again" | 🔁 `Boot`, `StatusPills`, `/health` | W0 (API), W3 (UI) |
-| | Gemma download (Ollama pull with progress, ETA) | Ollama mode only (local dev); hidden in Gemini mode | ✅ `GemmaSetup` / 🔁 gated | W0, W3 |
+| | Gemma download (Ollama pull with progress, ETA) | Not on the web: the operator installs models (`/setup/ollama/pull` isn't mounted, so no user can make the server download) | 🔁 hidden | W0, W2, W3 |
 | | Ollama outdated / not found / missing model | Gemini: *key missing*, *key rejected*, *model unavailable*, *rate-limited*, *unreachable* | 🔁 | W0, W3 |
 | | Limited mode banner (template / heuristic fallbacks) | Same | ✅ `LimitedBanner` | W3 |
 | | Prior Labs key (TabPFN-3.5) in the OS keychain | Operator `TABPFN_TOKEN` env; Settings shows which TabPFN is active (read-only) | 🔁 `PriorKeyForm` hidden | W7 |
 | | Engine stopped dialog + restart + last log lines | "Can't reach SlothSpend" banner with automatic retry; no server logs shown to users | 🔁 `EngineStopped` | W3 |
-| **Accounts** | — (single user) | Sign up, sign in, sign out, change password, delete account, rate-limited login | 🆕 | W2, W3 |
+| **Accounts** | — (single user) | Sign up + email confirmation, log in (keep me logged in), email me a sign-in link, forgot / reset password, log out, change password, log out other devices, delete account; rate limits | 🆕 | W2 (API + screens 10–14), W3 (account menu, 15), W7 (Settings › Password & security, delete account UI) |
 | **Import (US-2)** | Drop/choose a bank CSV; auto-detects header row, date order, debit/credit, currency (USD/INR/EUR/GBP), Indian grouping | Same, via browser upload (≤ 10 MB) | ✅ `ImportEmpty`, `FilePicker`, `ingest.py` | W1 (API), W4 |
 | | Column mapper, remembered layouts | Same, per workspace | ✅ `ColumnMapper` | W4 |
 | | Newer statements append; overlap skipped; duplicate file detected | Same | ✅ | W4 |
@@ -157,22 +158,36 @@ together) and gains `ollama.provider`.
 
 ### 2.3 Web API (W2)
 
-All engine routes mount under `/api` unchanged; `require_token` is replaced in web mode by
-`require_session` (cookie → user → `workspace.use(user.id)`), and `X-Sloth-CSRF: 1` on non-GET.
+The engine's routes mount under `/api` unchanged. In front of them, `app/web/gate.py` (a plain ASGI middleware,
+so it holds for streamed responses too) replaces the desktop's per-launch token:
+
+1. **CSRF**: every non-GET needs `X-Sloth-CSRF: 1` and, when the browser sends an `Origin`, the public origin.
+2. **Session**: cookie → account → `auth.current_user` and `workspace.current` for the whole request.
+3. Everything outside `/api/auth/*` needs a session (401).
+4. **Limits**: statement upload ≤ 10 MB; Gemma-backed routes (`/chat`, `/demo/load-sample`, `/import/{id}/confirm`,
+   `/series/{id}/draft`) ≤ `SLOTH_USER_LLM_PER_MIN` (30) per account per minute.
+5. **Headers**: nosniff, `Referrer-Policy: no-referrer` (tokens travel in email links), `X-Frame-Options: DENY`,
+   COOP, Permissions-Policy, HSTS on https; pages get a strict CSP; API answers `Cache-Control: no-store`.
 
 | Route | Body → result |
 |---|---|
-| `POST /api/auth/signup` | `{email, password}` (≥ 10 chars, checked against a common-password list) → `{user}` + cookie |
-| `POST /api/auth/login` | `{email, password}` → `{user}` + cookie · 5 failures / 15 min / email+IP → 429 |
-| `POST /api/auth/logout` | → `{ok}` (session row deleted) |
-| `GET /api/auth/me` | → `{user: {id, email, created_at}}` or 401 |
-| `POST /api/auth/password` | `{current, new}` → `{ok}` (other sessions revoked) |
-| `DELETE /api/auth/account` | `{password}` → `{ok}` (workspace folder + account removed) |
-| `POST /api/setup/ollama/pull` | Ollama mode only; 404 in Gemini mode |
-| `POST /api/shutdown` | Not mounted on the web |
+| `POST /api/auth/signup` | `{name, email, password, accept_terms}` → 202 `{ok, email}`; emails a confirmation link (24 h). A taken email gets the **same answer** and an "you already have an account" email |
+| `POST /api/auth/verify` | `{token}` → `{user}` + cookie (confirms the email, signs in) |
+| `POST /api/auth/verify/resend` | `{email}` → 202, same answer for anyone |
+| `POST /api/auth/login` | `{email, password, remember}` → `{user}` + cookie · 401 *"That email and password don’t match."* for both wrong password and unknown email · 403 `{code: "unverified"}` (and a new link) · 5 failures / 15 min per email, 30 per IP → 429 |
+| `POST /api/auth/logout` | → `{ok}` (session deleted server-side) |
+| `GET /api/auth/me` | → `{user: {id, email, name, created_at}}` or 401 |
+| `POST /api/auth/link` · `/link/consume` | "Email me a sign-in link": `{email, remember}` → 202 (same answer for anyone) · `{token}` → `{user}` + cookie (15 min, once; also confirms the email) |
+| `POST /api/auth/password/forgot` | `{email}` → 202, same answer for anyone; reset link (1 h, once; a newer link cancels older ones) |
+| `POST /api/auth/password/reset/check` | `{token}` → `{email}` without using the link (the reset screen's "For …") |
+| `POST /api/auth/password/reset` | `{token, password}` → `{user}` + cookie; other devices logged out; "password changed" email |
+| `POST /api/auth/password` | `{current, new}` → `{ok, other_sessions_ended}` (W7 screen) |
+| `POST /api/auth/logout-others` | → `{ok, ended}` (W7 screen) |
+| `DELETE /api/auth/account` | `{password}` → `{ok}`: tasks cancelled, account, sessions, links and the workspace folder deleted (W7 screen) |
+| `/api/setup/ollama/pull`, `/api/shutdown` | Not mounted on the web (404) |
 
-Limits: uploads ≤ 10 MB, chat message ≤ 4,000 chars, per-user LLM budget (`SLOTH_USER_LLM_PER_MIN`,
-default 30 calls/min) so one account can't drain the shared key.
+Emails rate-limited to 3 per address per 15 min (silently skipped beyond: answers must not differ) and 20 per IP
+per hour (429). Sign-ups: 10 per IP per hour.
 
 ### 2.4 Renderer platform seam (W3)
 
@@ -197,12 +212,13 @@ to sign-in. Copy that says "this computer" moves to `lib/copy.ts` with desktop a
 
 ```
 engine/app/llm.py               # W0 provider seam (Ollama + Gemini)
-engine/app/workspace.py         # W1 tenancy
-engine/app/web/                 # W2 accounts, sessions, csrf, limits, web entry (python -m app.web)
-engine/tests/test_llm_*.py      # W0 provider tests (Gemini REST stub)
-engine/tests/web/               # W1–W2 tenancy + auth tests, W8 web egress test
+engine/app/workspace.py         # W1 tenancy (per-user SQLite, contextvar)
+engine/app/web/                 # W2: accounts.py, passwords.py, mailer.py, emails.py, auth.py, gate.py,
+                                #     server.py (python -m app.web), config.py
+engine/tests/test_llm_gemini.py # W0 provider tests (Gemini REST stub)
+engine/tests/test_web_*.py      # W1 tenancy, W2 auth + gate (W8 adds the web egress test)
 engine/scripts/llm_smoke.py     # W0 live check against Ollama or the Gemini API
-web/                            # W3 Vite app: index.html, src/main.tsx, bridge.ts, auth screens
+web/                            # W2 Vite app: auth screens 10–14; W3 adds bridge.ts + the workspace
 Dockerfile · docker-compose.yml · .env.example   # W8
 WEB-IMPL.md                     # this plan
 ```
@@ -214,9 +230,8 @@ WEB-IMPL.md                     # this plan
 | # | Milestone | Exit demo |
 |---|---|---|
 | **W0** | Gemma provider seam (Ollama ↔ Gemini API) | Every Gemma feature (names, summary, chat with tools, drafts, notes) runs through `app/llm.py`. Desktop tests unchanged and green; Gemini translation tested against a REST stub; `llm_smoke.py` passes on local Ollama (and on Gemini with a key) |
-| **W1** | Multi-tenant engine | Two workspaces audit, chat, remind and query SQL concurrently with zero crossover; desktop mode untouched |
-| **W2** | Web server: accounts, sessions, CSRF, limits | `python -m app.web` serves `/api` behind sign-in; auth test suite green |
-| **W3** | Web shell | `npm run web:dev`: sign up → Boot (Gemma via Gemini/Ollama, TabPFN) → workspace; offline banner; source chips by provider |
+| **W1 + W2** | Multi-tenant engine + accounts, web server and auth screens (built together, 2026-10-26) | Two workspaces audit, chat, remind and query SQL concurrently with zero crossover; `python -m app.web` serves `/api` behind sign-in; sign up → confirm → log in / sign-in link / reset work in the browser; desktop untouched |
+| **W3** | Web shell | Signed in → Boot (Gemma via Gemini/Ollama, TabPFN) → workspace with the logged-in top bar and account menu (artboard 15); offline banner; source chips by provider |
 | **W4** | Audit on the web | Upload → mapper → 9-stage progress → report → drawer → correction re-score ≤ 5 s; sample + follow-ups |
 | **W5** | Ask Sloth + drafts on Gemini | All 5 suggested prompts give grounded answers with ≥ 1 visible tool call on `gemma-4-26b-a4b-it` and on local `gemma4`; all 3 drafts pass the fact check |
 | **W6** | Reminders, browser notifications, verification | remind → snooze → I cancelled it → follow-up import → Verified / Still charged, with the tab closed in between |
@@ -245,5 +260,44 @@ WEB-IMPL.md                     # this plan
 - [x] Desktop app unchanged: default provider `ollama`, desktop system prompt byte-identical, `/health` only
       gains `ollama.provider`.
 
-W1–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
+### W1 + W2 — Workspaces, accounts, web server and auth screens
+
+Built as one milestone at the product owner's request (2026-10-26), from the web artboards 10–14 in the
+SlothSpend MVP design canvas.
+
+| # | Task |
+|---|---|
+| W1.1 | `app/workspace.py`: `current` contextvar, per-user folder + SQLite file, `ensure` (schema once per process), `use`, `all_ids`, `remove`; ids must be uuid4 hex (never a path) |
+| W1.2 | `db.connect`/`init` and `tools.run_readonly_sql` use `workspace.db_path()`; desktop (no workspace) keeps `<data>/slothspend.db` |
+| W1.3 | `state.runtime` resolves per workspace (audit lock, pending uploads, task handles); `audit_slots()` caps audits + re-scores server-wide (`SLOTH_MAX_AUDITS`, 2). TabPFN already serialises inference with its own lock |
+| W1.4 | `reminders.run_scheduler(workspaces)` ticks every workspace in turn; `/shutdown` moved to its own router |
+| W2.1 | `app/web/`: config, scrypt passwords + the three rules, accounts DB (users, sessions, single-use email tokens, throttle), SMTP/outbox mailer, the five emails, auth router (§2.3), gate (§2.3), server (engine routes + SPA with history fallback, HEAD for uptime checks) |
+| W2.2 | `web/`: Vite app reusing the renderer's tokens, fonts, `Button`, `Spinner`, `ThemeToggle`, `Wordmark`; history router (tokens removed from the address bar on read); session store; screens: Sign up, Check your inbox (confirm and sign-in-link variants), Log in (+ error alert, sign-in link), Forgot password (+ sent state), Reset password (+ expired-link state), link landings, a temporary signed-in page; light + dark; stacks at phone width |
+| W2.3 | Scripts: `web:dev` (Vite, :5173, proxies `/api`), `web:api` (engine web server, :8770, data in `.sloth-web/`), `web:build`, `web:serve`; `typecheck`, `lint` and `vitest` cover `web/` |
+
+**Deviations from the plan**
+- scrypt (stdlib) instead of argon2id: same strength class, no new dependency in the desktop bundle.
+- The designs added email confirmation, sign-in links, forgot/reset and "keep me logged in": all built (W-D1, W-D12).
+- Password rules follow the design (≥ 12, number or symbol, not the email) instead of "≥ 10 + common list".
+- Sign-up's Terms / Privacy links point at the README's *Inform, never act* and *Privacy* sections until real
+  legal pages exist (`VITE_TERMS_URL`, `VITE_PRIVACY_URL`).
+- A reset signs in on the device that opened the link (the design's "logs you out on your *other* devices").
+- The model download isn't mounted on the web at all (it was "Ollama mode only").
+- The scheduler walks every workspace folder each 30 s tick — fine for hundreds of accounts; a due-index in
+  `accounts.db` is the follow-up if it ever shows up in profiles.
+
+**Exit checklist**
+- [x] Engine: 221 tests green (187 + 27 `test_web_auth.py` + 7 `test_web_tenancy.py`), incl. two concurrent
+      audits (USD sample + INR HDFC) with no crossover, per-person settings / chats / reminders /
+      notifications, the SQL tool confined to its own file, the scheduler ticking both workspaces, delete-data
+      scoped to one person.
+- [x] Renderer + web: `npm run typecheck`, `npm run lint`, `npm test` (66) green; `npm run web:build` builds.
+- [x] Live (`python -m app.web`, local `gemma4:latest`): sign up → outbox email → confirm → sample audit in
+      30 s (Gemma names + summary, TabPFN v2) → Ask Sloth answers with a `get_merchant` tool call; a second
+      account sees no report and no chat.
+- [x] Screens checked in headless Chrome: Log in and Sign up (dark), Forgot (light), Check your inbox,
+      Reset (expired link), Sign up at 500 px.
+- [ ] Manual review in a real browser (user).
+
+W3–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
 previous review changed.

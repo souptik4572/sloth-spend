@@ -161,3 +161,6 @@ __pycache__/
 *.db
 *.db-wal
 *.db-shm
+
+# SlothSpend Web local data (npm run web:api)
+.sloth-web/

@@ -13,7 +13,8 @@
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
-    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "typecheck:webapp": "tsc --noEmit -p web/tsconfig.json --composite false",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web && npm run typecheck:webapp",
     "test": "vitest run",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
@@ -24,7 +25,11 @@
     "engine:build": "cd engine && .venv/bin/pyinstaller slothspend_engine.spec --noconfirm --clean",
     "dist:mac": "npm run build && electron-builder --mac --publish never",
     "dist:win": "npm run build && electron-builder --win --publish never",
-    "engine:smoke": "engine/.venv/bin/python engine/scripts/smoke_test.py"
+    "engine:smoke": "engine/.venv/bin/python engine/scripts/smoke_test.py",
+    "web:dev": "vite --config web/vite.config.ts",
+    "web:build": "npm run typecheck:webapp && vite build --config web/vite.config.ts",
+    "web:api": "cd engine && SLOTH_PUBLIC_URL=${SLOTH_PUBLIC_URL:-http://localhost:5173} SLOTH_DATA_DIR=${SLOTH_DATA_DIR:-../.sloth-web} .venv/bin/python -m app.web",
+    "web:serve": "npm run web:build && cd engine && SLOTH_PUBLIC_URL=${SLOTH_PUBLIC_URL:-http://localhost:8770} SLOTH_DATA_DIR=${SLOTH_DATA_DIR:-../.sloth-web} .venv/bin/python -m app.web"
   },
   "dependencies": {},
   "devDependencies": {

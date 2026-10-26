@@ -15,8 +15,7 @@ from collections import defaultdict
 
 import pandas as pd
 
-from . import db, reminders, report
-from .db import DB_PATH
+from . import db, reminders, report, workspace
 from .features import FEATURES
 from .money import date_long, money
 from .tabular import tabular
@@ -302,11 +301,14 @@ def score_merchant(merchant: str) -> dict:
 
 
 def run_readonly_sql(query: str) -> dict:
-    """Verbatim from spec §7.9: one SELECT/WITH, read-only connection, 50-row cap, 2 s budget."""
+    """Verbatim from spec §7.9: one SELECT/WITH, read-only connection, 50-row cap, 2 s budget.
+
+    It opens the current workspace's file only, so even a prompt-injected query can't read another user's data.
+    """
     q = query.strip().rstrip(";")
     if ";" in q or not re.match(r"(?is)^\s*(select|with)\b", q):
         return {"error": "Only a single SELECT or WITH statement is allowed."}
-    conn = sqlite3.connect(f"{DB_PATH.as_uri()}?mode=ro", uri=True)
+    conn = sqlite3.connect(f"{workspace.db_path().as_uri()}?mode=ro", uri=True)
     conn.execute("PRAGMA query_only = ON")
     deadline = time.monotonic() + 2.0
     conn.set_progress_handler(lambda: 1 if time.monotonic() > deadline else 0, 10_000)

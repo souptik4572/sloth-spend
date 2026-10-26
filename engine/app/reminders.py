@@ -7,9 +7,10 @@ Delivery is at-least-once. With demo compression on, every wait becomes N second
 
 import asyncio
 import logging
+from collections.abc import Callable
 from datetime import date, datetime, time, timedelta, timezone
 
-from . import db, user_settings
+from . import db, user_settings, workspace
 from .money import date_long
 from .notes import gemma_note, template_note
 
@@ -139,12 +140,15 @@ async def verify_after_import() -> int:
     return checked
 
 
-async def run_scheduler() -> None:
+async def run_scheduler(workspaces: Callable[[], list[str]] | None = None) -> None:
+    """Desktop: tick the one database. Web: tick every workspace in turn (WEB-IMPL §2.2)."""
     while True:  # the first tick runs at startup: anything that came due while closed fires now
-        try:
-            await tick()
-        except Exception:  # noqa: BLE001 — one bad row must never stop reminders
-            log.exception("reminder tick failed")
+        for ws in (await asyncio.to_thread(workspaces)) if workspaces else [None]:
+            try:
+                with workspace.use(ws):
+                    await tick()
+            except Exception:  # noqa: BLE001 — one bad row (or workspace) must never stop reminders
+                log.exception("reminder tick failed (workspace %s)", ws)
         await asyncio.sleep(TICK_SECONDS)
 
 

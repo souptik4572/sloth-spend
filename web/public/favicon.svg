@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 1024 1024">
+  <title>SlothSpend app icon — simplified for 16 to 32 px</title>
+  <rect width="1024" height="1024" rx="228" fill="#FFA8CD"/>
+  <ellipse cx="512" cy="548" rx="356" ry="326" fill="none" stroke="#0B051D" stroke-width="72"/>
+  <path d="M512 340C668 340 790 432 790 566C790 700 668 792 512 792C356 792 234 700 234 566C234 432 356 340 512 340Z" fill="#FFFFFF"/>
+  <path d="M470 512C434 486 356 488 290 524C250 546 248 600 288 612C350 630 432 606 468 576C490 558 490 528 470 512Z" fill="#0B051D"/>
+  <path d="M554 512C590 486 668 488 734 524C774 546 776 600 736 612C674 630 592 606 556 576C534 558 534 528 554 512Z" fill="#0B051D"/>
+  <ellipse cx="512" cy="660" rx="56" ry="40" fill="#0B051D"/>
+</svg>
