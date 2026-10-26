@@ -8,6 +8,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
+from .. import llm
 from ..config import DOWNLOAD_MODEL, settings
 
 router = APIRouter()
@@ -23,6 +24,8 @@ class PullRequest(BaseModel):
 
 @router.post("/setup/ollama/pull")
 async def pull(req: PullRequest | None = None) -> EventSourceResponse:
+    if llm.provider().name != "ollama":
+        raise HTTPException(404, "Nothing to download: Gemma runs on the Gemini API here.")
     model = (req or PullRequest()).model.strip().lower()
     if not MODEL_NAME.match(model):
         raise HTTPException(422, "Only Gemma models can be downloaded here.")

@@ -4,8 +4,8 @@
 2. Skip keys already in the merchant_map cache (Gemma or user entries; rule entries are retried).
 3. Gemma names the rest in batches of 25 with structured output, **most important keys first**:
    repeating keys and plan-worded keys like "CLOUDBOX PRO ANNUAL" (possible subscriptions), then one-off
-   charges by amount. Gemma writes ~70 tokens/s
-   and Ollama serves one request at a time, so the audit gives Gemma a time budget; keys left over get
+   charges by amount. Local Gemma writes ~70 tokens/s and Ollama serves one request at a time (the Gemini
+   API has rate limits), so the audit gives Gemma a time budget; keys left over get
    the rule fallback now and are finished by Gemma in the background (the cache keeps them).
 4. User edits (source='user') always win; Gemma never overwrites them.
 """
@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 
 from pydantic import BaseModel, ValidationError
 
-from . import db
+from . import db, llm
 
 log = logging.getLogger(__name__)
 
@@ -118,18 +118,13 @@ def rule_fallback(key: str) -> dict:
     return {"merchant": name, "category": "Other", "subscription_like": False, "source": "rule"}
 
 
-async def normalize_batch(client, model: str, keys: list[str]) -> dict[str, dict]:
+async def normalize_batch(provider, model: str, keys: list[str]) -> dict[str, dict]:
     """One Gemma call for up to 25 keys. Missing or invalid items fall back to the rule."""
     lines = "\n".join(f"{i}: {json.dumps(k)}" for i, k in enumerate(keys))
     try:
-        resp = await client.chat(
-            model=model,
-            messages=[{"role": "user", "content": PROMPT.format(lines=lines)}],
-            format=SCHEMA,
-            think=False,
-            options={"temperature": 0, "num_ctx": 8192},
-        )
-        items = Batch.model_validate_json(resp.message.content).items
+        text = await provider.complete(model, [{"role": "user", "content": PROMPT.format(lines=lines)}],
+                                       schema=SCHEMA, temperature=0, num_ctx=8192, timeout=REQUEST_TIMEOUT)
+        items = Batch.model_validate_json(text).items
     except (ValidationError, ValueError) as exc:
         log.warning("Gemma returned unusable JSON for %d keys: %s", len(keys), exc)
         items = []
@@ -173,7 +168,6 @@ class Normalizer:
 
     stats: list[KeyStat]
     model: str | None  # None = Gemma unavailable → rule fallback for everything new
-    host: str = "http://127.0.0.1:11434"
     budget_seconds: float = BUDGET_SECONDS
     deferred: list[str] = field(default_factory=list)
     llm_named: int = 0
@@ -194,9 +188,7 @@ class Normalizer:
             yield total, total
             return
 
-        import ollama  # imported lazily: tests and rule-only runs never need the client
-
-        client = ollama.AsyncClient(host=self.host, timeout=REQUEST_TIMEOUT)
+        client = llm.provider()
         started = time.monotonic()
         batch_seconds = 0.0  # the slowest batch so far: don't start one that would overrun the budget
         while todo:
@@ -209,7 +201,7 @@ class Normalizer:
             batch_started = time.monotonic()
             try:
                 entries = await normalize_batch(client, self.model, batch)
-            except Exception as exc:  # noqa: BLE001 — Ollama down mid-run: finish with the rule
+            except Exception as exc:  # noqa: BLE001 — Gemma unreachable mid-run: finish with the rule
                 log.warning("Gemma unavailable during normalisation (%s); using the rule for the rest", exc)
                 rest = batch + todo
                 await asyncio.to_thread(db.merchant_map_upsert, {k: rule_fallback(k) for k in rest})
@@ -222,13 +214,11 @@ class Normalizer:
             yield done, total
 
 
-async def finish_deferred(keys: list[str], model: str, host: str) -> int:
+async def finish_deferred(keys: list[str], model: str) -> int:
     """Background: let Gemma name the keys the audit's time budget left to the rule. Returns how many."""
-    import ollama
-
     from .state import runtime
 
-    client = ollama.AsyncClient(host=host, timeout=REQUEST_TIMEOUT)
+    client = llm.provider()
     named = 0
     for start in range(0, len(keys), BATCH_SIZE):
         # Yield to audits and re-scores: Gemma and TabPFN share the GPU, and a correction must stay ≤ 5 s.
@@ -240,9 +230,9 @@ async def finish_deferred(keys: list[str], model: str, host: str) -> int:
         except Exception as exc:  # noqa: BLE001
             log.info("background normalisation stopped: %s", exc)
             break
-        llm = {k: v for k, v in entries.items() if v["source"] == "llm"}
-        await asyncio.to_thread(db.merchant_map_upsert, llm)
-        named += len(llm)
+        by_gemma = {k: v for k, v in entries.items() if v["source"] == "llm"}
+        await asyncio.to_thread(db.merchant_map_upsert, by_gemma)
+        named += len(by_gemma)
     if named:
         await asyncio.to_thread(db.apply_merchant_map)
     log.info("background normalisation named %d of %d deferred keys", named, len(keys))

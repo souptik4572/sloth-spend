@@ -14,8 +14,7 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
-from . import db, detectors, ingest, llm_summary, normalize, ollama_setup, reminders, user_settings
-from .config import settings
+from . import db, detectors, ingest, llm, llm_summary, normalize, reminders, user_settings
 from .detectors import RECURRING, kind_of
 from .features import CADENCES, FEATURES, next_step_row, regression_rows, series_extras, series_features
 from .money import money
@@ -432,8 +431,7 @@ def _ev(name: str, **data) -> dict:
 
 
 async def gemma_model() -> str | None:
-    status = await ollama_setup.status(settings.ollama_host, settings.preferred_model)
-    return status["model"] if status["status"] == "ready" else None
+    return await llm.gemma_model()
 
 
 def busy() -> bool:
@@ -469,7 +467,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
                 model = await gemma_model()
                 stats = [normalize.KeyStat(r["desc_key"], r["n"], r["total"], r["largest"])
                          for r in await asyncio.to_thread(db.debit_key_stats)]
-                norm = normalize.Normalizer(stats, model, host=settings.ollama_host)
+                norm = normalize.Normalizer(stats, model)
                 async for done, total in norm.run():
                     await queue.put(_ev("stage", stage="normalize", done=done, total=total,
                                         source="gemma" if model else "rule"))
@@ -485,8 +483,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
 
                 stage = "summary"
                 await queue.put(_ev("stage", stage="summary", done=0, total=1))
-                ctx.summary, ctx.summary_source = await llm_summary.write(summary_facts(ctx), model,
-                                                                          settings.ollama_host)
+                ctx.summary, ctx.summary_source = await llm_summary.write(summary_facts(ctx), model)
                 await queue.put(_ev("stage", stage="summary", done=1, total=1, source=ctx.summary_source))
 
                 stage = "done"
@@ -497,7 +494,7 @@ async def start_pipeline(import_id: int, opts: dict) -> asyncio.Queue:
                 await queue.put(_ev("stage", stage="done", done=1, total=1))
                 if norm.deferred and model:
                     runtime.normalize_task = asyncio.create_task(
-                        normalize.finish_deferred(norm.deferred, model, settings.ollama_host))
+                        normalize.finish_deferred(norm.deferred, model))
                 await queue.put(_ev("done", report=await asyncio.to_thread(load_report)))
             except ingest.ImportProblem as exc:
                 await queue.put(_ev("error", stage=stage, message=exc.message, status=exc.status))

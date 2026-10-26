@@ -13,7 +13,8 @@ Currency = Literal["USD", "INR", "EUR", "GBP"]
 
 class UserSettings(BaseModel):
     currency: Currency = "USD"
-    # Any installed Ollama model name; None = the best installed Gemma (IMPL §2 #20).
+    # Any installed Ollama model name, or one of SLOTH_GEMINI_MODELS on the Gemini API; None = the best Gemma
+    # available (IMPL §2 #20, WEB-IMPL §2.1). A name the provider lacks falls back to that default.
     chat_model: str | None = None
     days_before: int = Field(3, ge=1, le=14)
     # 0 = off; otherwise every reminder wait becomes this many seconds (demo mode).

@@ -8,7 +8,6 @@ from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
 from .. import db, drafts, explain, report
-from ..config import settings
 from . import reminders as reminders_api
 from ..normalize import CATEGORIES
 from ..tabular import QUANTILES
@@ -125,4 +124,4 @@ async def draft(series_id: int, req: DraftRequest) -> EventSourceResponse:
     """A cancellation, refund or negotiation email for the user to send (IMPL M6.3). Streams tokens."""
     await asyncio.to_thread(_get, series_id)
     model = await report.gemma_model()
-    return EventSourceResponse(drafts.stream(series_id, req.kind, model, settings.ollama_host), ping=15)
+    return EventSourceResponse(drafts.stream(series_id, req.kind, model), ping=15)

@@ -6,7 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app import db, normalize
+from app import db, llm, normalize
 from app.normalize import KeyStat, Normalizer, rule_fallback
 
 
@@ -45,12 +45,14 @@ def test_prioritise_puts_plan_words_with_the_repeating_keys():
                                            "BIG ONE OFF"]
 
 
-def test_batch_fills_gaps_with_the_rule():
+def test_batch_fills_gaps_with_the_rule(monkeypatch):
     keys = ["STREAMFLIX UHD SUBSCR", "SQ *COPPER KITCHEN"]
-    out = asyncio.run(normalize.normalize_batch(FakeClient(drop={1}), "m", keys))
+    monkeypatch.setattr("ollama.AsyncClient", lambda **kw: FakeClient(drop={1}))
+    out = asyncio.run(normalize.normalize_batch(llm.OllamaProvider(), "m", keys))
     assert out[keys[0]]["source"] == "llm" and out[keys[0]]["category"] == "Streaming"
     assert out[keys[1]] == rule_fallback(keys[1])
-    broken = asyncio.run(normalize.normalize_batch(FakeClient(bad=True), "m", keys))
+    monkeypatch.setattr("ollama.AsyncClient", lambda **kw: FakeClient(bad=True))
+    broken = asyncio.run(normalize.normalize_batch(llm.OllamaProvider(), "m", keys))
     assert all(v["source"] == "rule" for v in broken.values())
 
 
@@ -90,7 +92,7 @@ def test_cache_and_user_edits_win():
 def test_finish_deferred_upgrades_rule_names(monkeypatch):
     monkeypatch.setattr("ollama.AsyncClient", lambda **kw: FakeClient())
     db.merchant_map_upsert({"OLIVE BAKERY": rule_fallback("OLIVE BAKERY")})
-    named = asyncio.run(normalize.finish_deferred(["OLIVE BAKERY"], "gemma", "http://x"))
+    named = asyncio.run(normalize.finish_deferred(["OLIVE BAKERY"], "gemma"))
     assert named == 1 and db.merchant_map_get(["OLIVE BAKERY"])["OLIVE BAKERY"]["source"] == "llm"
 
 

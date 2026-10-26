@@ -12,7 +12,7 @@ import re
 from collections.abc import AsyncIterator
 from typing import Literal
 
-from . import db, guard
+from . import db, guard, llm
 from .llm_summary import NUMBER
 from .money import MONTH_NAMES, date_long, date_short, money, plural
 
@@ -153,7 +153,7 @@ def _ev(event: str, **data) -> dict:
     return {"event": event, "data": json.dumps(data)}
 
 
-async def stream(series_id: int, kind: Kind, model: str | None, host: str) -> AsyncIterator[dict]:
+async def stream(series_id: int, kind: Kind, model: str | None) -> AsyncIterator[dict]:
     """token… then done {text, source, title}. `done.text` is the final draft (it may replace the tokens)."""
     f = facts(series_id)
     text = template(kind, f)
@@ -162,18 +162,12 @@ async def stream(series_id: int, kind: Kind, model: str | None, host: str) -> As
         return
     candidate = ""
     try:
-        import ollama
-
-        client = ollama.AsyncClient(host=host, timeout=60.0)
-        parts = await client.chat(model=model, stream=True, think=False,
-                                  messages=[{"role": "user", "content": PROMPT.format(merchant=f["merchant"],
-                                                                                      draft=text)}],
-                                  options={"temperature": 0.4, "num_ctx": 4096})
-        async for part in parts:
-            if part.message.content:
-                candidate += part.message.content
-                yield _ev("token", text=part.message.content)
-    except Exception as exc:  # noqa: BLE001 — Ollama down mid-draft: the template is a complete email
+        prompt = [{"role": "user", "content": PROMPT.format(merchant=f["merchant"], draft=text)}]
+        async for part in llm.provider().stream(model, prompt, temperature=0.4, num_ctx=4096):
+            if part.text:
+                candidate += part.text
+                yield _ev("token", text=part.text)
+    except Exception as exc:  # noqa: BLE001 — Gemma unreachable mid-draft: the template is a complete email
         log.info("draft: Gemma unavailable (%s); using the template", exc)
         yield _ev("done", text=text, source="template", title=TITLES[kind])
         return

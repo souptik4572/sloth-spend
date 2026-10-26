@@ -7,6 +7,7 @@ version contains any number the template doesn't, or forgets that nothing was ca
 import logging
 import re
 
+from . import llm
 from .money import money, month_name
 
 log = logging.getLogger(__name__)
@@ -54,19 +55,16 @@ def acceptable(candidate: str, reference: str) -> bool:
     return bool(candidate.strip()) and used <= allowed and "cancel" in candidate.lower()
 
 
-async def write(facts: dict, model: str | None, host: str) -> tuple[str, str]:
+async def write(facts: dict, model: str | None) -> tuple[str, str]:
     """(summary, source) with source = "gemma" | "template"."""
     text = template(facts)
     if model is None:
         return text, "template"
     try:
-        import ollama
-
-        client = ollama.AsyncClient(host=host, timeout=60.0)
-        resp = await client.chat(model=model, messages=[{"role": "user", "content": PROMPT.format(facts=text)}],
-                                 think=False, options={"temperature": 0.4, "num_ctx": 4096})
-        candidate = " ".join(resp.message.content.split())
-    except Exception as exc:  # noqa: BLE001 — Ollama down: the template is a fine summary
+        reply = await llm.provider().complete(model, [{"role": "user", "content": PROMPT.format(facts=text)}],
+                                              temperature=0.4, num_ctx=4096)
+        candidate = " ".join(reply.split())
+    except Exception as exc:  # noqa: BLE001 — Gemma unreachable: the template is a fine summary
         log.info("summary: Gemma unavailable (%s); using the template", exc)
         return text, "template"
     if acceptable(candidate, text):

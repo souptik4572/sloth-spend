@@ -37,10 +37,10 @@ def test_gemma_rewrite_is_used_only_when_faithful(monkeypatch):
 
     good = "Your recurring charges are $1,979.86 a month, $87.46 of it subscriptions. Nothing has been cancelled."
     monkeypatch.setattr("ollama.AsyncClient", client_saying(good))
-    assert asyncio.run(llm_summary.write(FACTS, "gemma", "http://x")) == (good, "gemma")
+    assert asyncio.run(llm_summary.write(FACTS, "gemma")) == (good, "gemma")
     monkeypatch.setattr("ollama.AsyncClient", client_saying("You owe $9,999. Nothing has been cancelled."))
-    assert asyncio.run(llm_summary.write(FACTS, "gemma", "http://x"))[1] == "template"
-    assert asyncio.run(llm_summary.write(FACTS, None, "http://x"))[1] == "template"
+    assert asyncio.run(llm_summary.write(FACTS, "gemma"))[1] == "template"
+    assert asyncio.run(llm_summary.write(FACTS, None))[1] == "template"
 
 
 @pytest.mark.parametrize(("amount", "currency", "text"), [

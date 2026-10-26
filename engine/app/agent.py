@@ -13,7 +13,7 @@ from collections.abc import AsyncIterator
 
 import sentry_sdk
 
-from . import db, drafts, guard, ollama_setup, tools
+from . import db, drafts, guard, llm, tools
 from .config import settings
 from .tabular import tabular
 
@@ -21,8 +21,9 @@ log = logging.getLogger(__name__)
 
 MAX_TOOL_ROUNDS = 4
 HISTORY = 12
-OPTIONS = {"num_ctx": 16384, "temperature": 0.3}
+OPTIONS = {"num_ctx": 16384, "temperature": 0.3}  # num_ctx only matters to Ollama
 
+LOCAL_ONLY = " Everything runs on this computer."  # true on desktop; not said when Gemma is the Gemini API
 SYSTEM_PROMPT = """You are Sloth, the calm assistant inside SlothSpend. Everything runs on this computer.
 Rules:
 - Ground every number in a tool result or the facts provided. Never invent amounts or dates.
@@ -69,13 +70,6 @@ def reminder_days(text: str) -> int:
     n = int(m.group(1)) if m.group(1).isdigit() else NUMBERS[m.group(1).lower()]
     return n * 7 if m.group(2).lower().startswith("week") else n
 
-UNAVAILABLE = {
-    "unreachable": "Gemma isn't running. Start Ollama, then try again.",
-    "outdated": "Ollama needs an update before Gemma can answer. Update it, then try again.",
-    "missing_model": "No Gemma model is installed yet. Download one from the setup screen, then try again.",
-}
-
-
 def honest_reminder(results: list[str]) -> str:
     """Replaces an answer that claimed a reminder no tool set: say what actually happened."""
     try:
@@ -98,16 +92,15 @@ def _ev(event: str, **data) -> dict:
 
 
 async def run_turn(conversation_id: str, user_text: str) -> AsyncIterator[dict]:
-    import ollama
-
-    status = await ollama_setup.status(settings.ollama_host, settings.preferred_model)
+    provider = llm.provider()
+    status = await provider.status(settings.preferred_model)
     if status["status"] != "ready":
-        yield _ev("error", message=UNAVAILABLE.get(status["status"], UNAVAILABLE["unreachable"]))
+        yield _ev("error", message=llm.unavailable_message(status["status"], provider.name))
         return
     model = status["model"]
-    client = ollama.AsyncClient(host=settings.ollama_host)
 
-    messages = [{"role": "system", "content": SYSTEM_PROMPT + "\n\n" + await asyncio.to_thread(tools.overview_block)}]
+    system = SYSTEM_PROMPT if provider.name == "ollama" else SYSTEM_PROMPT.replace(LOCAL_ONLY, "", 1)
+    messages = [{"role": "system", "content": system + "\n\n" + await asyncio.to_thread(tools.overview_block)}]
     messages += await asyncio.to_thread(db.load_chat, conversation_id, HISTORY)
     await asyncio.to_thread(db.save_chat, conversation_id, "user", user_text)
 
@@ -163,24 +156,22 @@ async def run_turn(conversation_id: str, user_text: str) -> AsyncIterator[dict]:
             try:
                 with sentry_sdk.start_span(op="gen_ai.chat", name=f"chat {model}") as span:
                     _attr(span, "gen_ai.operation.name", "chat")
-                    _attr(span, "gen_ai.provider.name", "ollama")
+                    _attr(span, "gen_ai.provider.name", provider.name)
                     _attr(span, "gen_ai.request.model", model)
-                    stream = await client.chat(
-                        model=model, messages=messages,
-                        tools=tools.SCHEMAS if round_no < MAX_TOOL_ROUNDS else None,
-                        stream=True, think=False, options=OPTIONS)
+                    stream = provider.stream(
+                        model, messages, tools=tools.SCHEMAS if round_no < MAX_TOOL_ROUNDS else None,
+                        timeout=None, **OPTIONS)
                     async for part in stream:
-                        if part.message.content:
-                            content += part.message.content
-                            yield _ev("token", text=part.message.content)
-                        if part.message.tool_calls:
-                            calls.extend(part.message.tool_calls)
+                        if part.text:
+                            content += part.text
+                            yield _ev("token", text=part.text)
+                        calls.extend(part.tool_calls)
                         if part.done:
-                            _attr(span, "gen_ai.usage.input_tokens", part.prompt_eval_count or 0)
-                            _attr(span, "gen_ai.usage.output_tokens", part.eval_count or 0)
-            except Exception as exc:  # noqa: BLE001 — Ollama went away mid-answer
+                            _attr(span, "gen_ai.usage.input_tokens", part.input_tokens)
+                            _attr(span, "gen_ai.usage.output_tokens", part.output_tokens)
+            except Exception as exc:  # noqa: BLE001 — Gemma went away mid-answer
                 log.warning("Ask Sloth: Gemma failed (%s)", exc)
-                yield _ev("error", message=UNAVAILABLE["unreachable"])
+                yield _ev("error", message=llm.unavailable_message(llm.status_of(exc), provider.name))
                 return
 
             answer += content
@@ -196,11 +187,10 @@ async def run_turn(conversation_id: str, user_text: str) -> AsyncIterator[dict]:
 
             messages.append({
                 "role": "assistant", "content": content,
-                "tool_calls": [{"function": {"name": c.function.name, "arguments": c.function.arguments}}
-                               for c in calls],
+                "tool_calls": [{"function": {"name": c.name, "arguments": c.arguments}} for c in calls],
             })
             for c in calls:
-                name, args = c.function.name, dict(c.function.arguments or {})
+                name, args = c.name, dict(c.arguments)
                 yield _ev("tool_start", name=name, args=args)
                 started = time.perf_counter()
                 with sentry_sdk.start_span(op="gen_ai.execute_tool", name=f"execute_tool {name}") as tspan:

@@ -98,9 +98,7 @@ def acceptable(note: dict, facts_text: str) -> bool:
 
 async def gemma_note(kind: Kind, facts: dict) -> dict:
     """Raises when Gemma is unavailable or its note breaks a rule (the caller retries, then uses the template)."""
-    import ollama
-
-    from .config import settings
+    from . import llm
     from .report import gemma_model
 
     model = await gemma_model()
@@ -111,12 +109,11 @@ async def gemma_note(kind: Kind, facts: dict) -> dict:
     example = template_note(kind, facts)
     # The template's own wording counts as allowed text too.
     reference = facts_text + "\n" + json.dumps(example, ensure_ascii=False)
-    client = ollama.AsyncClient(host=settings.ollama_host, timeout=60.0)
-    resp = await client.chat(model=model, format=SCHEMA, think=False, options={"temperature": 0.4, "num_ctx": 2048},
-                             messages=[{"role": "user", "content": PROMPT.format(
-                                 ending=ENDINGS.get(kind, ""), facts=facts_text,
-                                 example=f"Title: {example['title']}\nBody: {example['body']}")}])
-    note = json.loads(resp.message.content)
+    reply = await llm.provider().complete(model, [{"role": "user", "content": PROMPT.format(
+        ending=ENDINGS.get(kind, ""), facts=facts_text,
+        example=f"Title: {example['title']}\nBody: {example['body']}")}],
+        schema=SCHEMA, temperature=0.4, num_ctx=2048)
+    note = json.loads(reply)
     note = {"title": " ".join(str(note.get("title", "")).split()), "body": " ".join(str(note.get("body", "")).split())}
     if not acceptable(note, reference):
         raise ValueError(f"Gemma's {kind} note broke a rule: {note!r}")
