@@ -188,7 +188,7 @@ def test_settings_choose_the_chat_model(client, auth, sample_report, ollama_stub
 
     assert model_used() == "gemma4:e4b"  # Automatic: e4b ranks above e2b; llama isn't a Gemma
     assert client.put("/settings", headers=auth, json={"chat_model": "gemma4:e2b"}).status_code == 200
-    assert client.get("/health", headers=auth).json()["ollama"]["model"] == "gemma4:e2b"
+    assert client.get("/health", headers=auth).json()["llm"]["model"] == "gemma4:e2b"
     assert model_used() == "gemma4:e2b"
     client.put("/settings", headers=auth, json={"chat_model": None})
     assert model_used() == "gemma4:e4b"

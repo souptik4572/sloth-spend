@@ -40,6 +40,7 @@ import {
 import { cancelledIt, defaultCancelledOn, localDay, remindMe } from '../../lib/reminders'
 import type { LabelKind, Reminder, Series, SeriesDetail } from '../../lib/types'
 import { cadenceDetail, flagChips } from '../../lib/ui-derive'
+import { byPlatform } from '../../lib/platform'
 
 const HIKE_HINT =
   'Share of the 19 predicted prices that are more than 2% above today’s price. An approximation.'
@@ -48,7 +49,7 @@ const CANCEL_STEPS = [
   'Find the merchant’s receipt or welcome email — it usually links to “Manage subscription”.',
   'Sign in on the merchant’s website or app → Account, Billing or Membership.',
   'Billed through Apple or Google? Cancel from the App Store or Play Store subscriptions page instead.',
-  'No self-serve option? Send the cancellation request below — Gemma drafts it on this computer from your own charge history.',
+  `No self-serve option? Send the cancellation request below — Gemma drafts it${byPlatform(' on this computer', '')} from your own charge history.`,
   'Keep the confirmation, then click I cancelled it so SlothSpend can check your next statement.'
 ]
 

@@ -21,7 +21,7 @@ interface Row {
 /** Settings › Privacy: where each kind of data goes (spec §3.3, IMPL M8.2). */
 export function EgressTable(): React.JSX.Element {
   // OLLAMA_HOST can point at another machine; then Gemma's inputs leave this computer and the table says so.
-  const remoteOllama = useApp((s) => s.health?.ollama.loopback === false)
+  const remoteOllama = useApp((s) => s.health?.llm.loopback === false)
   const gemma: Pick<Row, 'where' | 'dest'> = remoteOllama
     ? { where: 'network', dest: 'Ollama on another computer (OLLAMA_HOST)' }
     : { where: 'local', dest: 'Ollama on 127.0.0.1' }

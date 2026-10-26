@@ -17,6 +17,7 @@ import { SummaryCards, SummaryNarrative } from '../components/audit/SummaryCards
 import { RemindersPanel } from '../components/reminders/RemindersPanel'
 import { SettingsModal } from '../components/settings/SettingsModal'
 import { EngineStopped } from '../components/shell/EngineStopped'
+import { ConnectionBanner } from '../components/shell/ConnectionBanner'
 import { useAudit } from '../auditStore'
 import { loadReport } from '../lib/audit'
 import { startNotifications } from '../lib/notify'
@@ -89,6 +90,7 @@ export function Workspace(): React.JSX.Element {
       <div className="flex flex-1 flex-wrap items-start gap-4 px-4 pb-4">
         <main className="box-border flex min-w-0 flex-[62_1_560px] flex-col gap-6 px-4 pt-1 pb-12">
           <WorkspaceTabs />
+          <ConnectionBanner />
           <LimitedBanner />
           {tab === 'audit' ? <AuditTab /> : <RemindersPanel />}
         </main>

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   engineView,
   firstActionable,
@@ -6,16 +6,18 @@ import {
   gemmaView,
   limitedSummary,
   tabpfnLabel,
-  tabpfnView
+  tabpfnView,
+  gemmaWhere
 } from './status'
 import type { Health } from './types'
 
 const health = (
-  over: Partial<Health['ollama']> = {},
+  over: Partial<Health['llm']> = {},
   tab: Partial<Health['tabpfn']> = {}
 ): Health => ({
   engine: 'ok',
-  ollama: {
+  llm: {
+    provider: 'ollama',
     status: 'ready',
     version: '0.40.6',
     model: 'gemma4:e4b',
@@ -138,5 +140,73 @@ describe('gemmaLabel', () => {
   })
   it('reports the installed model as ready', () => {
     expect(gemmaView(health({ model: 'gemma4:latest' }), 'ok').detail).toContain('gemma4:latest')
+  })
+})
+
+describe('on the web (WEB-IMPL W3)', () => {
+  const g = globalThis as { window?: unknown }
+  let previous: unknown
+  beforeEach(() => {
+    previous = g.window
+    g.window = { sloth: { kind: 'web' } }
+  })
+  afterEach(() => {
+    g.window = previous
+  })
+
+  const gemini = (status: Health['llm']['status'], model = 'gemma-4-26b-a4b-it'): Health =>
+    health({
+      provider: 'gemini',
+      status,
+      model,
+      model_present: status === 'ready',
+      loopback: false
+    })
+
+  it('names the server instead of a local engine', () => {
+    expect(engineView('ok', null).detail).toBe('Connected to SlothSpend.')
+    const lost = engineView('starting', null)
+    expect(lost.tone).toBe('working')
+    expect(lost.status).toBe('Connecting…')
+  })
+
+  it('maps every Gemini API status, never asking the visitor to install anything', () => {
+    expect(gemmaView(gemini('ready'), 'ok')).toEqual({
+      tone: 'ready',
+      status: 'Ready',
+      detail: 'gemma-4-26b-a4b-it runs on the Gemini API.'
+    })
+    expect(gemmaView(gemini('rate_limited'), 'ok').tone).toBe('working')
+    for (const status of ['missing_key', 'bad_key', 'missing_model', 'unreachable'] as const) {
+      const view = gemmaView(gemini(status), 'ok')
+      expect(view.tone).toBe('error')
+      expect(view.detail).not.toMatch(/Ollama|this computer|install/i)
+      expect(view.detail).toContain('templates')
+    }
+  })
+
+  it('reads Gemini model names and says where Gemma ran', () => {
+    expect(gemmaLabel(gemini('ready'))).toBe('Gemma 4')
+    expect(gemmaLabel(gemini('missing_key'))).toBe('Gemma')
+    expect(gemmaWhere(gemini('ready'))).toBe('Gemini API')
+    expect(gemmaWhere(health())).toBe('Ollama')
+    expect(gemmaWhere(null)).toBeNull() // offline: no claim about who runs Gemma
+    expect(gemmaView(health(), 'ok').detail).toBe('gemma4:e4b runs on Ollama on the server.')
+  })
+
+  it('places TabPFN on the server', () => {
+    expect(tabpfnView(health(), 'ok').detail).toBe(
+      'TabPFN v2 scores your charges on SlothSpend’s server.'
+    )
+    expect(tabpfnView(health({}, { status: 'unavailable', model: null }), 'ok').detail).not.toMatch(
+      /internet|retry/i
+    )
+  })
+})
+
+describe('on the desktop', () => {
+  it('keeps saying local', () => {
+    expect(gemmaWhere(health())).toBe('local')
+    expect(gemmaView(health(), 'ok').detail).toBe('gemma4:e4b runs locally through Ollama.')
   })
 })

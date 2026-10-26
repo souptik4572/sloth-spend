@@ -10,6 +10,8 @@ import { elapsed } from '../../lib/format'
 import type { Health, StageId } from '../../lib/types'
 import { STAGE_LABELS, STAGE_ORDER } from '../../lib/ui-derive'
 import { useApp } from '../../store'
+import { statementPrivacy } from '../../lib/copy'
+import { byPlatform } from '../../lib/platform'
 
 /** Which source a stage will use, before it reports one (from /health), or after (from its event). */
 function stageSource(
@@ -17,7 +19,7 @@ function stageSource(
   reported: string | null | undefined,
   health: Health | null
 ): Source | null {
-  const gemmaUp = health?.ollama.status === 'ready'
+  const gemmaUp = health?.llm.status === 'ready'
   const tabpfn =
     health?.tabpfn.status === 'ready' ? (health.tabpfn.model ?? 'heuristic') : 'heuristic'
   switch (stage) {
@@ -67,7 +69,8 @@ export function PipelineProgress({ run }: { run: RunState }): React.JSX.Element 
             Reading your statement.
           </h1>
           <p className="mt-3 mb-0 text-lead text-text-2">
-            Slowly and carefully, on this computer. Usually under a minute.
+            {byPlatform('Slowly and carefully, on this computer.', 'Slowly and carefully.')} Usually
+            under a minute.
           </p>
         </div>
         <p className="m-0 text-sm font-medium text-muted tabular-nums">
@@ -152,7 +155,7 @@ export function PipelineProgress({ run }: { run: RunState }): React.JSX.Element 
 
       <p className="m-0 flex items-center gap-2 text-sm font-medium">
         <Lock aria-hidden size={16} strokeWidth={2.2} />
-        Your statement never leaves this computer.
+        {statementPrivacy()}
       </p>
     </Card>
   )

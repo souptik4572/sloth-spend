@@ -329,11 +329,11 @@ def test_stream_retries_a_rate_limit_before_the_first_token(httpserver, gemini):
 # ── the whole app in Gemini mode ────────────────────────────────────────────
 
 def test_health_and_setup_in_gemini_mode(client, auth, gemini):
-    health = client.get("/health", headers=auth).json()["ollama"]
+    health = client.get("/health", headers=auth).json()["llm"]
     assert health["provider"] == "gemini" and health["status"] == "ready" and health["model"] == MODELS[0]
     assert client.post("/setup/ollama/pull", headers=auth, json={}).status_code == 404  # nothing to download
     assert client.put("/settings", headers=auth, json={"chat_model": MODELS[1]}).status_code == 200
-    assert client.get("/health", headers=auth).json()["ollama"]["model"] == MODELS[1]
+    assert client.get("/health", headers=auth).json()["llm"]["model"] == MODELS[1]
 
 
 def test_chat_without_a_key_says_so_plainly(client, sample_report, monkeypatch):

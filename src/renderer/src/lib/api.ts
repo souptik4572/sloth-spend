@@ -24,6 +24,23 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * Desktop: the per-launch token (X-Sloth-Token). Web: the session cookie travels by itself, and every request
+ * carries the CSRF header the server's gate requires (WEB-IMPL §2.3).
+ */
+function authHeaders(): Record<string, string> {
+  const { token, platform } = config()
+  return platform === 'web' ? { 'X-Sloth-CSRF': '1' } : { 'X-Sloth-Token': token }
+}
+
+/** On the web a 401 means the session ended (expired, or logged out elsewhere): the web app shows Log in. */
+export const SIGNED_OUT_EVENT = 'sloth:signed-out'
+
+function checkSession(status: number): void {
+  if (status === 401 && config().platform === 'web')
+    window.dispatchEvent(new Event(SIGNED_OUT_EVENT))
+}
+
 /** Fetches apiBase + token from main once. Call before any other function here. */
 export async function init(): Promise<RendererConfig> {
   cfg = await window.sloth.getConfig()
@@ -41,18 +58,21 @@ export async function req<T>(
   body?: unknown,
   signal?: AbortSignal
 ): Promise<T> {
-  const { apiBase, token } = config()
+  const { apiBase } = config()
   const isForm = body instanceof FormData
   const r = await fetch(apiBase + path, {
     method,
     signal,
     headers: {
-      'X-Sloth-Token': token,
+      ...authHeaders(),
       ...(body !== undefined && !isForm ? { 'Content-Type': 'application/json' } : {})
     },
     body: body === undefined ? undefined : isForm ? body : JSON.stringify(body)
   })
-  if (!r.ok) throw new ApiError(r.status, await r.text())
+  if (!r.ok) {
+    checkSession(r.status)
+    throw new ApiError(r.status, await r.text())
+  }
   return (await r.json()) as T
 }
 
@@ -67,16 +87,19 @@ export function stream(
   on: Record<string, (data: unknown) => void>,
   signal?: AbortSignal
 ): Promise<void> {
-  const { apiBase, token } = config()
+  const { apiBase } = config()
   return fetchEventSource(apiBase + path, {
     method: 'POST',
     body: JSON.stringify(body ?? {}),
     signal,
     openWhenHidden: true,
-    headers: { 'X-Sloth-Token': token, 'Content-Type': 'application/json' },
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
     onopen: async (r) => {
       // 409 busy, 410 file gone, 422 bad mapping…: surface the engine's own sentence.
-      if (!r.ok) throw new ApiError(r.status, await r.text())
+      if (!r.ok) {
+        checkSession(r.status)
+        throw new ApiError(r.status, await r.text())
+      }
     },
     onmessage: (ev) => on[ev.event]?.(ev.data ? JSON.parse(ev.data) : null),
     onerror: (err) => {

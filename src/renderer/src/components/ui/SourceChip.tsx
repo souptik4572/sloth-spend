@@ -1,5 +1,5 @@
 import { Chip, type ChipSize } from './Chip'
-import { gemmaLabel } from '../../lib/status'
+import { gemmaLabel, gemmaWhere } from '../../lib/status'
 import { useApp } from '../../store'
 
 /** Which model (or fallback) produced a number or a piece of text. Every model output shows one (spec §9.1). */
@@ -37,11 +37,13 @@ export function SourceChip({
   onPanel,
   size = 22
 }: SourceChipProps): React.JSX.Element {
-  // Gemma chips name whichever Gemma model Ollama is actually running ("Gemma 4 · local", "Gemma 3 · local").
+  // Gemma chips name the Gemma model actually in use and where it ran: "Gemma 4 · local" on the desktop,
+  // "Gemma 4 · Gemini API" on the web.
   const gemma = useApp((s) => gemmaLabel(s.health))
-  const model = useApp((s) => (s.health?.ollama.model_present ? s.health.ollama.model : undefined))
+  const where = useApp((s) => gemmaWhere(s.health))
+  const model = useApp((s) => (s.health?.llm.model_present ? s.health.llm.model : undefined))
   const fallback = source === 'heuristic' || source === 'template' || source === 'rules'
-  const base = source === 'gemma' ? `${gemma} · local` : LABELS[source]
+  const base = source === 'gemma' ? (where ? `${gemma} · ${where}` : gemma) : LABELS[source]
   const label = base + (live ? ' · live' : '')
   const hint = source === 'gemma' ? model : HINTS[source]
   return (

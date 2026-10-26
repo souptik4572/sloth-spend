@@ -23,7 +23,7 @@
         "pm.test('200', () => pm.response.to.have.status(200));",
         "const b = pm.response.json();",
         "pm.test('engine ok', () => pm.expect(b.engine).to.eql('ok'));",
-        "pm.test('ollama status is known', () => pm.expect(['ready','unreachable','outdated','missing_model']).to.include(b.ollama.status));",
+        "pm.test('Gemma status is known', () => pm.expect(['ready','unreachable','outdated','missing_model','missing_key','bad_key','rate_limited']).to.include(b.llm.status));",
         "pm.test('tabpfn reports its upgrade state', () => pm.expect(b.tabpfn.upgrade).to.have.property('state'));"
       ] } }]
     },

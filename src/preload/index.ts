@@ -9,8 +9,10 @@ export interface RendererConfig {
 
 export type KeyResult = { ok: true } | { ok: false; error: string }
 
-// The whole renderer ⇄ main surface (IMPL M1.6, M8 telemetry).
+// The whole renderer ⇄ main surface (IMPL M1.6, M8 telemetry). SlothSpend Web installs its own
+// implementation of the same shape (web/src/bridge.ts), with kind 'web'.
 const api = {
+  kind: 'desktop' as 'desktop' | 'web',
   /** Prior Labs key for the optional TabPFN-3.5 upgrade. Write-only: the renderer can't read it back. */
   priorKey: {
     present: (): Promise<boolean> => ipcRenderer.invoke('secrets:has'),

@@ -6,6 +6,7 @@ import { DemoDataMenu } from './DemoDataMenu'
 import { FilePicker } from './FilePicker'
 import { importFile, loadSample } from '../../lib/audit'
 import { cn } from '../../lib/cn'
+import { statementPrivacy } from '../../lib/copy'
 
 const STEPS = [
   ['Audit', 'Find recurring charges, price rises and double charges.'],
@@ -67,7 +68,7 @@ export function ImportEmpty(): React.JSX.Element {
           </div>
           <p className="m-0 flex items-center gap-2 text-sm font-medium">
             <Lock aria-hidden size={16} strokeWidth={2.2} />
-            Your statement never leaves this computer.
+            {statementPrivacy()}
           </p>
         </div>
       </Card>

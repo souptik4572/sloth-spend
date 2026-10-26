@@ -4,21 +4,34 @@
 /** Which model scored a result. TabPFN v2 is the default; 3.5 is the optional key upgrade (IMPL §2 #21). */
 export type Scorer = 'tabpfn-v2' | 'tabpfn-3.5' | 'tabpfn-3.5-fast' | 'heuristic'
 
-export type OllamaStatus = 'ready' | 'unreachable' | 'outdated' | 'missing_model'
+/** Desktop (Ollama): ready · unreachable · outdated · missing_model. The Gemini API adds missing_key · bad_key ·
+ * rate_limited (WEB-IMPL §2.1). */
+export type LlmStatus =
+  | 'ready'
+  | 'unreachable'
+  | 'outdated'
+  | 'missing_model'
+  | 'missing_key'
+  | 'bad_key'
+  | 'rate_limited'
+export type LlmProvider = 'ollama' | 'gemini'
 export type TabpfnStatus = 'cold' | 'downloading' | 'warming' | 'ready' | 'unavailable' | 'error'
 /** none = no key stored · active = TabPFN-3.5 in use · failed = still on v2, see error. */
 export type UpgradeState = 'none' | 'downloading' | 'active' | 'failed'
 
 export interface Health {
   engine: 'ok'
-  ollama: {
-    status: OllamaStatus
+  /** Whoever serves Gemma: local Ollama (desktop, local dev) or the Gemini API (SlothSpend Web). */
+  llm: {
+    provider: LlmProvider
+    status: LlmStatus
     version: string | null
-    /** The installed Gemma model in use, or the one offered for download when none is installed. */
+    /** The Gemma model in use, or the one offered for download when none is installed. */
     model: string
     model_present: boolean
-    /** Every installed Gemma model, best first. */
+    /** Every usable Gemma model, best first (installed in Ollama, or served by the Gemini API). */
     available_models: string[]
+    /** Ollama on 127.0.0.1 (always false for the Gemini API). */
     loopback: boolean
   }
   tabpfn: {

@@ -1,9 +1,11 @@
+import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 const here = (p: string): string => fileURLToPath(new URL(p, import.meta.url))
+const { version } = JSON.parse(readFileSync(here('../package.json'), 'utf8')) as { version: string }
 
 // SlothSpend Web (WEB-IMPL W2): the browser app. In dev, /api goes to `npm run web:api` (python -m app.web);
 // in production the same server serves web/dist, so the app and its API share one origin.
@@ -16,6 +18,7 @@ export default defineConfig({
     }
   },
   plugins: [react(), tailwindcss()],
+  define: { __SLOTH_VERSION__: JSON.stringify(version) },
   server: {
     port: 5173,
     strictPort: true, // SLOTH_PUBLIC_URL (email links, the CSRF origin check) names this port

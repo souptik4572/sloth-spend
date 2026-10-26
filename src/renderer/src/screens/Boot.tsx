@@ -9,6 +9,8 @@ import { GemmaSetup } from '../components/shell/GemmaSetup'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { cn } from '../lib/cn'
+import { byPlatform, isWeb, slots } from '../lib/platform'
+import { refreshHealth } from '../lib/useHealthPolling'
 import {
   engineView,
   firstActionable,
@@ -79,7 +81,10 @@ function CheckRow({ title, view, actionIcon, ringed, children }: RowProps): Reac
   )
 }
 
-/** First run and setup (D-Boot): live status for Engine, Gemma (whichever is installed) and TabPFN (v2, or 3.5 with a key). */
+/**
+ * First run and setup (D-Boot): live status for Engine, Gemma (whichever is installed) and TabPFN (v2, or 3.5 with
+ * a key). On the web it's a short "getting ready" check of the server: nothing to install, nothing to choose.
+ */
 export function Boot(): React.JSX.Element {
   const { version, engine, exitCode, health, setScreen, engineRestarting } = useApp()
   const [logs, setLogs] = useState<string[]>([])
@@ -90,9 +95,9 @@ export function Boot(): React.JSX.Element {
 
   const tabpfnStatus = health?.tabpfn.status
 
-  // Everything green on a later launch: go straight to the workspace (IMPL M1.8).
+  // Everything green on a later launch (or any web visit): go straight to the workspace (IMPL M1.8).
   useEffect(() => {
-    if (engine !== 'ok' || !ready || !setupDone()) return
+    if (engine !== 'ok' || !ready || !(isWeb() || setupDone())) return
     const t = setTimeout(() => setScreen('workspace'), 600)
     return () => clearTimeout(t)
   }, [engine, ready, setScreen])
@@ -107,9 +112,14 @@ export function Boot(): React.JSX.Element {
   }, [engine])
 
   const restart = (): void => {
+    if (isWeb()) {
+      void refreshHealth() // the server keeps running; just ask again
+      return
+    }
     engineRestarting()
     void window.sloth.restartEngine()
   }
+  const AccountSlot = slots.account
 
   return (
     <div className="flex min-h-screen flex-col bg-bg text-ink">
@@ -117,10 +127,13 @@ export function Boot(): React.JSX.Element {
         <span className="mr-auto">
           <Wordmark />
         </span>
-        <span className="text-xs text-muted">
-          {version ? `v${version} · ` : ''}no account needed
-        </span>
+        {!isWeb() && (
+          <span className="text-xs text-muted">
+            {version ? `v${version} · ` : ''}no account needed
+          </span>
+        )}
         <ThemeToggle />
+        {AccountSlot && <AccountSlot />}
       </header>
 
       <main className="mx-auto box-border flex w-full max-w-[1280px] flex-1 flex-wrap items-stretch gap-6 px-6 pt-2 pb-10">
@@ -136,8 +149,10 @@ export function Boot(): React.JSX.Element {
               Slow and steady.
             </h1>
             <p className="mt-4 mb-0 max-w-[30ch] text-lead">
-              Getting your local models ready. After this one-time setup, nothing leaves this
-              computer.
+              {byPlatform(
+                'Getting your local models ready. After this one-time setup, nothing leaves this computer.',
+                'Checking that everything’s ready. It only takes a moment.'
+              )}
             </p>
           </div>
           <SlothHanging className="self-center" />
@@ -158,7 +173,10 @@ export function Boot(): React.JSX.Element {
               Getting ready
             </h2>
             <p className="mt-1.5 mb-0 text-sm text-muted">
-              Three things need to be ready. Each one can be fixed from here.
+              {byPlatform(
+                'Three things need to be ready. Each one can be fixed from here.',
+                'Three things need to be ready. SlothSpend keeps checking by itself.'
+              )}
             </p>
           </div>
 
@@ -196,11 +214,11 @@ export function Boot(): React.JSX.Element {
               {engine === 'ok' && (tabpfnStatus === 'unavailable' || tabpfnStatus === 'error') && (
                 <div>
                   <Button variant="soft" icon={RefreshCw} onClick={restart}>
-                    Retry
+                    {byPlatform('Retry', 'Check again')}
                   </Button>
                 </div>
               )}
-              <PriorKeyForm />
+              {!isWeb() && <PriorKeyForm />}
             </CheckRow>
           </ol>
 
@@ -210,7 +228,12 @@ export function Boot(): React.JSX.Element {
                 Continue
               </Button>
               <p className="m-0 flex-[1_1_240px] text-xs leading-[1.65] text-muted">
-                Everything runs on this computer from here on.
+                {byPlatform(
+                  'Everything runs on this computer from here on.',
+                  health?.llm.provider === 'gemini'
+                    ? 'Gemma writes merchant names, answers and drafts through Google’s Gemini API.'
+                    : 'Gemma runs through Ollama on SlothSpend’s server.'
+                )}
               </p>
             </div>
           )}

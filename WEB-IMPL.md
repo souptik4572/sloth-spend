@@ -231,7 +231,7 @@ WEB-IMPL.md                     # this plan
 |---|---|---|
 | **W0** | Gemma provider seam (Ollama ↔ Gemini API) | Every Gemma feature (names, summary, chat with tools, drafts, notes) runs through `app/llm.py`. Desktop tests unchanged and green; Gemini translation tested against a REST stub; `llm_smoke.py` passes on local Ollama (and on Gemini with a key) |
 | **W1 + W2** | Multi-tenant engine + accounts, web server and auth screens (built together, 2026-10-26) | Two workspaces audit, chat, remind and query SQL concurrently with zero crossover; `python -m app.web` serves `/api` behind sign-in; sign up → confirm → log in / sign-in link / reset work in the browser; desktop untouched |
-| **W3** | Web shell | Signed in → Boot (Gemma via Gemini/Ollama, TabPFN) → workspace with the logged-in top bar and account menu (artboard 15); offline banner; source chips by provider |
+| **W3** | Web shell (built 2026-10-26) | Signed in → Boot (Gemma via Gemini/Ollama, TabPFN) → workspace with the logged-in top bar and account menu (artboard 15); offline banner; source chips by provider |
 | **W4** | Audit on the web | Upload → mapper → 9-stage progress → report → drawer → correction re-score ≤ 5 s; sample + follow-ups |
 | **W5** | Ask Sloth + drafts on Gemini | All 5 suggested prompts give grounded answers with ≥ 1 visible tool call on `gemma-4-26b-a4b-it` and on local `gemma4`; all 3 drafts pass the fact check |
 | **W6** | Reminders, browser notifications, verification | remind → snooze → I cancelled it → follow-up import → Verified / Still charged, with the tab closed in between |
@@ -299,5 +299,38 @@ SlothSpend MVP design canvas.
       Reset (expired link), Sign up at 500 px.
 - [ ] Manual review in a real browser (user).
 
-W3–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
+### W3 — Web shell
+
+| # | Task |
+|---|---|
+| W3.1 | `/health` key `ollama` → `llm` in the engine, its tests, the Postman collection and the renderer types; `Health.llm.provider` and the Gemini statuses typed |
+| W3.2 | Platform seam in the shared renderer: `lib/platform.ts` (`isWeb()`, `byPlatform(desktop, web)`, `slots`), `window.sloth.kind`, `lib/copy.ts`; web bridge `web/src/bridge.ts` (§2.4), imported before any renderer module |
+| W3.3 | `lib/api.ts`: CSRF header instead of the token on the web; any 401 raises `sloth:signed-out` → the web app reloads to Log in with "You were logged out. Log in again to carry on." |
+| W3.4 | Status rows and pills: web wording for Engine ("Connected to SlothSpend"), Gemma (every Gemini status; nothing to install, problems are the operator's) and TabPFN ("on SlothSpend's server"); `gemmaLabel` reads `gemma-4-…` ids; chips say where Gemma runs (`Gemma 4 · Gemini API` / `· Ollama`, `· local` on the desktop, no claim while offline); pills follow artboard 15 (`Gemma 4`) |
+| W3.5 | Boot on the web: no "no account needed", no Ollama download, no Prior Labs key, "Check again" instead of Restart/Retry, provider-honest footnote; skipped automatically whenever everything is ready |
+| W3.6 | "On this computer" copy switched by platform in Import, Statement bar, Progress, Drawer, Drafts, Ask Sloth (desktop wording byte-identical) |
+| W3.7 | `ConnectionBanner` replaces the engine-stopped dialog on the web: shown after a lost connection, gone when the server answers |
+| W3.8 | Account menu (artboard 15) in the top bar slot: avatar with initials, name + email, Account, Password & security, Get the desktop app, Log out; arrow keys; Esc / click-outside close. `AccountDialog`: profile + delete account (password confirm), change password (rules), log out other devices |
+| W3.9 | Web app mounts the renderer `App` (lazy chunk) at `/`; per-account `localStorage` reset when a different account signs in on the same browser; logging out reloads to Log in so nothing of the account stays in memory |
+
+**Deviations**
+- Account and Password & security open an account dialog now (the API existed since W2), not the Settings modal;
+  Settings' web sections (egress table, traces, delete data copy) stay in W7.
+- The Settings modal on the web still shows desktop privacy wording until W7 (the key form is already hidden there).
+- Provenance follow-up for W4: a stored summary/merchant name records *gemma*, not which provider wrote it, so a chip
+  names the provider in use now. Only visible if an operator switches providers; W4 stores the provider with them.
+
+**Exit checklist**
+- [x] Engine 221 · renderer + web 71 tests green; `typecheck`, `lint`, `web:build` and the desktop
+      `electron-vite build` all clean.
+- [x] Live in headless Chrome (DevTools protocol) on `python -m app.web`: signed-in workspace with the audited report,
+      chips `Gemma 4 · Ollama`, pills `Engine | Gemma 4 | TabPFN v2`, no "this computer" anywhere; account menu opens
+      with focus on its first item; Password & security dialog; 390 px phone with 0 px horizontal overflow; Log out →
+      `/login` and `/api/auth/me` 401.
+- [x] Gemini mode with no key: Boot stays with "Gemma · Not set up", nothing to install, no key form; Continue in
+      limited mode → workspace with the Limited banner; server killed → connection banner; server back → banner gone;
+      session ended server-side → next poll's 401 → Log in with the notice.
+- [ ] Manual review in a real browser (user).
+
+W4–W9 task tables are written at the start of each milestone, from §1–§2, so they reflect what the
 previous review changed.

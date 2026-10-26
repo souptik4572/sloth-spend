@@ -1,3 +1,4 @@
+import './bridge' // first: renderer modules read window.sloth when they load
 import './styles.css'
 
 import { StrictMode } from 'react'

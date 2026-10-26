@@ -4,12 +4,14 @@ import { IconButton } from '../ui/Button'
 import { NotificationBell } from './NotificationBell'
 import { StatusPills } from './StatusPills'
 import { ThemeToggle } from './ThemeToggle'
+import { slots } from '../../lib/platform'
 import { useApp } from '../../store'
 
-/** Workspace header (D-Main): logo, model pills, theme, bell, settings. */
+/** Workspace header (D-Main): logo, model pills, theme, bell, settings — and on the web, the account menu (Web 15). */
 export function TopBar(): React.JSX.Element {
   const setTab = useApp((s) => s.setTab)
   const openSettings = useApp((s) => s.setSettingsOpen)
+  const Account = slots.account
   return (
     <header className="flex min-h-[72px] flex-wrap items-center gap-x-4 gap-y-3 px-6 py-3.5">
       <button
@@ -24,6 +26,7 @@ export function TopBar(): React.JSX.Element {
       <ThemeToggle />
       <NotificationBell />
       <IconButton icon={SlidersHorizontal} label="Settings" onClick={() => openSettings(true)} />
+      {Account && <Account />}
     </header>
   )
 }

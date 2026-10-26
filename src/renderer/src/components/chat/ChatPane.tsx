@@ -10,10 +10,15 @@ import { loadConversation, newConversation, send } from '../../lib/ask'
 import { SUGGESTED_PROMPTS, unusedPrompts } from '../../lib/chat'
 import { cn } from '../../lib/cn'
 import { useApp } from '../../store'
+import { byPlatform } from '../../lib/platform'
 
 const ASIDE =
   'sticky top-4 box-border flex h-[calc(100vh-88px)] min-h-[560px] min-w-0 flex-[38_1_380px] flex-col gap-4 rounded-card bg-panel p-5'
-const FOOTER = 'Runs on this computer. Sloth never cancels or contacts anyone for you.'
+const FOOTER = byPlatform(
+  'Runs on this computer. Sloth never cancels or contacts anyone for you.',
+  'Sloth never cancels or contacts anyone for you.'
+)
+const HERE = byPlatform(' — right here on this computer', '')
 
 type Waiting = Exclude<AuditPhase, 'report'>
 
@@ -23,12 +28,12 @@ const WAITING: Record<
 > = {
   loading: {
     title: 'Nothing to ask about yet.',
-    text: 'Load a statement and I’ll answer questions about it — right here on this computer.',
+    text: `Load a statement and I’ll answer questions about it${HERE}.`,
     placeholder: 'Load a statement first'
   },
   empty: {
     title: 'Nothing to ask about yet.',
-    text: 'Load a statement and I’ll answer questions about it — right here on this computer.',
+    text: `Load a statement and I’ll answer questions about it${HERE}.`,
     placeholder: 'Load a statement first'
   },
   mapping: {
@@ -237,8 +242,8 @@ function Conversation(): React.JSX.Element {
           <SlothAvatar />
           <p className="m-0 text-h3">Ready when you are.</p>
           <p className="m-0 max-w-[34ch] text-sm text-text-2">
-            Ask about your charges in plain language. Gemma answers here on this computer, using
-            your report.
+            Ask about your charges in plain language. Gemma answers
+            {byPlatform(' here on this computer, using', ' using')} your report.
           </p>
         </div>
       )}

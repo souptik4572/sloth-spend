@@ -15,6 +15,8 @@ interface AppState {
   engine: EngineState
   exitCode: number | null
   health: Health | null
+  /** /health answered at least once: a later failure is a lost connection, not a slow start (web banner). */
+  everOk: boolean
   configure: (version: string) => void
   setScreen: (s: Screen) => void
   setTab: (t: Tab) => void
@@ -34,11 +36,12 @@ export const useApp = create<AppState>((set) => ({
   engine: 'starting',
   exitCode: null,
   health: null,
+  everOk: false,
   configure: (version) => set({ configured: true, version }),
   setScreen: (screen) => set({ screen }),
   setTab: (tab) => set({ tab }),
   setSettingsOpen: (settingsOpen) => set({ settingsOpen }),
-  healthOk: (health) => set({ health, engine: 'ok', exitCode: null }),
+  healthOk: (health) => set({ health, engine: 'ok', exitCode: null, everOk: true }),
   // A failed poll before the first success just means "still starting"; after an exit we stay stopped.
   healthFailed: () =>
     set((s) => (s.engine === 'stopped' ? s : { engine: 'starting', health: null })),
@@ -49,5 +52,5 @@ export const useApp = create<AppState>((set) => ({
 
 /** True when Gemma and TabPFN are both usable — anything less is limited mode. */
 export function fullyReady(h: Health | null): boolean {
-  return !!h && h.ollama.status === 'ready' && h.tabpfn.status === 'ready'
+  return !!h && h.llm.status === 'ready' && h.tabpfn.status === 'ready'
 }

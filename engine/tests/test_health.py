@@ -15,10 +15,10 @@ def test_health_shape_with_ollama_unreachable(client, auth):
     assert r.status_code == 200
     body = r.json()
     assert body["engine"] == "ok"
-    assert body["ollama"]["status"] == "unreachable"
-    assert body["ollama"]["model"] == DOWNLOAD_MODEL
-    assert body["ollama"]["available_models"] == []
-    assert body["ollama"]["loopback"] is True
+    assert body["llm"]["status"] == "unreachable"
+    assert body["llm"]["model"] == DOWNLOAD_MODEL
+    assert body["llm"]["available_models"] == []
+    assert body["llm"]["loopback"] is True
     assert body["tabpfn"]["status"] in {"cold", "unavailable"}
     assert body["tabpfn"]["upgrade"] == {"state": "none", "error": None}
     assert body["telemetry"] is False

@@ -4,15 +4,16 @@ import { Button } from '@renderer/components/ui/Button'
 import { Spinner } from '@renderer/components/ui/Spinner'
 import { AuthHeader } from '@web/components/AuthHeader'
 import { CardLayout, Heading, IconBadge } from '@web/components/Layouts'
+import { SIGNED_OUT_EVENT } from '@renderer/lib/api'
 import { Redirect, useLocation } from '@web/lib/router'
-import { useSession } from '@web/lib/session'
+import { leave, useSession } from '@web/lib/session'
 import { CheckEmail } from '@web/screens/CheckEmail'
 import { Forgot } from '@web/screens/Forgot'
-import { Home } from '@web/screens/Home'
 import { LinkLanding } from '@web/screens/LinkLanding'
 import { Login } from '@web/screens/Login'
 import { Reset } from '@web/screens/Reset'
 import { Signup } from '@web/screens/Signup'
+import { Workspace } from '@web/screens/Workspace'
 
 // Screens for people who aren't signed in; a signed-in visit goes to the workspace instead.
 const SIGNED_OUT: Record<string, () => React.JSX.Element> = {
@@ -37,6 +38,13 @@ export default function App(): React.JSX.Element {
     void useSession.getState().load()
   }, [])
 
+  // Any API call answered 401 (the session expired, or this account logged out everywhere): back to Log in.
+  useEffect(() => {
+    const signedOut = (): void => leave('You were logged out. Log in again to carry on.')
+    window.addEventListener(SIGNED_OUT_EVENT, signedOut)
+    return () => window.removeEventListener(SIGNED_OUT_EVENT, signedOut)
+  }, [])
+
   const FromEmail = FROM_EMAIL[path]
   if (FromEmail) return <FromEmail />
   if (status === 'loading') {
@@ -47,7 +55,7 @@ export default function App(): React.JSX.Element {
     )
   }
   if (status === 'offline') return <Offline />
-  if (status === 'signed-in') return path === '/' ? <Home /> : <Redirect to="/" />
+  if (status === 'signed-in') return path === '/' ? <Workspace /> : <Redirect to="/" />
   const Screen = SIGNED_OUT[path]
   return Screen ? <Screen /> : <Redirect to="/login" />
 }

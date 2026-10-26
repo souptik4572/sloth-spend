@@ -12,6 +12,7 @@ import {
   reducePull,
   type PullEvent
 } from '../../lib/pull'
+import { isWeb } from '../../lib/platform'
 import { refreshHealth } from '../../lib/useHealthPolling'
 import { useApp } from '../../store'
 
@@ -27,7 +28,7 @@ const linkButton =
  * (IMPL §2 #20), so the download is only offered when Ollama has none.
  */
 export function GemmaSetup(): React.JSX.Element | null {
-  const status = useApp((s) => s.health?.ollama.status)
+  const status = useApp((s) => s.health?.llm.status)
   const [pulling, setPulling] = useState<string | null>(null)
   const [progress, setProgress] = useState(emptyPull)
   const [eta, setEta] = useState('')
@@ -68,6 +69,17 @@ export function GemmaSetup(): React.JSX.Element | null {
     setPulling(null)
     if (failed) setError(failed)
     await refreshHealth()
+  }
+
+  // On the web the server's operator runs the models: nothing to install here, only to check again.
+  if (isWeb()) {
+    return status && status !== 'ready' ? (
+      <div>
+        <Button variant="soft" icon={RefreshCw} onClick={() => void refreshHealth()}>
+          Check again
+        </Button>
+      </div>
+    ) : null
   }
 
   if (pulling) {

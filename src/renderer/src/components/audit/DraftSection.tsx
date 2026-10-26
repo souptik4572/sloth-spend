@@ -4,6 +4,7 @@ import { DraftCard } from '../chat/DraftCard'
 import { Button, type ButtonVariant } from '../ui/Button'
 import { Spinner } from '../ui/Spinner'
 import { errorMessage, stream } from '../../lib/api'
+import { byPlatform } from '../../lib/platform'
 import type { DraftDone, DraftKind } from '../../lib/types'
 
 type State =
@@ -73,7 +74,7 @@ export function DraftSection({
         )}
         {streaming && !state.text && (
           <p className="m-0 flex items-center gap-2 text-sm text-muted">
-            <Spinner /> Writing on this computer…
+            <Spinner /> {byPlatform('Writing on this computer…', 'Writing…')}
           </p>
         )}
       </DraftCard>

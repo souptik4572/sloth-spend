@@ -9,6 +9,7 @@ import {
   tabpfnView,
   type RowView
 } from '../../lib/status'
+import { byPlatform } from '../../lib/platform'
 import { useApp } from '../../store'
 
 const pill =
@@ -26,11 +27,14 @@ export function StatusPills(): React.JSX.Element {
   const { engine, exitCode, health, setScreen } = useApp()
   const items: Array<[string, RowView]> = [
     ['Engine', engineView(engine, exitCode)],
-    [`${gemmaLabel(health)} · local`, gemmaView(health, engine)],
+    [byPlatform(`${gemmaLabel(health)} · local`, gemmaLabel(health)), gemmaView(health, engine)],
     [tabpfnLabel(health), tabpfnView(health, engine)]
   ]
   return (
-    <ul aria-label="Local models" className="m-0 flex list-none flex-wrap gap-2 p-0">
+    <ul
+      aria-label={byPlatform('Local models', 'Models')}
+      className="m-0 flex list-none flex-wrap gap-2 p-0"
+    >
       {items.map(([label, view]) => (
         <li key={label}>
           {view.tone === 'ready' ? (

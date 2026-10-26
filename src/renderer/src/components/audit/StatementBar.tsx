@@ -3,6 +3,7 @@ import { Card } from '../ui/Card'
 import { DemoDataMenu } from './DemoDataMenu'
 import { FilePicker } from './FilePicker'
 import { dateRange } from '../../lib/format'
+import { statementPrivacy } from '../../lib/copy'
 import type { ReportMeta } from '../../lib/types'
 
 /** D-Main: which statement(s) the report covers, and the way to add a newer one. */
@@ -32,7 +33,7 @@ export function StatementBar({ meta }: { meta: ReportMeta }): React.JSX.Element 
             {rows} rows · {period} · {meta.currency} ·{' '}
             <span className="inline-flex items-center gap-1 align-middle">
               <Lock aria-hidden size={12} strokeWidth={2.2} />
-              Your statement never leaves this computer.
+              {statementPrivacy()}
             </span>
           </div>
         </div>

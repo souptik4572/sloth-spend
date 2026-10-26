@@ -16,6 +16,7 @@ import { readPref, setPref, type ThemePref } from '../../lib/theme'
 import type { Currency, Health } from '../../lib/types'
 import { useTheme } from '../../lib/useTheme'
 import { useApp } from '../../store'
+import { isWeb } from '../../lib/platform'
 
 const CURRENCIES: Array<[Currency, string]> = [
   ['USD', 'USD — $'],
@@ -148,7 +149,7 @@ export function SettingsModal(): React.JSX.Element {
     if (Number.isInteger(n) && n >= 5 && n <= 600) update({ demo_compress_seconds: n }, 'reminders')
   }
 
-  const installed = health?.ollama.available_models ?? []
+  const installed = health?.llm.available_models ?? []
   const best = installed[0]
   const days = settings?.days_before ?? 3
 
@@ -216,7 +217,7 @@ export function SettingsModal(): React.JSX.Element {
                 <GemmaSetup />
               </div>
             )}
-            {health?.ollama.loopback === false && (
+            {health?.llm.loopback === false && (
               <p
                 role="note"
                 className="m-0 rounded-tile border border-line-strong px-4 py-3 text-sm leading-[1.45]"
@@ -234,7 +235,7 @@ export function SettingsModal(): React.JSX.Element {
                 )}
                 {tabpfnLine(health)}
               </p>
-              <PriorKeyForm />
+              {!isWeb() && <PriorKeyForm />}
             </div>
           </Section>
 

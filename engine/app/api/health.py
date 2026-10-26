@@ -10,10 +10,10 @@ router = APIRouter()
 @router.get("/health")
 async def health() -> dict:
     # Never blocks on torch: tabular.status is a plain attribute set by the warm-up thread.
-    # "ollama" is the active Gemma provider's status (its `provider` says which); W3 renames it to "llm".
+    # "llm": whoever serves Gemma right now — local Ollama or the Gemini API (`provider` says which).
     return {
         "engine": "ok",
-        "ollama": await llm.status(),
+        "llm": await llm.status(),
         "tabpfn": tabular.health(),
         "telemetry": settings.telemetry,
     }

@@ -10,7 +10,7 @@ import { usePage } from '@web/components/usePage'
 import { api, ApiError, errorText, type User } from '@web/lib/api'
 import { isEmail } from '@web/lib/password'
 import { Link, navigate, useLocation } from '@web/lib/router'
-import { useSession } from '@web/lib/session'
+import { takeNotice, useSession } from '@web/lib/session'
 
 type Busy = 'password' | 'link' | null
 
@@ -22,9 +22,10 @@ export function Login(): React.JSX.Element {
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(true)
   const [busy, setBusy] = useState<Busy>(null)
-  const [error, setError] = useState<{ text: string; mismatch: boolean } | null>(
-    typeof state.notice === 'string' ? { text: state.notice, mismatch: false } : null
-  )
+  const [error, setError] = useState<{ text: string; mismatch: boolean } | null>(() => {
+    const notice = typeof state.notice === 'string' ? state.notice : takeNotice()
+    return notice ? { text: notice, mismatch: false } : null
+  })
 
   const logIn = async (e: FormEvent): Promise<void> => {
     e.preventDefault()
